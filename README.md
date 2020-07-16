@@ -17,3 +17,8 @@ Progreso con el trabajo:
     cada intervalo es un conjunto.
 
     Para esto tengo que importar los intervals tree.
+15/07
+  Decision de implementar un conjunto como array de intervalos enteros.
+  Implementacion de intervalos, y sets.
+  Intento de implementar de función insertar un intervalo en un set.
+  Realmente es conveniente implementar esto con arrays y no con arboles avl?? 
