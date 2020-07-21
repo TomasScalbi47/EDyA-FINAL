@@ -6,6 +6,7 @@ soportando operaciones como la unión, intersección, resta y complemento.
 
 
 Progreso con el trabajo:
+
 13/07.
   Creación del repositorio. Añadido de README, informe y carpeta proyecto.
   Archivos makefile. Recordar comentar el uso de los .PHONY
@@ -21,4 +22,8 @@ Progreso con el trabajo:
   Decision de implementar un conjunto como array de intervalos enteros.
   Implementacion de intervalos, y sets.
   Intento de implementar de función insertar un intervalo en un set.
-  Realmente es conveniente implementar esto con arrays y no con arboles avl?? 
+  Realmente es conveniente implementar esto con arrays y no con arboles avl??
+
+21/07
+  La forma mas facil de implementar los conjuntos parece ser arboles, y es la
+  que mas entiendo. Asi que lo voy a hacer primeramente de esa forma.
