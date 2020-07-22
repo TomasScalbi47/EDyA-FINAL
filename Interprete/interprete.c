@@ -34,6 +34,7 @@ void interprete (){
       accion = validar_entrada (buffer, &intervaloEjemplo);
       switch (accion) {
         case 'i':
+          printf ("Se procede a realizar una insercion..\n");
           itree_insertar (&arbolEjemplo, intervaloEjemplo);
           break;
         case 'e':

@@ -49,7 +49,7 @@ void itree_mayor_extDer (ITree *arbol){
 
     // Si el hijo derecho es no vacio, se actualiza el maxExtDer contra este.
     if (!itree_es_vacio((*arbol)->right))
-      maxExtDer = max2 (maxExtDer, (*arbol)->left->maxExtDer);
+      maxExtDer = max2 (maxExtDer, (*arbol)->right->maxExtDer);
 
     // Una vez que se obtuvo el valor de maxExtDer, se le asigna al arbol actual.
     (*arbol)->maxExtDer = maxExtDer;
@@ -141,6 +141,7 @@ ITree itree_rotacion_izq (ITree arbol){
 void itree_insertar (ITree *arbol, IntervaloE nIntervalo){
   // Si se quiere insertar sobre un arbol vacio, entonces no hay que hacer nada.
   if (!itree_es_vacio(*arbol)){
+    printf ("Arbol no vacio, proceso chequear colisiones..\n");
     // Sabiendo que el arbol es no vacio, para mantener la propiedad de arbol
     // de intervalos disjuntos es necesario eliminar las colisiones del
     // intervalo a insertar en el arbol. Al mismo tiempo se debera aztualizar
@@ -166,15 +167,17 @@ void itree_insertar (ITree *arbol, IntervaloE nIntervalo){
       intervaloExp = intervaloE_expandir (nIntervalo);
       interseccion = itree_intersecar (*arbol, intervaloExp);
     }
-
-  itree_insercion (arbol, nIntervalo);
   }
+  printf ("Arbol preparado para la insercion del intervalo que acumula las colisiones...\n");
+  itree_insercion (arbol, nIntervalo);
 }
 
 void itree_insercion (ITree *arbol, IntervaloE nIntervalo){
   // Si se quiere insertar sobre un arbol que es vacio entonces se genera un
   // nuevo subarbol y se asigna al arbol actual.
+  printf ("   Comienzo prosceso de insercion tradicional...\n");
   if (itree_es_vacio(*arbol)){
+    printf ("         El arbol es vacio, insercion yupii!!\n");
     ITree nuevoSubarbol = malloc (sizeof (ITreeNodo));
     nuevoSubarbol->intervalo = nIntervalo;
     nuevoSubarbol->maxExtDer = nIntervalo.extDer;
@@ -196,9 +199,11 @@ void itree_insercion (ITree *arbol, IntervaloE nIntervalo){
       // Se realiza la recursion sobre el hijo izquierdo o el derecho segun
       // el valor que devolvio la funcion de comparacion.
       if (comparacion > 0){
+        printf ("     Recursion sobre el hijo derecho...\n");
         itree_insercion ((&(*arbol)->right), nIntervalo);
       }
       else if (comparacion < 0){
+        printf ("     Recursion sobre el hijo izquierdo...\n");
         itree_insercion ((&(*arbol)->left), nIntervalo);
       }
 
