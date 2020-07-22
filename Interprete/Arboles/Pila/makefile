@@ -1,4 +1,4 @@
-flags = -Wall -Werror -Wextra -g -c
+flags = -Wall -Werror -Wextra -g -c -std=c99
 
 pila = pila
 

@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "ITree.h"
+#include "ITree1.h"
 #include "Cola/cola.h"
 #include "Pila/pila.h"
 
@@ -138,7 +138,40 @@ ITree itree_rotacion_izq (ITree arbol){
   return nodoRelevante;
 }
 
-void itree_insertar (ITree *arbol, Intervalo nIntervalo){
+void itree_insertar (ITree *arbol, IntervaloE nIntervalo){
+  // Si se quiere insertar sobre un arbol vacio, entonces no hay que hacer nada.
+  if (!itree_es_vacio(*arbol)){
+    // Sabiendo que el arbol es no vacio, para mantener la propiedad de arbol
+    // de intervalos disjuntos es necesario eliminar las colisiones del
+    // intervalo a insertar en el arbol. Al mismo tiempo se debera aztualizar
+    // una variable que contenga la union de todos estos que se agregara al
+    // finalizar.
+
+    // intervaloExp sera la version expandida de nIntervalo.
+    IntervaloE intervaloExp;
+    intervaloExp = intervaloE_expandir (nIntervalo);
+
+    ITree interseccion = NULL;
+    interseccion = itree_intersecar (*arbol, intervaloExp);
+
+    // Si hubo interseccion.
+    while (interseccion != NULL) {
+      // Unir intervalo que colisiona con el intervalo a ingresar.
+      nIntervalo = intervaloE_unir (nIntervalo, interseccion->intervalo);
+      // Eliminar nodo que colisiona con el intervalo a ingresar.
+      itree_eliminar_dato (arbol, interseccion->intervalo);
+
+      // Volver a intersecar el arbol con la expansion del nuevo intervalo que
+      // acumula las uniones.
+      intervaloExp = intervaloE_expandir (nIntervalo);
+      interseccion = itree_intersecar (*arbol, intervaloExp);
+    }
+
+  itree_insercion (arbol, nIntervalo);
+  }
+}
+
+void itree_insercion (ITree *arbol, IntervaloE nIntervalo){
   // Si se quiere insertar sobre un arbol que es vacio entonces se genera un
   // nuevo subarbol y se asigna al arbol actual.
   if (itree_es_vacio(*arbol)){
@@ -155,7 +188,7 @@ void itree_insertar (ITree *arbol, Intervalo nIntervalo){
     // insertar con el intervalo contenido en el nodo actual para saber si
     // hay que hacer la recursion sobre el hijo izquierdo o el derecho.
 
-    int comparacion = intervalo_comparacion (nIntervalo, (*arbol)->intervalo);
+    int comparacion = intervaloE_comparacion (nIntervalo, (*arbol)->intervalo);
 
     // Si ambos intervalos son iguales significa que el intervalo que se quiere
     // ingresar ya se encuentra en el arbol y no hay que realizar mas acciones.
@@ -163,10 +196,10 @@ void itree_insertar (ITree *arbol, Intervalo nIntervalo){
       // Se realiza la recursion sobre el hijo izquierdo o el derecho segun
       // el valor que devolvio la funcion de comparacion.
       if (comparacion > 0){
-        itree_insertar ((&(*arbol)->right), nIntervalo);
+        itree_insercion ((&(*arbol)->right), nIntervalo);
       }
       else if (comparacion < 0){
-        itree_insertar ((&(*arbol)->left), nIntervalo);
+        itree_insercion ((&(*arbol)->left), nIntervalo);
       }
 
       // Luego de insertar el intervalo, se actualizan los valores de maxExtDer
@@ -180,12 +213,12 @@ void itree_insertar (ITree *arbol, Intervalo nIntervalo){
   }
 }
 
-void itree_eliminar_dato (ITree *arbol, Intervalo datoQueEliminar){
+void itree_eliminar_dato (ITree *arbol, IntervaloE datoQueEliminar){
   // Si se quiere eliminar un intervalo de un arbol vacio no se realizan mas
   // acciones.
   if (!itree_es_vacio(*arbol)){
 
-    int comparacion = intervalo_comparacion (datoQueEliminar,
+    int comparacion = intervaloE_comparacion (datoQueEliminar,
       (*arbol)->intervalo);
 
     // Si la funcion de comparacion devuelve 0 es porque el intervalo que se
@@ -256,11 +289,11 @@ void itree_eliminar_dato (ITree *arbol, Intervalo datoQueEliminar){
   }
 }
 
-Intervalo itree_eliminar_minimo (ITree *arbol){
+IntervaloE itree_eliminar_minimo (ITree *arbol){
   // Por el contexto en el que se llama a la funcion el arbol nunca puede
   // ser nulo.
 
-  Intervalo minimo;
+  IntervaloE minimo;
 
   // Si el hijo izquierdo del nodo es nulo, entonces este es el nodo que
   // contiene al minimo intervalo del arbol.
@@ -283,7 +316,7 @@ Intervalo itree_eliminar_minimo (ITree *arbol){
   return minimo;
 }
 
-ITree itree_intersecar (ITree arbol, Intervalo intervalo){
+ITree itree_intersecar (ITree arbol, IntervaloE intervalo){
   ITree resultado = itree_crear();
   // Si el arbol es vacio no hay interseccion con el intervalo parametro
   // y se devuelve un arbol vacio.
@@ -292,7 +325,7 @@ ITree itree_intersecar (ITree arbol, Intervalo intervalo){
     // Se pregunta si hay interseccion entre el intervalo del nodo actual y el
     // intervalo parametro.
     // De ser asi, delvolvemos el nodo actual.
-    if (intervalo_interseccion(arbol->intervalo, intervalo) == 1)
+    if (intervaloE_interseccion(arbol->intervalo, intervalo) == 1)
       resultado = arbol;
 
     // En caso contrario, se hace la recursion sobre el arbol correspondiente.
@@ -390,7 +423,7 @@ void print2DUtil(ITree arbol, int espacio){
     printf("\n");
     for (int i = COUNT; i < espacio; ++i)
         printf(" ");
-    intervalo_imprimir (arbol->intervalo);
+    intervaloE_imprimir (arbol->intervalo);
 
     // Luego, se imprime el maximo extremo derecho del arbol despues de la
     // cantidad de espacios que corresponden.

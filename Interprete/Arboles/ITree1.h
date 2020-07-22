@@ -1,13 +1,13 @@
 #ifndef __ITree_H__
 #define __ITree_H__
 
-#include "Intervalos/intervalos.h"
+#include "Intervalos/intervaloE.h"
 
 /**
  * Tipo de dato para funciones que se apliquen sobre los datos de los nodos del
  * arbol.
  */
-typedef void (*FuncionQueVisita) (Intervalo dato);
+typedef void (*FuncionQueVisita) (IntervaloE dato);
 
 
 /**
@@ -19,7 +19,7 @@ typedef void (*FuncionQueVisita) (Intervalo dato);
  *  - 2 apuntadores a 2 nodos que representan los hijos del subarbol actual
  */
 typedef struct _ITreeNodo {
-  Intervalo intervalo;
+  IntervaloE intervalo;
   double maxExtDer;
   int altura;
   struct _ITreeNodo *left;
@@ -34,13 +34,6 @@ typedef struct _ITreeNodo {
 typedef ITreeNodo *ITree;
 
 /**
- * Definimos estas 2 macros que toman 2 y 3 numeros, respectivamente,
- * y devuelven el maximo de entre esos numeros.
- */
-#define max2(x, y) (((x) > (y)) ? (x) : (y))
-#define max3(x, y, z) (max2 (x, max2 (y, z)))
-
-/**
  * Devuelve lo que determinamos como un arbol vacio.
  */
 ITree itree_crear ();
@@ -48,7 +41,7 @@ ITree itree_crear ();
 /**
  *  Toma un arbol y devuelve 1 si es vacio y 0 en caso contrario.
  */
-int itree_es_vacio (ITree); 
+int itree_es_vacio (ITree);
 
 /**
  * Dado un arbol.
@@ -106,13 +99,21 @@ ITree itree_rotacion_der (ITree arbol);
 ITree itree_rotacion_izq (ITree arbol);
 
 /**
+ * Toma un arbol y un intervalo.
+ * Elimina todas las colisiones con el intervalo dado y luego utiliza
+ * itree_insercion para insertar el intervalo que contiene a la union de todos
+ * los conjuntos con los que interseco.
+ */
+void itree_insertar (ITree *arbol, IntervaloE);
+
+/**
  *  Toma un arbol y un intervalo.
  *  Inserta el intervalo en el arbol respetando las propiedades del arbol AVL.
  *  Luego chequea si cada subarbol que se cambio cuando se ingreso el nodo
  *  quedo desbalanceado. En ese caso lo balancea aplicando las rotaciones
  *  correspondientes.
  */
-void itree_insertar (ITree *arbol, Intervalo);
+void itree_insercion (ITree *arbol, IntervaloE);
 
 /**
  *  Toma un arbol y un intervalo.
@@ -121,14 +122,14 @@ void itree_insertar (ITree *arbol, Intervalo);
  *  quedo desbalanceado. En ese caso lo balancea aplicando las rotaciones
  *  correspondientes.
  */
-void itree_eliminar_dato (ITree *arbol, Intervalo);
+void itree_eliminar_dato (ITree *arbol, IntervaloE);
 
 /**
  *  Toma un apuntador a un arbol.
  *  Elimina el nodo que se encuentra mas a la izquierda de ese arbol y
  *  devuelve el intervalo que se encontraba en el nodo eliminado.
  */
-Intervalo itree_eliminar_minimo (ITree *arbol);
+IntervaloE itree_eliminar_minimo (ITree *arbol);
 
 /**
  * Toma un arbol y un intervalo.
@@ -136,7 +137,7 @@ Intervalo itree_eliminar_minimo (ITree *arbol);
  * el intervalo parametro. En caso de ser asi devuelve un subarbol cuyo primer
  * nodo interseca con el intervalo parametro. En caso contrario devuelve NULL.
  */
-ITree itree_intersecar (ITree, Intervalo);
+ITree itree_intersecar (ITree, IntervaloE);
 
 /**
  * Toma un arbol una funcion visitante.

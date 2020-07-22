@@ -27,3 +27,10 @@ Progreso con el trabajo:
 21/07
   La forma mas facil de implementar los conjuntos parece ser arboles, y es la
   que mas entiendo. Asi que lo voy a hacer primeramente de esa forma.
+
+  Funciones que hay que modificar para AVLTree conjuntos.
+    Se tiene que insertar intervalos de forma inteligente, es decir que los
+    intervalos del ITree sean disjuntos.
+      Si el arbol esta vacio, se inserta trivialmente.
+      Si el arbol es no vacio, hay que primero eliminar todas las coliciones
+      y luego hay que insertar la union de todas estas.

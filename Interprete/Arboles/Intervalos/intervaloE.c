@@ -21,3 +21,21 @@ int intervaloE_interseccion (IntervaloE intervalo1, IntervaloE intervalo2){
 int intervaloE_comparacion (IntervaloE intervalo1, IntervaloE intervalo2){
   return intervalo1.extIzq - intervalo2.extIzq;
 }
+
+IntervaloE intervaloE_expandir (IntervaloE intervalo){
+  intervalo.extDer += 1;
+  intervalo.extIzq -= 1;
+  return intervalo;
+}
+
+IntervaloE intervaloE_unir (IntervaloE intervalo1, IntervaloE intervalo2){
+  IntervaloE nuevo;
+  nuevo.extIzq = min2 (intervalo1.extIzq, intervalo2.extIzq);
+  nuevo.extDer = max2 (intervalo1.extDer, intervalo2.extDer);
+
+  return nuevo;
+}
+
+int intervaloE_validar (IntervaloE intervalo){
+  return intervalo.extIzq <= intervalo.extDer;
+}
