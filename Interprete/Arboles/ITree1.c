@@ -138,10 +138,32 @@ ITree itree_rotacion_izq (ITree arbol){
   return nodoRelevante;
 }
 
+ITree itree_copiar (ITree arbol){
+  // Si el arbol es vacio...
+  if (arbol == NULL)
+    return NULL;
+  // El arbol a copiar es no vacio.
+  ITree nuevoArbol = malloc (sizeof (ITreeNodo));
+  nuevoArbol->intervalo = arbol->intervalo;
+  nuevoArbol->altura = arbol->altura;
+  nuevoArbol->maxExtDer = arbol->maxExtDer;
+
+  if (arbol->left != NULL)
+    nuevoArbol->left = itree_copiar (arbol->left);
+  else
+    nuevoArbol->left = NULL;
+
+  if (arbol->right != NULL)
+   nuevoArbol->right = itree_copiar (arbol->right);
+  else
+    nuevoArbol->right = NULL;
+
+  return nuevoArbol;
+}
+
 void itree_insertar (ITree *arbol, IntervaloE nIntervalo){
   // Si se quiere insertar sobre un arbol vacio, entonces no hay que hacer nada.
   if (!itree_es_vacio(*arbol)){
-    printf ("Arbol no vacio, proceso chequear colisiones..\n");
     // Sabiendo que el arbol es no vacio, para mantener la propiedad de arbol
     // de intervalos disjuntos es necesario eliminar las colisiones del
     // intervalo a insertar en el arbol. Al mismo tiempo se debera aztualizar
@@ -168,16 +190,13 @@ void itree_insertar (ITree *arbol, IntervaloE nIntervalo){
       interseccion = itree_intersecar (*arbol, intervaloExp);
     }
   }
-  printf ("Arbol preparado para la insercion del intervalo que acumula las colisiones...\n");
   itree_insercion (arbol, nIntervalo);
 }
 
 void itree_insercion (ITree *arbol, IntervaloE nIntervalo){
   // Si se quiere insertar sobre un arbol que es vacio entonces se genera un
   // nuevo subarbol y se asigna al arbol actual.
-  printf ("   Comienzo prosceso de insercion tradicional...\n");
   if (itree_es_vacio(*arbol)){
-    printf ("         El arbol es vacio, insercion yupii!!\n");
     ITree nuevoSubarbol = malloc (sizeof (ITreeNodo));
     nuevoSubarbol->intervalo = nIntervalo;
     nuevoSubarbol->maxExtDer = nIntervalo.extDer;
@@ -199,11 +218,9 @@ void itree_insercion (ITree *arbol, IntervaloE nIntervalo){
       // Se realiza la recursion sobre el hijo izquierdo o el derecho segun
       // el valor que devolvio la funcion de comparacion.
       if (comparacion > 0){
-        printf ("     Recursion sobre el hijo derecho...\n");
         itree_insercion ((&(*arbol)->right), nIntervalo);
       }
       else if (comparacion < 0){
-        printf ("     Recursion sobre el hijo izquierdo...\n");
         itree_insercion ((&(*arbol)->left), nIntervalo);
       }
 
@@ -216,6 +233,26 @@ void itree_insercion (ITree *arbol, IntervaloE nIntervalo){
       *arbol = itree_balancear (*arbol);
     }
   }
+}
+
+ITree itree_unir (ITree arbol1, ITree arbol2){
+  ITree nuevoArbol = NULL;
+  // nuevoArobl es el duplicado del arbol con mas altura.
+  if (itree_es_vacio (arbol1))
+    nuevoArbol = itree_copiar (arbol2);
+  else if (itree_es_vacio (arbol2))
+    nuevoArbol = itree_copiar (arbol1);
+  // Ninguno de los dos arboles a unir es vacio..
+  else if (arbol1->altura >= arbol2->altura){
+    nuevoArbol = itree_copiar (arbol1);
+    itree_recorrer_dfs_agg (arbol2, itree_insertar, &nuevoArbol);
+  }
+  else {
+    nuevoArbol = itree_copiar (arbol2);
+    itree_recorrer_dfs_agg (arbol1, itree_insertar, &nuevoArbol);
+  }
+
+  return nuevoArbol;
 }
 
 void itree_eliminar_dato (ITree *arbol, IntervaloE datoQueEliminar){
@@ -398,6 +435,33 @@ void itree_recorrer_dfs (ITree arbol, FuncionQueVisita visit){
       pila_desapilar (&stack);
       // Se aplica la funcion visitante al nodo actual.
       visit (nodo->intervalo);
+      // Se apilan los hijos del nodo actual mientras no sean vacios.
+      if (!itree_es_vacio(nodo->right))
+        pila_apilar (&stack, nodo->right);
+      if (!itree_es_vacio(nodo->left))
+        pila_apilar (&stack, nodo->left);
+    }
+  }
+}
+
+void itree_recorrer_dfs_agg (ITree arbol, FuncionAplicar visit, ITree *arbolU){
+  // Si el arbol es vacio no hay nada que recorrer.
+  if (!itree_es_vacio(arbol)){
+    // Se crea la pila.
+    Pila stack = pila_crear ();
+    // Se apila el nodo raiz.
+    pila_apilar (&stack, arbol);
+    // Nodo auxiliar que se va a usar para moverse por el arbol.
+    ITree nodo;
+
+    // Minetras queden elementos en la pila...
+    while (!pila_es_vacia (stack)){
+      // Se guarda el primer elemento de la pila.
+      nodo = pila_ultimo (stack);
+      // Se desapila ese elemento.
+      pila_desapilar (&stack);
+      // Se aplica la funcion visitante al nodo actual.
+      visit (arbolU, nodo->intervalo);
       // Se apilan los hijos del nodo actual mientras no sean vacios.
       if (!itree_es_vacio(nodo->right))
         pila_apilar (&stack, nodo->right);

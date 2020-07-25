@@ -34,3 +34,20 @@ Progreso con el trabajo:
       Si el arbol esta vacio, se inserta trivialmente.
       Si el arbol es no vacio, hay que primero eliminar todas las coliciones
       y luego hay que insertar la union de todas estas.
+
+  Insercion de intervalos completada.
+
+24/07
+  Comienzo implementacion de operaciones de conjuntos.
+  Union: Para unir dos sets implementados como árboles, la opción más coherente
+    que se me ocurre es ingresar los nodos de un árbol a otro.
+    Pero la union tiene que devolver un arbol nuevo, asi que la idea entonces
+    seria insertar todos los de uno y despus los de otros, hay que recorrer los
+    2 arboles, por ejemplo con dfs.
+
+  Interseccion: la interseccion de dos conjuntos es los que estan en ambos.
+  Por lo tanto tengo que recorrer ambos arboles a la ves e ir haciendo Interseccion
+  de cada nodo con el arbol.
+
+  Terminado union =).
+  Se hizo itree_copia.

@@ -6,8 +6,10 @@ intervalos = Intervalos/intervaloE
 pila = Pila/pila
 
 .PHONY: all Pila Cola intervalo
-all: ITree1.o Pila Cola intervalo
+all: ITree1.o Pila Cola intervalo pruebaArbol.o
 
+pruebaArbol.o: $(ITree).h $(pila).h $(intervalos).h $(cola).h
+	gcc $(flags) pruebaArboles.c
 
 Pila:
 	$(MAKE) -C Pila

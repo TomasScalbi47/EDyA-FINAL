@@ -3,11 +3,7 @@
 
 #include "Intervalos/intervaloE.h"
 
-/**
- * Tipo de dato para funciones que se apliquen sobre los datos de los nodos del
- * arbol.
- */
-typedef void (*FuncionQueVisita) (IntervaloE dato);
+
 
 
 /**
@@ -32,6 +28,13 @@ typedef struct _ITreeNodo {
  * especificamente con intervalos.
  */
 typedef ITreeNodo *ITree;
+
+/**
+ * Tipo de dato para funciones que se apliquen sobre los datos de los nodos del
+ * arbol.
+ */
+typedef void (*FuncionQueVisita) (IntervaloE dato);
+typedef void (*FuncionAplicar) (ITree *arbol, IntervaloE);
 
 /**
  * Devuelve lo que determinamos como un arbol vacio.
@@ -115,6 +118,8 @@ void itree_insertar (ITree *arbol, IntervaloE);
  */
 void itree_insercion (ITree *arbol, IntervaloE);
 
+ITree itree_unir (ITree arbol1, ITree arbol2);
+
 /**
  *  Toma un arbol y un intervalo.
  *  Elimina el intervalo del arbol respetando las propiedades del arbol AVL.
@@ -152,6 +157,15 @@ void itree_recorrer_bfs (ITree arbol, FuncionQueVisita visit);
  * del arbol.
  */
 void itree_recorrer_dfs (ITree arbol, FuncionQueVisita visit);
+
+/**
+ * Toma un arbol una funcion visitante.
+ * Recorre el arbol en profundidad y aplica la funcion visitante a cada nodo
+ * del arbol.
+ */
+void itree_recorrer_dfs_agg (ITree arbol, FuncionAplicar visit, ITree *arbolU);
+
+ITree itree_copiar (ITree arbol);
 
 /**
  * Definimos estas 2 funciones para imprimir el arbol de una forma legible

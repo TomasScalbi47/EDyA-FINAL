@@ -7,13 +7,18 @@ intervalos = Interprete/Arboles/Intervalos/intervaloE
 interpretar = Interprete/interpretar
 interprete = Interprete/interprete
 
-.PHONY: Interprete interpretar cleanLin cleanWin
+.PHONY: all Interprete interpretar cleanLin cleanWin
+all: Interprete pruebaArbol
 
-interpretar: Interprete
+interpretar:
 	gcc -o interpretar.out $(ITree).o $(pila).o $(cola).o $(intervalos).o $(interprete).o $(interpretar).o
 
 Interprete:
 	$(MAKE) -C Interprete
+
+
+pruebaArbol:
+	gcc -o pruebaArboles.out Interprete/Arboles/pruebaArboles.o $(ITree).o $(pila).o $(cola).o $(intervalos).o
 
 
 cleanWin:
