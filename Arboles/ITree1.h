@@ -3,9 +3,6 @@
 
 #include "Intervalos/intervaloE.h"
 
-
-
-
 /**
  * Estructura que representa cada nodo (o subarbol) de un arbol de intervalos.
  * Cada nodo tiene:
@@ -14,6 +11,7 @@
  *  - un int que representa la altura de ese subarbol
  *  - 2 apuntadores a 2 nodos que representan los hijos del subarbol actual
  */
+
 typedef struct _ITreeNodo {
   IntervaloE intervalo;
   double maxExtDer;
@@ -35,6 +33,7 @@ typedef ITreeNodo *ITree;
  */
 typedef void (*FuncionQueVisita) (IntervaloE dato);
 typedef void (*FuncionAplicar) (ITree *arbol, IntervaloE);
+typedef void (*FuncionInt) (ITree arbol, IntervaloE, ITree *destino);
 
 /**
  * Devuelve lo que determinamos como un arbol vacio.
@@ -144,27 +143,26 @@ IntervaloE itree_eliminar_minimo (ITree *arbol);
  */
 ITree itree_intersecar (ITree, IntervaloE);
 
+void itree_intersecar2 (ITree arbolAInt, IntervaloE intervalo, ITree *arbolRes);
+
 /**
- * Toma un arbol una funcion visitante.
- * Recorre el arbol en su ancho y aplica la funcion visitante a cada nodo
- * del arbol.
+ *  Dados dos arboles.
+ *  Devuelve un nuevo arbol con la interseccion de estos.
  */
-void itree_recorrer_bfs (ITree arbol, FuncionQueVisita visit);
+ITree itree_interseccion (ITree arbol1, ITree arbol2);
 
 /**
  * Toma un arbol una funcion visitante.
  * Recorre el arbol en profundidad y aplica la funcion visitante a cada nodo
  * del arbol.
  */
-void itree_recorrer_dfs (ITree arbol, FuncionQueVisita visit);
+void itree_recorrer_dfs_union (ITree arbol, FuncionAplicar visit, ITree *arbolU);
+
+void itree_dfs_interseccion (ITree petizo, ITree alto, FuncionInt visit, ITree *destino);
 
 /**
- * Toma un arbol una funcion visitante.
- * Recorre el arbol en profundidad y aplica la funcion visitante a cada nodo
- * del arbol.
+ * Copia de arobl.
  */
-void itree_recorrer_dfs_agg (ITree arbol, FuncionAplicar visit, ITree *arbolU);
-
 ITree itree_copiar (ITree arbol);
 
 /**

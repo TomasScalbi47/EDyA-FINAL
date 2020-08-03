@@ -51,3 +51,16 @@ Progreso con el trabajo:
 
   Terminado union =).
   Se hizo itree_copia.
+
+25/07
+  Objetivo de hoy, implementar la interseccion entre 2 conjuntos.
+    La interseccion es un nuevo conjunto que contiene los elementos que
+    pertenecen a ambos.
+
+    La idea seria recorrer ambos arboles
+
+  TAMBIEN ME DOY CUENTA QUE HABRIA QUE REHACER LA FUNCION DE INTERSECCION,
+  en este tipo de arboles deberia ser menos costoso buscar intersecciones.
+
+26/07
+  Terminada la interseccion entre 2 conjuntos.

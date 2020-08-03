@@ -36,6 +36,14 @@ IntervaloE intervaloE_unir (IntervaloE intervalo1, IntervaloE intervalo2){
   return nuevo;
 }
 
+IntervaloE intervaloE_intersecar (IntervaloE intervalo1, IntervaloE intervalo2){
+  IntervaloE nuevo;
+  nuevo.extIzq = max2 (intervalo1.extIzq, intervalo2.extIzq);
+  nuevo.extDer = min2 (intervalo1.extDer, intervalo2.extDer);
+
+  return nuevo;
+}
+
 int intervaloE_validar (IntervaloE intervalo){
   return intervalo.extIzq <= intervalo.extDer;
 }

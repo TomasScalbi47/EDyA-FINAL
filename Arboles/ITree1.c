@@ -6,6 +6,7 @@
 #include "Pila/pila.h"
 
 
+/* ------------------- BASICAS ----------------------------*/
 ITree itree_crear (){
   return NULL;
 }
@@ -55,6 +56,8 @@ void itree_mayor_extDer (ITree *arbol){
     (*arbol)->maxExtDer = maxExtDer;
   }
 }
+
+/* ------------------- BALANCEO ----------------------------*/
 
 ITree itree_balancear (ITree arbol){
   // Si se le pasa un arbol vacio, itree_factor_balance devolveria 0 y no
@@ -138,6 +141,8 @@ ITree itree_rotacion_izq (ITree arbol){
   return nodoRelevante;
 }
 
+/* ------------------- FUNDAMENTALES ----------------------------*/
+
 ITree itree_copiar (ITree arbol){
   // Si el arbol es vacio...
   if (arbol == NULL)
@@ -166,7 +171,7 @@ void itree_insertar (ITree *arbol, IntervaloE nIntervalo){
   if (!itree_es_vacio(*arbol)){
     // Sabiendo que el arbol es no vacio, para mantener la propiedad de arbol
     // de intervalos disjuntos es necesario eliminar las colisiones del
-    // intervalo a insertar en el arbol. Al mismo tiempo se debera aztualizar
+    // intervalo a insertar en el arbol. Al mismo tiempo se debera actualizar
     // una variable que contenga la union de todos estos que se agregara al
     // finalizar.
 
@@ -233,26 +238,6 @@ void itree_insercion (ITree *arbol, IntervaloE nIntervalo){
       *arbol = itree_balancear (*arbol);
     }
   }
-}
-
-ITree itree_unir (ITree arbol1, ITree arbol2){
-  ITree nuevoArbol = NULL;
-  // nuevoArobl es el duplicado del arbol con mas altura.
-  if (itree_es_vacio (arbol1))
-    nuevoArbol = itree_copiar (arbol2);
-  else if (itree_es_vacio (arbol2))
-    nuevoArbol = itree_copiar (arbol1);
-  // Ninguno de los dos arboles a unir es vacio..
-  else if (arbol1->altura >= arbol2->altura){
-    nuevoArbol = itree_copiar (arbol1);
-    itree_recorrer_dfs_agg (arbol2, itree_insertar, &nuevoArbol);
-  }
-  else {
-    nuevoArbol = itree_copiar (arbol2);
-    itree_recorrer_dfs_agg (arbol1, itree_insertar, &nuevoArbol);
-  }
-
-  return nuevoArbol;
 }
 
 void itree_eliminar_dato (ITree *arbol, IntervaloE datoQueEliminar){
@@ -363,95 +348,55 @@ ITree itree_intersecar (ITree arbol, IntervaloE intervalo){
   // Si el arbol es vacio no hay interseccion con el intervalo parametro
   // y se devuelve un arbol vacio.
   if (!itree_es_vacio(arbol)){
+    int interseccion = intervaloE_interseccion(arbol->intervalo, intervalo);
 
-    // Se pregunta si hay interseccion entre el intervalo del nodo actual y el
-    // intervalo parametro.
-    // De ser asi, delvolvemos el nodo actual.
-    if (intervaloE_interseccion(arbol->intervalo, intervalo) == 1)
+    if (interseccion)
       resultado = arbol;
+      // Si el extremo izquierdo de intervalo, es menor que el extremo izquierdo
+      // del intervalo con el que se quizo intersecar. Entonces puede haber
+      // mas intersecciones a la izquierda.
+    else if (intervalo.extIzq < arbol->intervalo.extIzq)
+      itree_intersecar(arbol->left, intervalo);
 
-    // En caso contrario, se hace la recursion sobre el arbol correspondiente.
-
-    // Si el hijo izquierdo no es vacio y el extremo izquierdo del intervalo
-    // parametro es menor o igual al maxExtDer del hijo izquierdo, entonces se
-    // realiza la recursion sobre el hijo izquierdo. Esto es porque si hay
-    // interseccion solo puede estar de ese lado.
-    else if(!itree_es_vacio(arbol->left) &&
-     intervalo.extIzq <= arbol->left->maxExtDer)
-      resultado = itree_intersecar (arbol->left, intervalo);
-
-    // Si no se cumplen las condiciones anteriores, si hay interseccion
-    // solo puede estar del lado derecho. Por lo tanto se realiza la
-    // recursion sobre ese lado.
-    else
-      resultado = itree_intersecar (arbol->right, intervalo);
-
+      // Si el extremo derecho de intervalo, es mayor que el extremo derecho
+      // del intervalo con el que se quizo intersecar. Entonces puede haber
+      // mas intersecciones a la derecha.
+    else if(intervalo.extDer > arbol->intervalo.extDer)
+      itree_intersecar (arbol->right, intervalo);
   }
   return resultado;
 }
 
-void itree_recorrer_bfs (ITree arbol, FuncionQueVisita visit){
-  // Si el arbol es vacio no hay nada que recorrer.
-  if (!itree_es_vacio(arbol)){
-    // Se crea la cola.
-    Cola queue = cola_crear ();
-    // Se encola el nodo raiz.
-    cola_encolar (&queue, arbol);
-    // Nodo auxiliar que se va a usar para moverse por el arbol.
-    ITree nodo;
+/* ------------------- CONJUNTOS ----------------------------*/
 
-    // Mientras queden elementos en la cola...
-    while (!cola_es_vacia (queue)){
-      // Se guarda el primer elemento de la cola.
-      nodo = cola_primero (queue);
-      // Se desencola ese elemento.
-      cola_desencolar (&queue);
-      // Se aplica la funcion visitante al nodo actual.
-      visit (nodo->intervalo);
-      // Se encolan los hijos del nodo actual mientras no sean vacios.
-      if (!itree_es_vacio(nodo->left))
-        cola_encolar (&queue, nodo->left);
-      if (!itree_es_vacio(nodo->right))
-        cola_encolar (&queue, nodo->right);
-    }
+ITree itree_unir (ITree arbol1, ITree arbol2){
+  ITree nuevoArbol = NULL;
+  // nuevoArobl es el duplicado del arbol con mas altura.
+  if (itree_es_vacio (arbol1))
+    nuevoArbol = itree_copiar (arbol2);
+  else if (itree_es_vacio (arbol2))
+    nuevoArbol = itree_copiar (arbol1);
+    // Ninguno de los dos arboles a unir es vacio..
+  else if (arbol1->altura >= arbol2->altura){
+    nuevoArbol = itree_copiar (arbol1);
+    itree_recorrer_dfs_union (arbol2, itree_insertar, &nuevoArbol);
   }
+  else {
+    nuevoArbol = itree_copiar (arbol2);
+    itree_recorrer_dfs_union (arbol1, itree_insertar, &nuevoArbol);
+  }
+
+  return nuevoArbol;
 }
 
-void itree_recorrer_dfs (ITree arbol, FuncionQueVisita visit){
+void itree_recorrer_dfs_union (ITree origen, FuncionAplicar visit, ITree *arbolU){
   // Si el arbol es vacio no hay nada que recorrer.
-  if (!itree_es_vacio(arbol)){
+  if (!itree_es_vacio(origen)){
     // Se crea la pila.
     Pila stack = pila_crear ();
     // Se apila el nodo raiz.
-    pila_apilar (&stack, arbol);
-    // Nodo auxiliar que se va a usar para moverse por el arbol.
-    ITree nodo;
-
-    // Minetras queden elementos en la pila...
-    while (!pila_es_vacia (stack)){
-      // Se guarda el primer elemento de la pila.
-      nodo = pila_ultimo (stack);
-      // Se desapila ese elemento.
-      pila_desapilar (&stack);
-      // Se aplica la funcion visitante al nodo actual.
-      visit (nodo->intervalo);
-      // Se apilan los hijos del nodo actual mientras no sean vacios.
-      if (!itree_es_vacio(nodo->right))
-        pila_apilar (&stack, nodo->right);
-      if (!itree_es_vacio(nodo->left))
-        pila_apilar (&stack, nodo->left);
-    }
-  }
-}
-
-void itree_recorrer_dfs_agg (ITree arbol, FuncionAplicar visit, ITree *arbolU){
-  // Si el arbol es vacio no hay nada que recorrer.
-  if (!itree_es_vacio(arbol)){
-    // Se crea la pila.
-    Pila stack = pila_crear ();
-    // Se apila el nodo raiz.
-    pila_apilar (&stack, arbol);
-    // Nodo auxiliar que se va a usar para moverse por el arbol.
+    pila_apilar (&stack, origen);
+    // Nodo auxiliar que se va a usar para moverse por el arbol origen.
     ITree nodo;
 
     // Minetras queden elementos en la pila...
@@ -470,6 +415,66 @@ void itree_recorrer_dfs_agg (ITree arbol, FuncionAplicar visit, ITree *arbolU){
     }
   }
 }
+
+ITree itree_interseccion (ITree arbol1, ITree arbol2){
+  ITree arbolNuevo = itree_crear ();
+  // Si alguno de los 2 arboles es vacio entonces ya debo devolver null.
+  if (!itree_es_vacio (arbol1) && !itree_es_vacio (arbol2)){
+    ITree arbolMasAlto, arbolMasBajo;
+    // El arbol mas alto sera el arbol a intersecar con.
+    if (arbol1->altura >= arbol2->altura){
+      arbolMasAlto = arbol1;
+      arbolMasBajo = arbol2;
+    }
+    else{
+      arbolMasAlto = arbol2;
+      arbolMasBajo = arbol1;
+    }
+    // Se intersecan los intervalos del arbol petizo con los del arbol alto.
+    itree_dfs_interseccion (arbolMasBajo, arbolMasAlto, itree_intersecar2, &arbolNuevo);
+  }
+  return arbolNuevo;
+}
+
+void itree_dfs_interseccion (ITree petizo, ITree alto, FuncionInt visit, ITree *destino){
+  // Se recorre el arbol petizo de forma inorder. Haciendo que cada intervalo de
+  // este ultimo, se intserseque con tod el arbol mas alto.
+  if (!itree_es_vacio (petizo)){
+    itree_dfs_interseccion (petizo->left, alto, visit, destino);
+    visit (alto, petizo->intervalo, destino);
+    itree_dfs_interseccion (petizo->right, alto, visit, destino);
+  }
+}
+
+void itree_intersecar2 (ITree arbolAInt, IntervaloE intervalo, ITree *arbolRes){
+  // Si el arbol a intersecar con el intervalo es no vacio...
+  if (!itree_es_vacio (arbolAInt)){
+    // Es importante tener en cuenta que estos itree son de intervalos disjuntos.
+    int interseccion = intervaloE_interseccion (arbolAInt->intervalo, intervalo);
+
+    if (interseccion == 1){
+      // Nuevo intervalo que almacena la interseccion.
+      IntervaloE intervaloInt;
+      intervaloInt = intervaloE_intersecar (arbolAInt->intervalo, intervalo);
+      // Se inserta en el arbol resultado.
+      itree_insertar (arbolRes, intervaloInt);
+    }
+    // Si el extremo izquierdo de intervalo, es menor que el extremo izquierdo
+    // del intervalo con el que se quizo intersecar. Entonces puede haber
+    // mas intersecciones a la izquierda.
+    if (intervalo.extIzq < arbolAInt->intervalo.extIzq)
+      itree_intersecar2 (arbolAInt->left, intervalo, arbolRes);
+
+    // Si el extremo derecho de intervalo, es mayor que el extremo derecho
+    // del intervalo con el que se quizo intersecar. Entonces puede haber
+    // mas intersecciones a la derecha.
+    if (intervalo.extDer > arbolAInt->intervalo.extDer)
+      itree_intersecar2 (arbolAInt->right, intervalo, arbolRes);
+  }
+}
+
+
+
 
 void print2D(ITree arbol){
    // Se pasa el espacio inicial como 0.

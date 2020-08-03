@@ -65,6 +65,11 @@ IntervaloE intervaloE_expandir (IntervaloE);
 IntervaloE intervaloE_unir (IntervaloE, IntervaloE);
 
 /**
+ * Dados dos intervalos que colisionan, devuelve la interseccion.
+ */
+IntervaloE intervaloE_intersecar (IntervaloE intervalo1, IntervaloE intervalo2);
+
+/**
  * Dado un intervalo.
  * Devuelve: 1 si tiene sentido.
  *           0 si no lo tiene. (Por ejemplo que el extremo izq sea < al der).
