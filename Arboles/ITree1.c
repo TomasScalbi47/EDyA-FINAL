@@ -39,24 +39,6 @@ void itree_actualizar_altura (ITree *arbol){
     itree_altura((*arbol)->right)) + 1;
 }
 
-void itree_mayor_extDer (ITree *arbol){
-  // Siempre que el arbol no sea vacio...
-  if(!itree_es_vacio(*arbol)){
-    double maxExtDer = (*arbol)->intervalo.extDer;
-
-    // Si el hijo izquiedo es no vacio, se actualiza el maxExtDer contra este.
-    if (!itree_es_vacio((*arbol)->left))
-      maxExtDer = max2 (maxExtDer, (*arbol)->left->maxExtDer);
-
-    // Si el hijo derecho es no vacio, se actualiza el maxExtDer contra este.
-    if (!itree_es_vacio((*arbol)->right))
-      maxExtDer = max2 (maxExtDer, (*arbol)->right->maxExtDer);
-
-    // Una vez que se obtuvo el valor de maxExtDer, se le asigna al arbol actual.
-    (*arbol)->maxExtDer = maxExtDer;
-  }
-}
-
 /* ------------------- BALANCEO ----------------------------*/
 
 ITree itree_balancear (ITree arbol){
@@ -107,16 +89,14 @@ ITree itree_rotacion_der (ITree arbol){
   ITree nodoRelevante = arbol->left;
   // Se cambia el hijo izquierdo de A a el hijo derecho de B.
   arbol->left = nodoRelevante->right;
-  // Es necesario actualizar los valores de altura y maxExtDer de A puesto que
-  // cambio el hijo izquierdo de A y no sabemos si se siguen manteniendo.
+  // Es necesario actualizar el valor de altura de A puesto que
+  // cambio el hijo izquierdo de A y no sabemos si se sigue manteniendo.
   itree_actualizar_altura(&arbol);
-  itree_mayor_extDer (&arbol);
+
   // Se cambia el hijo derecho de B a A.
   nodoRelevante->right = arbol;
-  // Es necesario actualizar los valores de altura y maxExtDer de B por
-  // motivos analogos
+  // Es necesario actualizar el valor de altura de B por motivos analogos
   itree_actualizar_altura(&nodoRelevante);
-  itree_mayor_extDer (&nodoRelevante);
 
   return nodoRelevante;
 }
@@ -127,16 +107,15 @@ ITree itree_rotacion_izq (ITree arbol){
   ITree nodoRelevante = arbol->right;
   // Se cambia el hijo derecho de A a el hijo izquierdo de B.
   arbol->right = nodoRelevante->left;
-  // Es necesario actualizar los valores de altura y maxExtDer de A puesto que
-  // cambio el hijo derecho de A y no sabemos si se siguen manteniendo.
+  // Es necesario actualizar el valores de altura de A puesto que
+  // cambio el hijo derecho de A y no sabemos si se sigue manteniendo.
   itree_actualizar_altura(&arbol);
-  itree_mayor_extDer (&arbol);
+
   // Se cambia el hijo izquierdo de B a A.
   nodoRelevante->left = arbol;
-  // Es necesario actualizar los valores de altura y maxExtDer de B por
+  // Es necesario actualizar el valor de altura de B por
   // motivos analogos.
   itree_actualizar_altura(&nodoRelevante);
-  itree_mayor_extDer (&nodoRelevante);
 
   return nodoRelevante;
 }
@@ -151,7 +130,6 @@ ITree itree_copiar (ITree arbol){
   ITree nuevoArbol = malloc (sizeof (ITreeNodo));
   nuevoArbol->intervalo = arbol->intervalo;
   nuevoArbol->altura = arbol->altura;
-  nuevoArbol->maxExtDer = arbol->maxExtDer;
 
   if (arbol->left != NULL)
     nuevoArbol->left = itree_copiar (arbol->left);
@@ -204,7 +182,6 @@ void itree_insercion (ITree *arbol, IntervaloE nIntervalo){
   if (itree_es_vacio(*arbol)){
     ITree nuevoSubarbol = malloc (sizeof (ITreeNodo));
     nuevoSubarbol->intervalo = nIntervalo;
-    nuevoSubarbol->maxExtDer = nIntervalo.extDer;
     nuevoSubarbol->altura = 0; // La altura de un arbol con un solo nodo es 0.
     nuevoSubarbol->left = itree_crear ();
     nuevoSubarbol->right = itree_crear ();
@@ -229,9 +206,7 @@ void itree_insercion (ITree *arbol, IntervaloE nIntervalo){
         itree_insercion ((&(*arbol)->left), nIntervalo);
       }
 
-      // Luego de insertar el intervalo, se actualizan los valores de maxExtDer
-      // y de altura del nodo.
-      itree_mayor_extDer (arbol);
+      // Luego de insertar el intervalo, se actualiza la altura del nodo.
       itree_actualizar_altura(arbol);
 
       // Por ultimo se balancea el arbol.
@@ -305,9 +280,7 @@ void itree_eliminar_dato (ITree *arbol, IntervaloE datoQueEliminar){
       else
         itree_eliminar_dato (&((*arbol)->right), datoQueEliminar);
 
-      // Luego de eliminar el nodo, se actualizan los valores de maxExtDer
-      // y de altura del nodo.
-      itree_mayor_extDer (arbol);
+      // Luego de eliminar el nodo, se actualiza el valor de altura del nodo.
       itree_actualizar_altura(arbol);
 
       // Por ultimo se balancea el arbol.
@@ -335,9 +308,7 @@ IntervaloE itree_eliminar_minimo (ITree *arbol){
     // recorriendo el arbol hacia la izquierda hasta encontrarlo.
     minimo = itree_eliminar_minimo(&((*arbol)->left));
 
-    // Luego de eliminar el nodo, se actualizan los valores de maxExtDer
-    // y de altura del nodo.
-    itree_mayor_extDer (arbol);
+    // Luego de eliminar el nodo, se actualiza el valor de altura del nodo.
     itree_actualizar_altura(arbol);
   }
   return minimo;
@@ -498,13 +469,6 @@ void print2DUtil(ITree arbol, int espacio){
     for (int i = COUNT; i < espacio; ++i)
         printf(" ");
     intervaloE_imprimir (arbol->intervalo);
-
-    // Luego, se imprime el maximo extremo derecho del arbol despues de la
-    // cantidad de espacios que corresponden.
-    printf("\n");
-    for (int i = COUNT; i < espacio; ++i)
-        printf(" ");
-    printf(" %g", arbol->maxExtDer);
 
     // Se procesa el hijo izquierdo.
     print2DUtil(arbol->left, espacio);

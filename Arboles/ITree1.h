@@ -14,7 +14,6 @@
 
 typedef struct _ITreeNodo {
   IntervaloE intervalo;
-  double maxExtDer;
   int altura;
   struct _ITreeNodo *left;
   struct _ITreeNodo *right;
@@ -31,7 +30,6 @@ typedef ITreeNodo *ITree;
  * Tipo de dato para funciones que se apliquen sobre los datos de los nodos del
  * arbol.
  */
-typedef void (*FuncionQueVisita) (IntervaloE dato);
 typedef void (*FuncionAplicar) (ITree *arbol, IntervaloE);
 typedef void (*FuncionInt) (ITree arbol, IntervaloE, ITree *destino);
 
@@ -69,33 +67,22 @@ int itree_factor_balance (ITree arbol);
 void itree_actualizar_altura (ITree *arbol);
 
 /**
- * Toma un apuntador a un arbol.
- * Calcula el maximo extremo derecho de intervalo para ese subarbol
- * y lo guarda en el parametro maxExtDer del nodo raiz del subarbol que se
- * tomo como parametro.
- */
-void itree_mayor_extDer (ITree *arbol);
-
-/**
  * Dado un arbol, obtiene su factor de balance y de ser nesecario lo balancea
- * aplicando las rotaciones correspondientes y actualizando sus campos de altura
- * y maxExtDer.
+ * aplicando las rotaciones correspondientes y actualizando su campo de altura.
  * Devuelve el arbol rotado.
  */
 ITree itree_balancear (ITree arbol);
 
 /**
- * Dado un arbol, realiza una rotacion simple a derecha. Ademas se actualizan
- * los campos de altura y maxExtDer de forma que el arbol resultante sea
- * correcto.
+ * Dado un arbol, realiza una rotacion simple a derecha. Ademas se actualiza
+ * el campo de altura de forma que el arbol resultante sea correcto.
  * Devuelve el arbol luego de la rotacion.
  */
 ITree itree_rotacion_der (ITree arbol);
 
 /**
- * Dado un arbol, realiza una rotacion simple a izquierda. Ademas se actualizan
- * los campos de altura y maxExtDer de forma que el arbol resultante sea
- * correcto.
+ * Dado un arbol, realiza una rotacion simple a izquierda. Ademas se actualiza
+ * el campo de altura de forma que el arbol resultante sea correcto.
  * Devuelve el arbol luego de la rotacion.
  */
 ITree itree_rotacion_izq (ITree arbol);
