@@ -1,6 +1,5 @@
 #ifndef __ITree_H__
 #define __ITree_H__
-
 #include "Intervalos/intervaloE.h"
 
 /**
@@ -26,12 +25,6 @@ typedef struct _ITreeNodo {
  */
 typedef ITreeNodo *ITree;
 
-/**
- * Tipo de dato para funciones que se apliquen sobre los datos de los nodos del
- * arbol.
- */
-typedef void (*FuncionAplicar) (ITree *arbol, IntervaloE);
-typedef void (*FuncionInt) (ITree arbol, IntervaloE, ITree *destino);
 
 /**
  * Devuelve lo que determinamos como un arbol vacio.
@@ -67,6 +60,13 @@ int itree_factor_balance (ITree arbol);
 void itree_actualizar_altura (ITree *arbol);
 
 /**
+ * Toma un arbol y libera todos sus nodos.
+ */
+void itree_destruir (ITree raiz);
+
+/* ------------------- BALANCEO ----------------------------*/
+
+/**
  * Dado un arbol, obtiene su factor de balance y de ser nesecario lo balancea
  * aplicando las rotaciones correspondientes y actualizando su campo de altura.
  * Devuelve el arbol rotado.
@@ -93,6 +93,20 @@ ITree itree_rotacion_izq (ITree arbol);
  * itree_insercion para insertar el intervalo que contiene a la union de todos
  * los conjuntos con los que interseco.
  */
+
+/* ------------------- FUNDAMENTALES ----------------------------*/
+
+/**
+ * Copia de arobl.
+ */
+ITree itree_copiar (ITree arbol);
+
+/**
+ *  Toma un arbol y un intervalo.
+ *  Primeramente chequea que el intervalo que se vaya a insertara no tenga
+ *  colisiones con el resto de intervalos en el arbol, luego se llama a
+ *  la funcion insercion que se encargara del resto.
+ */
 void itree_insertar (ITree *arbol, IntervaloE);
 
 /**
@@ -103,8 +117,6 @@ void itree_insertar (ITree *arbol, IntervaloE);
  *  correspondientes.
  */
 void itree_insercion (ITree *arbol, IntervaloE);
-
-ITree itree_unir (ITree arbol1, ITree arbol2);
 
 /**
  *  Toma un arbol y un intervalo.
@@ -130,7 +142,22 @@ IntervaloE itree_eliminar_minimo (ITree *arbol);
  */
 ITree itree_intersecar (ITree, IntervaloE);
 
-void itree_intersecar2 (ITree arbolAInt, IntervaloE intervalo, ITree *arbolRes);
+/*------------------------------ CONJUNTOS -----------------------------------*/
+/**
+ *  Toma dos arboles.
+ *  Se identifica cual es el arbol mas alto y se copia. Luego se recorre el
+ *  arbol mas pequeño y se va insertando los intervalos de a uno en la copia
+ *  realizada anteriormente.
+ *
+ */
+ITree itree_unir (ITree arbol1, ITree arbol2);
+
+/**
+ * Toma un arbol una funcion visitante.
+ * Recorre el arbol en profundidad y aplica la funcion visitante a cada nodo
+ * del arbol.
+ */
+void itree_dfs_union (ITree arbol, ITree *arbolU);
 
 /**
  *  Dados dos arboles.
@@ -139,18 +166,20 @@ void itree_intersecar2 (ITree arbolAInt, IntervaloE intervalo, ITree *arbolRes);
 ITree itree_interseccion (ITree arbol1, ITree arbol2);
 
 /**
- * Toma un arbol una funcion visitante.
- * Recorre el arbol en profundidad y aplica la funcion visitante a cada nodo
- * del arbol.
+ *  Toma dos arboles, y un puntero a un tercer arbol.
+ *  Se considera que la altura del primer arbol (petizo) es <= que la del
+ *  segundo. Se recorre el primero en dfs inorder aplicando la funcin auxiliar
+ *  itree_intersecarV con cada intervalo de este, sobre el segundo arbol (alto)
+ *  insertando los nodo correspondientes en el arbol destino.
  */
-void itree_recorrer_dfs_union (ITree arbol, FuncionAplicar visit, ITree *arbolU);
-
-void itree_dfs_interseccion (ITree petizo, ITree alto, FuncionInt visit, ITree *destino);
+void itree_dfs_interseccion (ITree petizo, ITree alto, ITree *destino);
 
 /**
- * Copia de arobl.
+ *  Toma un arbol a intersecar, un intervalo y un arbol resultado.
+ *  Interseca el intervalo con el arbol "arbolAInt" completo, insertando cada
+ *  nodo interseccion en el arbol resultado.
  */
-ITree itree_copiar (ITree arbol);
+void itree_intersecarV (ITree arbolAInt, IntervaloE intervalo, ITree *arbolRes);
 
 /**
  * Definimos estas 2 funciones para imprimir el arbol de una forma legible
@@ -164,9 +193,6 @@ void print2D(ITree arbol);
 
 void print2DUtil(ITree arbol, int space);
 
-/**
- * Toma un arbol y libera todos sus nodos.
- */
-void itree_destruir (ITree raiz);
+
 
 #endif
