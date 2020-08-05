@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>
 #include "ITree1.h"
 
 /* ------------------- BASICAS ----------------------------*/
@@ -431,6 +432,39 @@ void itree_intersecarV (ITree arbolAInt, IntervaloE intervalo, ITree *arbolRes){
     if (intervalo.extDer > arbolAInt->intervalo.extDer)
       itree_intersecarV(arbolAInt->right, intervalo, arbolRes);
   }
+}
+
+ITree itree_complemento (ITree origen){
+  ITree nuevoArbol = itree_crear();
+
+  // Si el conjunto es no vacio...
+  if (!itree_es_vacio(origen)){
+    // Si el conjunto no es el universo...
+    if (origen->intervalo.extIzq != INT_MIN
+     || origen->intervalo.extDer != INT_MAX)
+      // Se sabe con seguridad que el arbol origen es != vacio y != universo.
+      itree_complemento_aux (origen, &nuevoArbol);
+  }// Conjunto == vacio.
+  else {
+    itree_insertar(&nuevoArbol, intervaloE_crear(INT_MIN, INT_MAX));
+  }
+
+  return nuevoArbol;
+}
+
+void itree_complemento_aux (ITree origen, ITree *destino){
+  itree_complemento_aux (origen->left, destino);
+  // pensar como se aplastan los nodos de un arbol contra la recta numerica
+  // de los reales.
+  IntervaloE aInsertar, anterior;
+  // Busco obtener el intervalo perteneciente al conjunto mas a la izq.
+  if (origen->intervalo.extIzq == INT_MIN)
+    anterior = origen->intervalo;
+    else {
+      anterior.extIzq = INT_MIN;
+    }
+
+
 }
 
 /* ------------------- AUXILIARES ----------------------------*/

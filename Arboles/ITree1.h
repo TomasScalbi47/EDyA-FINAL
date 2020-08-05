@@ -182,6 +182,22 @@ void itree_dfs_interseccion (ITree petizo, ITree alto, ITree *destino);
 void itree_intersecarV (ITree arbolAInt, IntervaloE intervalo, ITree *arbolRes);
 
 /**
+ *  Toma un conjunto y calcula su complemento.
+ *  Considera los casos especiales de si el conjunto es vacio, o es el universo
+ *  y de ser los des casos falsos, llama a la funcion auxiliar
+ *  itree_complemento_aux.
+ */
+ITree itree_complemento (ITree origen);
+
+/**
+ * Funcion auxiliar empleada para calcular el complemento de un arbol que es
+ * no vacio ni el universo.
+ */
+void itree_complemento_aux (ITree origen, ITree *nuevoArbol);
+
+/* ----------------------------- AUXILIARES ----------------------------------*/
+
+/**
  * Definimos estas 2 funciones para imprimir el arbol de una forma legible
  * dentro de la consola de comandos.
  * COUNT es la constante que marca la cantidad de espacios que hay entre cada
