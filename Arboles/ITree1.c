@@ -441,9 +441,15 @@ ITree itree_complemento (ITree origen){
   if (!itree_es_vacio(origen)){
     // Si el conjunto no es el universo...
     if (origen->intervalo.extIzq != INT_MIN
-     || origen->intervalo.extDer != INT_MAX)
+     || origen->intervalo.extDer != INT_MAX) {
       // Se sabe con seguridad que el arbol origen es != vacio y != universo.
-      itree_complemento_aux (origen, &nuevoArbol);
+      IntervaloE ant = intervaloE_crear(INT_MIN, INT_MIN);
+      // Le doy este valor al intervalo anterior a sabiendas que la funcion
+      // recursiva debajo, al ser inorder, comenzara por el nodo mas a la
+      // izquierda.
+      itree_complemento_aux(origen, &nuevoArbol, &ant);
+
+    }
   }// Conjunto == vacio.
   else {
     itree_insertar(&nuevoArbol, intervaloE_crear(INT_MIN, INT_MAX));
@@ -452,19 +458,23 @@ ITree itree_complemento (ITree origen){
   return nuevoArbol;
 }
 
-void itree_complemento_aux (ITree origen, ITree *destino){
-  itree_complemento_aux (origen->left, destino);
-  // pensar como se aplastan los nodos de un arbol contra la recta numerica
-  // de los reales.
-  IntervaloE aInsertar, anterior;
-  // Busco obtener el intervalo perteneciente al conjunto mas a la izq.
-  if (origen->intervalo.extIzq == INT_MIN)
-    anterior = origen->intervalo;
-    else {
-      anterior.extIzq = INT_MIN;
+void itree_complemento_aux (ITree origen, ITree *destino, IntervaloE *ant){
+  if (!itree_es_vacio (origen)) {
+    itree_complemento_aux(origen->left, destino, ant);
+
+    IntervaloE aInsertar;
+    if (origen->intervalo.extIzq != INT_MIN) {
+      if (ant->extDer == INT_MIN)
+        aInsertar = intervaloE_crear(ant->extDer, origen->intervalo.extIzq - 1);
+      else
+        aInsertar = intervaloE_crear(ant->extDer + 1,
+                                     origen->intervalo.extIzq - 1);
+      itree_insertar(destino, aInsertar);
     }
+    *ant = origen->intervalo;
 
-
+    itree_complemento_aux(origen->right, destino, ant);
+  }
 }
 
 /* ------------------- AUXILIARES ----------------------------*/

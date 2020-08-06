@@ -193,7 +193,7 @@ ITree itree_complemento (ITree origen);
  * Funcion auxiliar empleada para calcular el complemento de un arbol que es
  * no vacio ni el universo.
  */
-void itree_complemento_aux (ITree origen, ITree *nuevoArbol);
+void itree_complemento_aux (ITree origen, ITree *nuevoArbol, IntervaloE *ant);
 
 /* ----------------------------- AUXILIARES ----------------------------------*/
 
