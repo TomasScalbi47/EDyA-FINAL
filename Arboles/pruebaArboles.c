@@ -14,10 +14,6 @@ int main (){
     int comparacion = intervaloE_comparacion(Minfinito, intervaloE_crear(1,2));
     printf ("comparacion menos infinito con [1,2]: |%d|\n", comparacion);
 
-
-
-
-
   /*********************************
    * CARGANDO INTERVALOS DE PRUEBA *
    *********************************/
@@ -54,6 +50,9 @@ int main (){
   printf ("Arbol de prueba 2 --------------------------\n");
   print2D (arbolPrueba2);
   printf ("\n-------------------------------------------------\n");
+
+  ITree arbolPrueba3 = itree_crear();
+  itree_insertar (&arbolPrueba3, intervaloE_crear(0,5));
 
    /*********
     * UNION *
@@ -107,6 +106,32 @@ int main (){
   print2D(complemento);
   printf ("\n-------------------------------------\n");
 
+
+  /**********************
+   * PROBANDO RESTA AUX *
+   **********************/
+  IntervaloE intervaloRestaAux = intervaloE_crear (1,5);
+  ITree arbolRestaAux = itree_crear();
+  printf ("imprimiendo arbol prueba3\n");
+  print2D(arbolPrueba3);
+  printf ("\n-----------------------------\n");
+  // este arbol de resta auxiliar, contendra los elementos de [1,5]
+  // que no estan en el arbol.
+  itree_resta_aux(arbolPrueba3, intervaloRestaAux, &arbolRestaAux);
+
+  print2D(arbolRestaAux);
+
+  /**
+   * PROBANDO RESTA ARBOLPRUEBA - ARBOLPRUEBA2 *
+   */
+  ITree arbolResta = itree_crear ();
+  arbolResta = itree_resta(arbolPrueba, arbolPrueba2);
+  printf ("\n---------------Imprimiendo arbol resta arbolPrueba - arbolPrueba2 ------------\n");
+  print2D(arbolResta);
+  printf ("\n--------------------------------------------------------\n");
+
+  itree_destruir (arbolResta);
+  itree_destruir (arbolRestaAux);
   itree_destruir (complemento);
   itree_destruir (arbolUn);
   itree_destruir (arbolInt);

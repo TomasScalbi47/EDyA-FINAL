@@ -497,31 +497,53 @@ ITree itree_resta (ITree arbol1, ITree arbol2){
 
         else if (!itree_es_universo (arbol2)) {
             // Ninguno de los dos arboles es el universo ni vacio.
-            itree_resta_aux (arbol1, arbol2, &nuevoArbol);
+            itree_dfs_resta (arbol1, arbol2, &nuevoArbol);
         }
     }
     return nuevoArbol;
 }
 
+void itree_dfs_resta (ITree arbol1, ITree arbol2, ITree *destino){
+    // Se recorre el arbol petizo de forma inorder. Haciendo que cada intervalo de
+    // este ultimo, se intserseque con el arbol mas alto completo.
+    if (!itree_es_vacio (arbol1)){
+        itree_dfs_resta (arbol1->left, arbol2, destino);
+        itree_resta_aux(arbol2, arbol1->intervalo, destino);
+        itree_dfs_resta (arbol1->right, arbol2, destino);
+    }
+}
+
 void itree_resta_aux (ITree arbol2, IntervaloE intervalo, ITree *destino){
     // Si el arbol a intersecar con el intervalo es no vacio.
-    if (!itree_es_vacio(arbol2)){
+    if (itree_es_vacio(arbol2))
+        itree_insertar(destino, intervalo);
+    else {
         int interseccion = intervaloE_interseccion(intervalo, arbol2->intervalo);
 
         if (interseccion){
             // ver si sobra de los costaditos.
+
+            // sobra izquierda
+            if (intervalo.extIzq < arbol2->intervalo.extIzq){
+                intervalo = intervaloE_no_interseccion_izq(intervalo, arbol2->intervalo);
+                itree_resta_aux (arbol2->left, intervalo, destino);
+            }
+            // sobra derecha
+            if (intervalo.extDer > arbol2->intervalo.extDer){
+                intervalo = intervaloE_no_interseccion_der(intervalo, arbol2->intervalo);
+                itree_resta_aux (arbol2->right, intervalo, destino);
+            }
         }
         // Si el extremo izquierdo de intervalo, es menor que el extremo izquierdo
         // del intervalo con el que se quizo intersecar. Entonces puede haber
         // mas intersecciones a la izquierda.
-        if (intervalo.extIzq < arbol2->intervalo.extIzq)
-            itree_intersecarV(arbol2->left, intervalo, destino);
-
+        else if (intervalo.extIzq < arbol2->intervalo.extIzq)
+            itree_resta_aux(arbol2->left, intervalo, destino);
         // Si el extremo derecho de intervalo, es mayor que el extremo derecho
         // del intervalo con el que se quizo intersecar. Entonces puede haber
         // mas intersecciones a la derecha.
-        if (intervalo.extDer > arbol2->intervalo.extDer)
-            itree_intersecarV(arbol2->right, intervalo, destino);
+        else if (intervalo.extDer > arbol2->intervalo.extDer)
+            itree_resta_aux(arbol2->right, intervalo, destino);
     }
 }
 

@@ -216,6 +216,7 @@ ITree itree_resta (ITree arbol1, ITree arbol2);
  */
 void itree_resta_aux (ITree arbol1, IntervaloE intervalo, ITree *destino);
 
+void itree_dfs_resta (ITree arbol1, ITree arbol2, ITree *destino);
 /* ----------------------------- AUXILIARES ----------------------------------*/
 
 /**

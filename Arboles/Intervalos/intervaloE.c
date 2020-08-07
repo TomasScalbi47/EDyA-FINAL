@@ -58,8 +58,16 @@ int intervaloE_validar (IntervaloE intervalo){
 }
 
 IntervaloE intervaloE_no_interseccion_izq (IntervaloE intervalo1, IntervaloE intervalo2){
-
+    // Esta funcion es empleada solamente cuando se sabe que el intervalo1 excede
+    // el intervalo2 por izquierda.
+    intervalo1.extDer = intervalo2.extIzq - 1;
+    return intervalo1;
 }
 
 
-IntervaloE intervaloE_no_interseccion_der (IntervaloE intervalo1, IntervaloE intervalo2);
+IntervaloE intervaloE_no_interseccion_der (IntervaloE intervalo1, IntervaloE intervalo2){
+    // Esta funcion es empleada solamente cuando se sabe que el intervalo1 excede
+    // el intervalo2 por derecha.
+    intervalo1.extIzq = intervalo2.extDer + 1;
+    return intervalo1;
+}
