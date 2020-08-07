@@ -1,8 +1,23 @@
 #include <stdio.h>
 #include "ITree1.h"  //Dentro de ITree1.h se incluye IntervalosE.h
+#include <limits.h>
 #define TAMPRUEBA1 5
 #define TAMPRUEBA2 4
 int main (){
+    /************************
+     * PRUEBA DE INTERVALOS *
+     ************************/
+
+    IntervaloE Minfinito = intervaloE_crear(INT_MIN, INT_MIN);
+    intervaloE_imprimir(Minfinito);
+
+    int comparacion = intervaloE_comparacion(Minfinito, intervaloE_crear(1,2));
+    printf ("comparacion menos infinito con [1,2]: |%d|\n", comparacion);
+
+
+
+
+
   /*********************************
    * CARGANDO INTERVALOS DE PRUEBA *
    *********************************/
@@ -79,6 +94,20 @@ int main (){
   print2D (arbolInt);
   printf ("\n-------------------------------------------------\n");
 
+  /*****************************
+   *  COMPLEMENTO DE UN ARBOL  *
+   *****************************/
+
+  printf ("Arbol de prueba 1:\n");
+  print2D(arbolPrueba);
+  printf ("\n-------------------------------------\n");
+
+  ITree complemento = itree_complemento(arbolPrueba);
+  printf ("Complemento de arbolPrueba1:\n");
+  print2D(complemento);
+  printf ("\n-------------------------------------\n");
+
+  itree_destruir (complemento);
   itree_destruir (arbolUn);
   itree_destruir (arbolInt);
   itree_destruir (arbolPrueba);

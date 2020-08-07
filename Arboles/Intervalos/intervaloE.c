@@ -1,6 +1,7 @@
 #include "intervaloE.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <limits.h>
 
 IntervaloE intervaloE_crear (int izq, int der){
   IntervaloE nuevoIntervalo;
@@ -19,12 +20,20 @@ int intervaloE_interseccion (IntervaloE intervalo1, IntervaloE intervalo2){
 }
 
 int intervaloE_comparacion (IntervaloE intervalo1, IntervaloE intervalo2){
-  return intervalo1.extIzq - intervalo2.extIzq;
+  int devolver = 0;
+  if (intervalo1.extIzq > intervalo2.extIzq)
+      devolver = 1;
+  else if (intervalo1.extIzq < intervalo2.extIzq)
+      devolver = -1;
+
+  return devolver;
 }
 
 IntervaloE intervaloE_expandir (IntervaloE intervalo){
-  intervalo.extDer += 1;
-  intervalo.extIzq -= 1;
+    if (intervalo.extDer != INT_MAX)
+        intervalo.extDer += 1;
+    if (intervalo.extIzq != INT_MIN)
+        intervalo.extIzq -= 1;
   return intervalo;
 }
 
@@ -47,3 +56,10 @@ IntervaloE intervaloE_intersecar (IntervaloE intervalo1, IntervaloE intervalo2){
 int intervaloE_validar (IntervaloE intervalo){
   return intervalo.extIzq <= intervalo.extDer;
 }
+
+IntervaloE intervaloE_no_interseccion_izq (IntervaloE intervalo1, IntervaloE intervalo2){
+
+}
+
+
+IntervaloE intervaloE_no_interseccion_der (IntervaloE intervalo1, IntervaloE intervalo2);

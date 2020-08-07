@@ -41,7 +41,6 @@ void intervaloE_imprimir (IntervaloE);
  */
 int intervaloE_interseccion (IntervaloE, IntervaloE);
 
-
 /**
  * Criterio de comparacion de intervalos para conjuntos de intervalos disjuntos.
  * Como los intervalos son disjuntos, nunca se daría el caso de extIzq iguales,
@@ -76,4 +75,15 @@ IntervaloE intervaloE_intersecar (IntervaloE intervalo1, IntervaloE intervalo2);
  */
 int intervaloE_validar (IntervaloE);
 
+/**
+ * Dado dos intervalos, intervalo1 e intervalo2.
+ * Obtiene la no interseccion a la izquierda.
+ */
+IntervaloE intervaloE_no_interseccion_izq (IntervaloE intervalo1, IntervaloE intervalo2);
+
+/**
+ * Dado dos intervalos, intervalo1 e intervalo2.
+ * Obtiene la no interseccion a la derecha.
+ */
+IntervaloE intervaloE_no_interseccion_der (IntervaloE intervalo1, IntervaloE intervalo2);
 #endif

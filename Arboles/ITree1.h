@@ -195,6 +195,27 @@ ITree itree_complemento (ITree origen);
  */
 void itree_complemento_aux (ITree origen, ITree *nuevoArbol, IntervaloE *ant);
 
+/**
+ * Toma dos arboles, arbol1 y arbol2.
+ * Devuelve el resultado de hacer arbol1 - arbol2, es decir, un nuevo arbol con
+ * los elementos de arbol1 que no estan en arbol2.
+ * Basicamente, recorro el arbol1 completo y guardo solamente los nodos que
+ * no tienen interseccion con el arbol2.
+ * Si un nodo de arbol1, tiene interseccion con otro de arbol2, no necesariamente
+ * siginfiica que ya hay que descartarlo, puede ser que esta interseccion no sea
+ * completa, mas bien parcial, por lo tanto hay que actualizar el intervalo con
+ * el que se recorre en ese momento.
+ */
+ITree itree_resta (ITree arbol1, ITree arbol2);
+
+/**
+ *  Dados dos arboles ni vacios ni que representen el conjunto universal.
+ *  Se va recorriendo el arbol 1, buscando intersecciones en el arbol2 de forma
+ *  tal que los intervalos contenidos en el arbol1, que no intersequen con
+ *  ninguno del arbol2, seran añadidos al arbol destino.
+ */
+void itree_resta_aux (ITree arbol1, IntervaloE intervalo, ITree *destino);
+
 /* ----------------------------- AUXILIARES ----------------------------------*/
 
 /**
