@@ -25,6 +25,10 @@ typedef struct _ITreeNodo {
  */
 typedef ITreeNodo *ITree;
 
+/**
+ * Funciones utiles.
+ */
+typedef void (*FuncionAux) (ITree arobl2, IntervaloE intervalo, ITree *destino);
 
 /**
  * Devuelve lo que determinamos como un arbol vacio.
@@ -143,6 +147,10 @@ IntervaloE itree_eliminar_minimo (ITree *arbol);
 ITree itree_intersecar (ITree, IntervaloE);
 
 /*------------------------------ CONJUNTOS -----------------------------------*/
+
+void itree_dfs_origen_destino (ITree arbol1, ITree arbol2, FuncionAux aux,
+                               ITree *destino);
+
 /**
  *  Toma dos arboles.
  *  Se identifica cual es el arbol mas alto y se copia. Luego se recorre el
@@ -165,14 +173,6 @@ void itree_dfs_union (ITree arbol, ITree *arbolU);
  */
 ITree itree_interseccion (ITree arbol1, ITree arbol2);
 
-/**
- *  Toma dos arboles, y un puntero a un tercer arbol.
- *  Se considera que la altura del primer arbol (petizo) es <= que la del
- *  segundo. Se recorre el primero en dfs inorder aplicando la funcin auxiliar
- *  itree_intersecarV con cada intervalo de este, sobre el segundo arbol (alto)
- *  insertando los nodo correspondientes en el arbol destino.
- */
-void itree_dfs_interseccion (ITree petizo, ITree alto, ITree *destino);
 
 /**
  *  Toma un arbol a intersecar, un intervalo y un arbol resultado.
@@ -216,7 +216,6 @@ ITree itree_resta (ITree arbol1, ITree arbol2);
  */
 void itree_resta_aux (ITree arbol1, IntervaloE intervalo, ITree *destino);
 
-void itree_dfs_resta (ITree arbol1, ITree arbol2, ITree *destino);
 /* ----------------------------- AUXILIARES ----------------------------------*/
 
 /**

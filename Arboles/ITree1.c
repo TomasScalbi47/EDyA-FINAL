@@ -174,7 +174,7 @@ void itree_insertar (ITree *arbol, IntervaloE nIntervalo){
     interseccion = itree_intersecar (*arbol, intervaloExp);
 
     // Si hubo interseccion.
-    while (interseccion != NULL) {
+    while (!itree_es_vacio (interseccion)) {
       // Unir intervalo que colisiona con el intervalo a ingresar.
       nIntervalo = intervaloE_unir (nIntervalo, interseccion->intervalo);
       // Eliminar nodo que colisiona con el intervalo a ingresar.
@@ -340,18 +340,28 @@ ITree itree_intersecar (ITree arbol, IntervaloE intervalo){
       // del intervalo con el que se quizo intersecar. Entonces puede haber
       // mas intersecciones a la izquierda.
     else if (intervalo.extIzq < arbol->intervalo.extIzq)
-      itree_intersecar(arbol->left, intervalo);
+      resultado = itree_intersecar(arbol->left, intervalo);
 
       // Si el extremo derecho de intervalo, es mayor que el extremo derecho
       // del intervalo con el que se quizo intersecar. Entonces puede haber
       // mas intersecciones a la derecha.
     else if(intervalo.extDer > arbol->intervalo.extDer)
-      itree_intersecar (arbol->right, intervalo);
+      resultado = itree_intersecar (arbol->right, intervalo);
   }
   return resultado;
 }
 
 /* ------------------- CONJUNTOS ----------------------------*/
+
+void itree_dfs_origen_destino (ITree arbol1, ITree arbol2, FuncionAux aux,
+                               ITree *destino){
+  if (!itree_es_vacio (arbol1)){
+    itree_dfs_origen_destino (arbol1->left, arbol2, aux, destino);
+    aux(arbol2, arbol1->intervalo, destino);
+    itree_dfs_origen_destino (arbol1->right, arbol2, aux, destino);
+  }
+}
+
 
 ITree itree_unir (ITree arbol1, ITree arbol2){
   ITree nuevoArbol = NULL;
@@ -381,6 +391,7 @@ void itree_dfs_union (ITree origen, ITree *arbolU){
   }
 }
 
+
 ITree itree_interseccion (ITree arbol1, ITree arbol2){
   ITree arbolNuevo = itree_crear ();
   // Si alguno de los 2 arboles es vacio entonces ya debo devolver null.
@@ -396,19 +407,10 @@ ITree itree_interseccion (ITree arbol1, ITree arbol2){
       arbolMasBajo = arbol1;
     }
     // Se intersecan los intervalos del arbol petizo con los del arbol alto.
-    itree_dfs_interseccion(arbolMasBajo, arbolMasAlto, &arbolNuevo);
+    itree_dfs_origen_destino (arbolMasBajo, arbolMasAlto, itree_intersecarV,
+                              &arbolNuevo);
   }
   return arbolNuevo;
-}
-
-void itree_dfs_interseccion (ITree petizo, ITree alto, ITree *destino){
-  // Se recorre el arbol petizo de forma inorder. Haciendo que cada intervalo de
-  // este ultimo, se intserseque con el arbol mas alto completo.
-  if (!itree_es_vacio (petizo)){
-    itree_dfs_interseccion (petizo->left, alto, destino);
-    itree_intersecarV (alto, petizo->intervalo, destino);
-    itree_dfs_interseccion (petizo->right, alto, destino);
-  }
 }
 
 void itree_intersecarV (ITree arbolAInt, IntervaloE intervalo, ITree *arbolRes){
@@ -437,6 +439,7 @@ void itree_intersecarV (ITree arbolAInt, IntervaloE intervalo, ITree *arbolRes){
       itree_intersecarV(arbolAInt->right, intervalo, arbolRes);
   }
 }
+
 
 ITree itree_complemento (ITree origen){
   ITree nuevoArbol = itree_crear();
@@ -484,6 +487,7 @@ void itree_complemento_aux (ITree origen, ITree *destino, IntervaloE *ant){
   }
 }
 
+
 ITree itree_resta (ITree arbol1, ITree arbol2){
     ITree nuevoArbol = itree_crear();
 
@@ -497,20 +501,11 @@ ITree itree_resta (ITree arbol1, ITree arbol2){
 
         else if (!itree_es_universo (arbol2)) {
             // Ninguno de los dos arboles es el universo ni vacio.
-            itree_dfs_resta (arbol1, arbol2, &nuevoArbol);
+            itree_dfs_origen_destino (arbol1, arbol2, itree_resta_aux,
+                                      &nuevoArbol);
         }
     }
     return nuevoArbol;
-}
-
-void itree_dfs_resta (ITree arbol1, ITree arbol2, ITree *destino){
-    // Se recorre el arbol petizo de forma inorder. Haciendo que cada intervalo de
-    // este ultimo, se intserseque con el arbol mas alto completo.
-    if (!itree_es_vacio (arbol1)){
-        itree_dfs_resta (arbol1->left, arbol2, destino);
-        itree_resta_aux(arbol2, arbol1->intervalo, destino);
-        itree_dfs_resta (arbol1->right, arbol2, destino);
-    }
 }
 
 void itree_resta_aux (ITree arbol2, IntervaloE intervalo, ITree *destino){
