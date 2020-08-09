@@ -64,3 +64,10 @@ Progreso con el trabajo:
 
 26/07
   Terminada la interseccion entre 2 conjuntos.
+  
+ 7/8
+    No logee los avances, pero basicamente ya esta terminada la
+    implementacion de conjuntos con arboles AVL, tendria que ver si se
+    pueden añadir algunas mejoras, pero lo dudo y ya es funcional.
+    
+    Comienzo de implementacion del interprete.

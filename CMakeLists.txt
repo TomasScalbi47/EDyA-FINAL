@@ -12,4 +12,5 @@ add_executable(EDyA-FINAL
     Arboles/pruebaArboles.c
     Arboles/Intervalos/intervaloE.h
     Arboles/Intervalos/intervaloE.c
+    Interprete/Interprete.c Interprete/interprete.h
         )
