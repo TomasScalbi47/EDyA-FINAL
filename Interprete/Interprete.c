@@ -36,13 +36,17 @@ void interpretar (){
     printf ("Entrada leida: |%s|\n", entradaOriginal);
     printf ("Entrada leida en parser: |%s|\n", entradaParser);
 
-    // Chequeando si es salir.
+    /********************
+     * COMANDO DE SALIR *
+     ********************/
     if (strcmp (entradaOriginal, "salir") == 0) {
       printf("El comando fue salir\n");
       salida = 1;
     }
 
-    // Comando comenzado con imprimir.
+    /***********************
+     * COMANDO DE IMPRIMIR *
+     ***********************/
     else if (strncmp (entradaOriginal, "imprimir", 8) == 0){
       printf ("Comando comienza con imprimir\n");
       strtok(entradaParser, " ");
@@ -50,7 +54,9 @@ void interpretar (){
       printf ("Conjunto a imprimir: |%s|\n", conjuntoAfectado);
     }
 
-    // El resto de comandos comienza si o si con un alias.
+    /*********************
+     * RESTO DE COMANDOS *
+     *********************/
     else {
       conjuntoAfectado = strtok (entradaParser, " ");
       igualVariable = strtok (NULL, " ");
@@ -67,7 +73,9 @@ void interpretar (){
         char comienzo = aliasOrLlaveOrComp[0];
 
         switch (comienzo) {
-          //// COMPLEMENTO
+          /***************
+           * COMPLEMENTO *
+           ***************/
           case '~':
             printf ("  La operacion es complemento\n");
             conjuntoA = strtok (NULL, " ");
@@ -82,11 +90,16 @@ void interpretar (){
               printf("Los alias pueden contener numeros o letras.\n");
             }
             break;
-          //// CREACION DE CONJUNTO
+          /************************
+           * CREACION DE CONJUNTO *
+           ************************/
+
           case '{':
             printf ("  Creacion de conjunto.\n");
             break;
-          //// OPERACIONES
+          /*******************************
+           * OPERACIONES ENTRE CONJUNTOS *
+           *******************************/
           default:
             printf ("  Operacion entre conjuntos.\n");
             es_alias = validar_alias_entrada (aliasOrLlaveOrComp);
@@ -96,6 +109,9 @@ void interpretar (){
               operacion = strtok(NULL, " ");
 
               if (operacion != NULL) {
+                  /*********
+                   * UNION *
+                   *********/
                 if (strcmp(operacion, "|") == 0) {
                   printf("   Operacion de Union.\n");
                   conjuntoB = strtok (NULL, " ");
@@ -110,6 +126,9 @@ void interpretar (){
                     printf("No se respeta el formato adecuado.\n");
                     printf("Los alias pueden contener numeros o letras.\n");
                   }
+                  /****************
+                   * INTERSECCION *
+                   ****************/
                 } else if (strcmp(operacion, "&") == 0) {
                   printf("   Operacion de Interseccion.\n");
                   conjuntoB = strtok (NULL, " ");
@@ -124,6 +143,9 @@ void interpretar (){
                     printf("No se respeta el formato adecuado.\n");
                     printf("Los alias pueden contener numeros o letras.\n");
                   }
+                  /*********
+                   * RESTA *
+                   *********/
                 } else if (strcmp(operacion, "-") == 0) {
                   printf("   Operacion de Resta.\n");
                   conjuntoB = strtok (NULL, " ");
