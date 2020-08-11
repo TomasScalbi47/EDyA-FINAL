@@ -139,15 +139,18 @@ void itree_eliminar_dato (ITree *arbol, IntervaloE);
 IntervaloE itree_eliminar_minimo (ITree *arbol);
 
 /**
- * Toma un arbol y un intervalo.
- * Busca si dentro del arbol hay por lo menos un intervalo que interseque con
- * el intervalo parametro. En caso de ser asi devuelve un subarbol cuyo primer
- * nodo interseca con el intervalo parametro. En caso contrario devuelve NULL.
+ *  Toma un arbol y un intervalo.
+ *  Busca si dentro del arbol hay por lo menos un intervalo que interseque con
+ *  el intervalo parametro. En caso de ser asi devuelve un subarbol cuyo primer
+ *  nodo interseca con el intervalo parametro. En caso contrario devuelve NULL.
  */
 ITree itree_intersecar (ITree, IntervaloE);
 
 /*------------------------------ CONJUNTOS -----------------------------------*/
 
+/**
+ *
+ */
 void itree_dfs_origen_destino (ITree arbol1, ITree arbol2, FuncionAux aux,
                                ITree *destino);
 

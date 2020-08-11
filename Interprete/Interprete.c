@@ -227,11 +227,11 @@ void imprimir_menu (){
   printf ("Lista de comandos y formatos aceptados:\n");
   printf ("  * Cerrar el interprete: 'salir'\n");
   printf ("  * Imprimir un conjunto: 'imprimir A'\n");
-  printf ("  * Crear conjunto por compresion: 'A = {0,1,2,3}'\n");
-  printf ("  * Crear conjunto por extension: 'A = {x : -3 <= x <= 5}'\n");
+  printf ("  * Crear conjunto por extension: 'A = {0,1,2,3}'\n");
+  printf ("  * Crear conjunto por compresion: 'A = {x : -3 <= x <= 5}'\n");
   printf ("  * Unir conjuntos: 'A = B | C'\n");
   printf ("  * Intersecar conjuntos: 'A = B & C'\n");
-  printf ("  * Complemento de un conjunto: 'A = ~A'");
+  printf ("  * Complemento de un conjunto: 'A = ~ A'");
   printf ("  * Restar conjuntos: 'A = B - C'\n");
 }
 

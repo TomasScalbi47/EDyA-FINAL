@@ -36,4 +36,6 @@ char generar_comando (char* fuente);
 
 int validar_alias_entrada(char* alias);
 
+int crear_conjunto_extension ();
+
 #endif __INTERPRETE_H__

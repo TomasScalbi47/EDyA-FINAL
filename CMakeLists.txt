@@ -3,6 +3,8 @@ project(EDyA-FINAL C)
 
 set(CMAKE_C_STANDARD 11)
 
+include_directories(Listas)
+include_directories(Hash)
 include_directories(Arboles/Intervalos)
 include_directories(Arboles)
 
@@ -12,5 +14,10 @@ add_executable(EDyA-FINAL
     Arboles/pruebaArboles.c
     Arboles/Intervalos/intervaloE.h
     Arboles/Intervalos/intervaloE.c
-    Interprete/Interprete.c Interprete/interprete.h
-        )
+    Interprete/interprete.h
+    Hash/tablahash.c
+    Hash/tablahash.h
+    Listas/hlist.c
+    Listas/hlist.h
+    Interprete/Interpretoski.c
+    )
