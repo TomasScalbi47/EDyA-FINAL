@@ -20,4 +20,5 @@ add_executable(EDyA-FINAL
     Listas/hlist.c
     Listas/hlist.h
     Interprete/Interpretoski.c
+    Pruebas.c
     )

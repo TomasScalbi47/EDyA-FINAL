@@ -39,4 +39,9 @@ void* tablahash_buscar(TablaHash* tabla, void* clave);
  */
 void tablahash_destruir(TablaHash* tabla);
 
+int hasheo_clave (char *alias, unsigned capacidad){
+  int hash;
+
+}
+
 #endif /* __TABLAHASH_H__ */

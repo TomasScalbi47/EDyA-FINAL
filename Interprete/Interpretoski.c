@@ -11,6 +11,8 @@
 #include <ctype.h>
 #include "interprete.h"
 #include "../Arboles/Intervalos/intervaloE.h"
+#include <limits.h>
+#include "../Arboles/ITree1.h"
 #define TAM_INICIAL_BUFF 100
 
 int main (){
@@ -77,17 +79,126 @@ void interpretar (){
         char *palabra4 = strtok (NULL, " ");
         char *analizar;
 
+        ITree arbolNuevo = itree_crear();
+
         /********************************
          * CREAR CONJUNTO POR EXTENSION *
          ********************************/
         if (palabra4 == NULL){
+          if (palabra3[0] == '{') {
+            // Si se trata del conjunto vacio..
+            if (palabra3[1] == '}' && palabra3[2] == '\0') {
+              printf("Se añade el conjunto vacio a la tabla hash.\n");
+            }
+            // No es conjunto vacio..
+            else {
+              long leido;
+              int validez = 1;
+
+              for (int i = 0; palabra3[0] != '}' && palabra3[0] != '\0' && validez; ++i) {
+                if (isdigit(palabra3[1]) || (palabra3[1] == '-' && isdigit(palabra3[2]))) {
+                  leido = strtol(palabra3 + 1, &palabra3, 10);
+                  if (leido >= INT_MIN && leido <= INT_MAX)
+                    itree_insertar(&arbolNuevo, intervaloE_crear(leido, leido));
+                   else {
+                    printf("Numero invalido.\n");
+                    validez = 0;
+                  }
+                } else
+                  validez = 0;
+              }
+              if (validez) {
+                if (palabra3[0] == '}' && palabra3[1] == '\0') {
+                  printf("entrada correcta.\n");
+                  // Agregar a la tabla hash.
+                } else {
+                  printf(
+                    "Entrada de creacion de conjunto por extension invalida.\n");
+                  itree_destruir(arbolNuevo);
+                }
+              } else {
+                printf(
+                  "Entrada de creacion de conjunto por extension invalida.\n");
+                itree_destruir(arbolNuevo);
+              }
+            }
+          }
         }
 
         /*********************************
          * CREAR CONJUNTO POR COMPRESION *
          *********************************/
         else if (palabra4[0] == ':'){
+          char *palabra5 = strtok (NULL, " "); // Numero.
+          char *check; // Variable utilizada para almacenar el sobrante del strtol.
+          long leido1;
+          long leido2;
+          leido1 = strtol (palabra5, &check, 10);
+          if (*check == '\0'){
+            // Significa que efectivamente se leyo un numero.
+
+            char *palabra6 = strtok(NULL, " "); // simbolo.
+
+            // Si el simbolo es <=.
+            if (strcmp (palabra6, "<=") == 0){
+              if ((INT_MIN <= leido1 && leido1 <= INT_MAX)){
+                char* palabra7 = strtok (NULL, " "); // variable.
+
+                if (strcmp (palabra7, palabra3 + 1) == 0){
+                  // Si la variable declarada en el 'tal que' es la misma...
+                  char *palabra8 = strtok (NULL, " "); // simbolo.
+                  char *palabra9 = strtok (NULL, " "); // numero.
+
+                  leido2 = strtol (palabra9, &check, 10);
+                  if (check[0] == '}' && check[1]  == '\0') {
+                    if (leido1 <= leido2 && leido2 <= INT_MAX){
+                      char *palabra10 = strtok (NULL, " ");
+                      if (palabra10 == NULL){
+                        itree_insertar (&arbolNuevo, intervaloE_crear(leido1, leido2));
+                        printf ("\nImprimiendo arbol --------------------\n");
+                        print2D(arbolNuevo);
+                        printf ("\n --------------------\n");
+                      }
+                    }
+                    else {
+                      printf ("Intervalo invalido, el extremo izquierdo"
+                              "es mayor al extremo derecho, o bien el extremo"
+                              "derecho se pasa del limite de ints.\n");
+                      printf ("Tener en cuenta: INT_MIN = |%d|, "
+                              "INT_MAX = |%d\n\n", INT_MIN, INT_MAX);
+                    }
+                  }
+                  else {
+                    printf ("Numero del extremo derecho invalido.\n");
+                    printf ("O bien caracteres extra luego del } que "
+                            "cierra el conjunto.\n");
+                    imprimir_menu();
+                  }
+                }
+                else {
+                  printf ("No hay correlacion con la variable declarada"
+                          "en la declaracion del intervalo.\n");
+                  imprimir_menu();
+                }
+              }
+              else {
+                printf("Se exceden los limetes de los enteros en alguno"
+                       "de los intervalos. \n");
+                printf ("Tener en cuenta: INT_MIN = |%d|, INT_MAX = |%d\n\n",
+                        INT_MIN, INT_MAX);
+              }
+            }
+            else {
+              printf ("Simbolo invalido, los simbolos validos son <=.\n");
+            }
+          }
+          else {
+            printf ("Numero del extremo izquierdo invalido.\n");
+            imprimir_menu();
+          }
+
         }
+
         /***************
          * COMPLEMENTO *
          ***************/
