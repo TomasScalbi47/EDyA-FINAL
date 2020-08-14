@@ -71,3 +71,5 @@ Progreso con el trabajo:
     pueden añadir algunas mejoras, pero lo dudo y ya es funcional.
     
     Comienzo de implementacion del interprete.
+    
+    https://stackoverflow.com/questions/7666509/hash-function-for-string

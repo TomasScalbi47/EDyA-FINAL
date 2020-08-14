@@ -13,7 +13,19 @@
 #include "../Arboles/Intervalos/intervaloE.h"
 #include <limits.h>
 #include "../Arboles/ITree1.h"
+#include "../Hash/tablahash.h"
 #define TAM_INICIAL_BUFF 100
+#define TAM_TABLA_HASH 100
+
+int hasheo(char *alias, unsigned capacidad) {
+    // Funcion de hash de Dan Bernstein.
+    // Declarado como unsigned para que sea siempre positivo.
+    unsigned int hash = 5381;
+
+    for(int i = 0; alias[i]; i++)
+        hash = (33 * hash) + alias[i];
+    return hash % capacidad;
+}
 
 int main (){
   interpretar();
@@ -21,6 +33,9 @@ int main (){
 }
 
 void interpretar (){
+    TablaHash *tablita = tablahash_crear(TAM_TABLA_HASH, hasheo);
+
+
   char *entradaOriginal, *entradaParser;
   int tamEntrada = TAM_INICIAL_BUFF, salida = 0;
 
@@ -49,6 +64,7 @@ void interpretar (){
       else {
         printf ("No se respeta el formato. El unico comando aceptado de "
                 "una palabra es 'salir'.\n");
+        tablahash_destruir (tablita);
         imprimir_menu();
       }
     }
@@ -60,6 +76,7 @@ void interpretar (){
         if (strtok (NULL, " ") == NULL){
           printf ("El comando ingresado es imprimir, y el conjunto afectado"
                   " es |%s|\n", palabra2);
+          tablahash_buscar(tablita, palabra2);
         }
         else {
           printf ("El comando imprimir solo acepta un conjunto.\n\n");
@@ -89,6 +106,7 @@ void interpretar (){
             // Si se trata del conjunto vacio..
             if (palabra3[1] == '}' && palabra3[2] == '\0') {
               printf("Se añade el conjunto vacio a la tabla hash.\n");
+              tablahash_insertar(tablita, palabra1, arbolNuevo);
             }
             // No es conjunto vacio..
             else {
@@ -110,7 +128,7 @@ void interpretar (){
               if (validez) {
                 if (palabra3[0] == '}' && palabra3[1] == '\0') {
                   printf("entrada correcta.\n");
-                  // Agregar a la tabla hash.
+                  tablahash_insertar(tablita, palabra1, arbolNuevo);
                 } else {
                   printf(
                     "Entrada de creacion de conjunto por extension invalida.\n");
@@ -158,6 +176,7 @@ void interpretar (){
                         printf ("\nImprimiendo arbol --------------------\n");
                         print2D(arbolNuevo);
                         printf ("\n --------------------\n");
+                        tablahash_insertar(tablita, palabra1, arbolNuevo);
                       }
                     }
                     else {
@@ -165,7 +184,7 @@ void interpretar (){
                               "es mayor al extremo derecho, o bien el extremo"
                               "derecho se pasa del limite de ints.\n");
                       printf ("Tener en cuenta: INT_MIN = |%d|, "
-                              "INT_MAX = |%d\n\n", INT_MIN, INT_MAX);
+                              "INT_MAX = |%d|\n\n", INT_MIN, INT_MAX);
                     }
                   }
                   else {
@@ -206,7 +225,6 @@ void interpretar (){
           if (validar_alias_entrada(palabra4)){
             printf ("El conjunto: |%s| es igual al complemento de |%s|\n\n",
                     palabra1, palabra4);
-            // complemento.
           }
           else {
             printf ("El ultimo alias del comando no es valido.\n\n");
@@ -217,48 +235,62 @@ void interpretar (){
          ********************************/
         else {
           if (validar_alias_entrada(palabra3)){
-            char *palabra5 = strtok (NULL, " ");
-            if (validar_alias_entrada (palabra5)){
-              if (strtok (NULL, " ") == NULL){
-                  /****************
-                   * INTERSECCION *
-                   ****************/
-                  switch (palabra4[0]) {
-                    case '&':
-                      printf("El conjunto |%s| es igual a la interseccion "
-                             "entre |%s| y |%s|\n\n", palabra1, palabra3,
-                             palabra5);
-                      break;
-                      /*********
-                       * UNION *
-                       *********/
-                    case '|':
-                      printf("El conjunto |%s| es igual a la union "
-                             "entre |%s| y |%s|\n\n", palabra1, palabra3,
-                             palabra5);
-                      break;
-                      /*********
-                       * RESTA *
-                       *********/
-                    case '-':
-                      printf("El conjunto |%s| es igual a la resta "
-                             "entre |%s| y |%s|\n\n", palabra1, palabra3,
-                             palabra5);
-                      break;
-
-                    default:
-                      printf("Operacion no valida.\n");
-                      imprimir_menu();
-                  }
-                }
-              else {
-                printf ("Los comandos interseccion, resta y union, solo"
-                        "pueden ser realizados entre 2 conjuntos.\n\n");
+              Conjunto contenedor1 = tablahash_buscar(tablita, palabra3);
+              if (contenedor1 == NULL){
+                  printf ("El conjunto |%s|, no está definido.\n\n", palabra3);
               }
-            }
-            else {
-              printf("El ultimo alias del comando no es valido.\n\n");
-            }
+              else {
+                  char *palabra5 = strtok (NULL, " ");
+                  // extrapolar comportamiento..
+                  if (validar_alias_entrada (palabra5)){
+                      Conjunto contenedor2 = tablahash_buscar(tablita, palabra5);
+                      if (contenedor1 == NULL){
+                          printf ("El conjunto |%s|, no está definido.\n\n", palabra3);
+                      }
+                      else {
+                          if (strtok (NULL, " ") == NULL){
+                              /****************
+                               * INTERSECCION *
+                               ****************/
+                              switch (palabra4[0]) {
+                                  case '&':
+                                      printf("El conjunto |%s| es igual a la interseccion "
+                                             "entre |%s| y |%s|\n\n", palabra1, palabra3,
+                                             palabra5);
+                                      break;
+                                      /*********
+                                       * UNION *
+                                       *********/
+                                  case '|':
+                                      printf("El conjunto |%s| es igual a la union "
+                                             "entre |%s| y |%s|\n\n", palabra1, palabra3,
+                                             palabra5);
+                                      break;
+                                      /*********
+                                       * RESTA *
+                                       *********/
+                                  case '-':
+                                      printf("El conjunto |%s| es igual a la resta "
+                                             "entre |%s| y |%s|\n\n", palabra1, palabra3,
+                                             palabra5);
+                                      break;
+
+                                  default:
+                                      printf("Operacion no valida.\n");
+                                      imprimir_menu();
+                              }
+                          }
+                          else {
+                              printf ("Los comandos interseccion, resta y union, solo"
+                                      "pueden ser realizados entre 2 conjuntos.\n\n");
+                          }
+                      }
+
+                  }
+                  else {
+                      printf("El ultimo alias del comando no es valido.\n\n");
+                  }
+              }
           }
           else {
             printf ("El segundo alias del comando no es valido.\n\n");

@@ -40,7 +40,7 @@ void tablahash_insertar(TablaHash* tabla, char* clave, ITree conjunto) {
  * Busca un elemento dado en la tabla, y retorna un puntero al mismo.
  * En caso de no existir, se retorna un puntero nulo.
  */
-void* tablahash_buscar(TablaHash* tabla, void* clave) {
+void* tablahash_buscar(TablaHash* tabla, char* clave) {
   // Calculamos la posición de la clave dada, de acuerdo a la función hash.
   unsigned idx = tabla->hash(clave);
   idx = idx % tabla->capacidad;
@@ -63,3 +63,5 @@ void tablahash_destruir (TablaHash* tabla) {
   free (tabla->tabla);
   free (tabla);
 }
+
+

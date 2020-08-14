@@ -5,7 +5,7 @@
 /**
  * Tipo de las funciones hash a ser consideradas por las tablas hash.
  */
-typedef unsigned (*FuncionHash)(void* clave);
+typedef unsigned (*FuncionHash)(char* clave, unsigned capacidad);
 
 
 /**
@@ -32,16 +32,12 @@ void tablahash_insertar(TablaHash* tabla, char* clave, ITree conjunto);
  * Busca un elemento dado en la tabla, y retorna un puntero al mismo.
  * En caso de no existir, se retorna un puntero nulo.
  */
-void* tablahash_buscar(TablaHash* tabla, void* clave);
+void* tablahash_buscar(TablaHash* tabla, char* clave);
 
 /**
  * Destruye la tabla.
  */
 void tablahash_destruir(TablaHash* tabla);
 
-int hasheo_clave (char *alias, unsigned capacidad){
-  int hash;
-
-}
 
 #endif /* __TABLAHASH_H__ */
