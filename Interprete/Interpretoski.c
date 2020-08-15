@@ -76,16 +76,20 @@ void interpretar (){
         if (strtok (NULL, " ") == NULL){
           printf ("El comando ingresado es imprimir, y el conjunto afectado"
                   " es |%s|\n", palabra2);
-          tablahash_buscar(tablita, palabra2);
+          Conjunto contenedor = tablahash_buscar(tablita, palabra2);
+          if (contenedor != NULL){
+            print2D(contenedor->conjunto);
+            printf ("\n");
+          }
+          else
+            printf ("El conjunto |%s| no esta definido", palabra2);
         }
-        else {
+        else
           printf ("El comando imprimir solo acepta un conjunto.\n\n");
-        }
       }
-      else {
+      else
         printf ("Luego del comando 'imprimir' sigue un alias valido.\n"
                 "Los alias validos solo contienen caracteres alfanumericos.\n\n");
-      }
     }
       /********************
       * RESTO DE COMANDOS *
@@ -94,51 +98,52 @@ void interpretar (){
       if (strcmp (palabra2, "=") == 0){
         char *palabra3 = strtok (NULL, " ");
         char *palabra4 = strtok (NULL, " ");
-        char *analizar;
 
         ITree arbolNuevo = itree_crear();
 
         /********************************
          * CREAR CONJUNTO POR EXTENSION *
          ********************************/
-        if (palabra4 == NULL){
-          if (palabra3[0] == '{') {
-            // Si se trata del conjunto vacio..
-            if (palabra3[1] == '}' && palabra3[2] == '\0') {
-              printf("Se añade el conjunto vacio a la tabla hash.\n");
-              tablahash_insertar(tablita, palabra1, arbolNuevo);
-            }
-            // No es conjunto vacio..
-            else {
-              long leido;
-              int validez = 1;
+        if (palabra4 == NULL && palabra3[0] == '{'){
+          // Si se trata del conjunto vacio..
+          if (palabra3[1] == '}' && palabra3[2] == '\0') {
+            printf("Se añade el conjunto vacio a la tabla hash.\n");
+            tablahash_insertar(tablita, palabra1, arbolNuevo);
+          }
+          // No es conjunto vacio..
+          else {
+            long leido;
+            int validez = 1;
 
-              for (int i = 0; palabra3[0] != '}' && palabra3[0] != '\0' && validez; ++i) {
-                if (isdigit(palabra3[1]) || (palabra3[1] == '-' && isdigit(palabra3[2]))) {
-                  leido = strtol(palabra3 + 1, &palabra3, 10);
-                  if (leido >= INT_MIN && leido <= INT_MAX)
-                    itree_insertar(&arbolNuevo, intervaloE_crear(leido, leido));
-                   else {
-                    printf("Numero invalido.\n");
-                    validez = 0;
-                  }
-                } else
-                  validez = 0;
-              }
-              if (validez) {
-                if (palabra3[0] == '}' && palabra3[1] == '\0') {
-                  printf("entrada correcta.\n");
-                  tablahash_insertar(tablita, palabra1, arbolNuevo);
-                } else {
-                  printf(
-                    "Entrada de creacion de conjunto por extension invalida.\n");
-                  itree_destruir(arbolNuevo);
+            for (int i = 0; palabra3[0] != '}' && palabra3[0] != '\0' && validez; ++i) {
+              if (isdigit(palabra3[1]) ||
+                  (palabra3[1] == '-' && isdigit(palabra3[2]))) {
+                leido = strtol(palabra3 + 1, &palabra3, 10);
+                if (leido >= INT_MIN && leido <= INT_MAX) {
+                  itree_insertar(&arbolNuevo, intervaloE_crear(leido, leido));
                 }
+                else {
+                  printf("Numero invalido.\n");
+                  validez = 0;
+                }
+              } else {
+                validez = 0;
+              }
+            }
+            if (validez) {
+              if (palabra3[0] == '}' && palabra3[1] == '\0') {
+                printf("entrada correcta.\n");
+                tablahash_insertar(tablita, palabra1, arbolNuevo);
               } else {
                 printf(
                   "Entrada de creacion de conjunto por extension invalida.\n");
                 itree_destruir(arbolNuevo);
               }
+            }
+            else {
+              printf(
+                "Entrada de creacion de conjunto por extension invalida.\n");
+              itree_destruir(arbolNuevo);
             }
           }
         }
@@ -146,7 +151,7 @@ void interpretar (){
         /*********************************
          * CREAR CONJUNTO POR COMPRESION *
          *********************************/
-        else if (palabra4[0] == ':'){
+        else if (palabra4 != NULL && palabra4[0] == ':'){
           char *palabra5 = strtok (NULL, " "); // Numero.
           char *check; // Variable utilizada para almacenar el sobrante del strtol.
           long leido1;
@@ -225,6 +230,13 @@ void interpretar (){
           if (validar_alias_entrada(palabra4)){
             printf ("El conjunto: |%s| es igual al complemento de |%s|\n\n",
                     palabra1, palabra4);
+            Conjunto contenedor = tablahash_buscar(tablita, palabra4);
+            if (contenedor != NULL){
+              tablahash_insertar(tablita, palabra1, itree_complemento (contenedor->conjunto));
+            }
+            else {
+              printf ("El conjunto |%s|, no esta declarado.\n", palabra4);
+            }
           }
           else {
             printf ("El ultimo alias del comando no es valido.\n\n");
@@ -234,63 +246,71 @@ void interpretar (){
          * INTERSECCION - UNION - RESTA *
          ********************************/
         else {
-          if (validar_alias_entrada(palabra3)){
-              Conjunto contenedor1 = tablahash_buscar(tablita, palabra3);
-              if (contenedor1 == NULL){
-                  printf ("El conjunto |%s|, no está definido.\n\n", palabra3);
-              }
-              else {
-                  char *palabra5 = strtok (NULL, " ");
-                  // extrapolar comportamiento..
-                  if (validar_alias_entrada (palabra5)){
-                      Conjunto contenedor2 = tablahash_buscar(tablita, palabra5);
-                      if (contenedor1 == NULL){
-                          printf ("El conjunto |%s|, no está definido.\n\n", palabra3);
-                      }
-                      else {
-                          if (strtok (NULL, " ") == NULL){
-                              /****************
-                               * INTERSECCION *
-                               ****************/
-                              switch (palabra4[0]) {
-                                  case '&':
-                                      printf("El conjunto |%s| es igual a la interseccion "
-                                             "entre |%s| y |%s|\n\n", palabra1, palabra3,
-                                             palabra5);
-                                      break;
-                                      /*********
-                                       * UNION *
-                                       *********/
-                                  case '|':
-                                      printf("El conjunto |%s| es igual a la union "
-                                             "entre |%s| y |%s|\n\n", palabra1, palabra3,
-                                             palabra5);
-                                      break;
-                                      /*********
-                                       * RESTA *
-                                       *********/
-                                  case '-':
-                                      printf("El conjunto |%s| es igual a la resta "
-                                             "entre |%s| y |%s|\n\n", palabra1, palabra3,
-                                             palabra5);
-                                      break;
+          if (validar_alias_entrada(palabra3)) {
+            Conjunto contenedor1 = tablahash_buscar(tablita, palabra3);
+            if (contenedor1 == NULL) {
+              printf("El conjunto |%s|, no está definido.\n\n", palabra3);
+            }
+            else {
+              char *palabra5 = strtok(NULL, " ");
+              // extrapolar comportamiento..
+              if (validar_alias_entrada(palabra5)) {
+                Conjunto contenedor2 = tablahash_buscar(tablita, palabra5);
+                if (contenedor1 == NULL) {
+                  printf("El conjunto |%s|, no está definido.\n\n", palabra3);
+                }
+                else {
+                  if (strtok(NULL, " ") == NULL) {
+                    /****************
+                     * INTERSECCION *
+                     ****************/
+                    switch (palabra4[0]) {
+                      case '&':
+                        printf("El conjunto |%s| es igual a la interseccion "
+                               "entre |%s| y |%s|\n\n", palabra1, palabra3,
+                               palabra5);
+                        tablahash_insertar(tablita, palabra1,
+                                           itree_interseccion(
+                                             contenedor1->conjunto,
+                                             contenedor2->conjunto));
+                        break;
+                        /*********
+                         * UNION *
+                         *********/
+                      case '|':
+                        printf("El conjunto |%s| es igual a la union "
+                               "entre |%s| y |%s|\n\n", palabra1, palabra3,
+                               palabra5);
+                        tablahash_insertar(tablita, palabra1,
+                                           itree_unir (contenedor1->conjunto,
+                                                       contenedor2->conjunto));
+                        break;
+                        /*********
+                         * RESTA *
+                         *********/
+                      case '-':
+                        printf("El conjunto |%s| es igual a la resta "
+                               "entre |%s| y |%s|\n\n", palabra1, palabra3,
+                               palabra5);
+                        tablahash_insertar(tablita, palabra1,
+                                           itree_resta (contenedor1->conjunto,
+                                                       contenedor2->conjunto));
+                        break;
 
-                                  default:
-                                      printf("Operacion no valida.\n");
-                                      imprimir_menu();
-                              }
-                          }
-                          else {
-                              printf ("Los comandos interseccion, resta y union, solo"
-                                      "pueden ser realizados entre 2 conjuntos.\n\n");
-                          }
-                      }
+                      default:
+                        printf("Operacion no valida.\n");
+                        imprimir_menu();
+                    }
+                  } else {
+                    printf("Los comandos interseccion, resta y union, solo"
+                           "pueden ser realizados entre 2 conjuntos.\n\n");
+                  }
+                }
 
-                  }
-                  else {
-                      printf("El ultimo alias del comando no es valido.\n\n");
-                  }
+              } else {
+                printf("El ultimo alias del comando no es valido.\n\n");
               }
+            }
           }
           else {
             printf ("El segundo alias del comando no es valido.\n\n");

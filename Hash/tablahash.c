@@ -26,8 +26,8 @@ TablaHash* tablahash_crear(unsigned capacidad, FuncionHash hash) {
  */
 void tablahash_insertar(TablaHash* tabla, char* clave, ITree conjunto) {
   // Calculamos la posición de la clave dada, de acuerdo a la función hash.
-  unsigned idx = tabla->hash(clave);
-  idx = idx % tabla->capacidad;
+  unsigned idx = tabla->hash(clave, tabla->capacidad);
+
 
   // Si el lugar estaba vacío, incrementamos el número de elementos.
   if (hlist_es_vacia (tabla->tabla[idx]))
@@ -42,8 +42,7 @@ void tablahash_insertar(TablaHash* tabla, char* clave, ITree conjunto) {
  */
 void* tablahash_buscar(TablaHash* tabla, char* clave) {
   // Calculamos la posición de la clave dada, de acuerdo a la función hash.
-  unsigned idx = tabla->hash(clave);
-  idx = idx % tabla->capacidad;
+  unsigned idx = tabla->hash(clave, tabla->capacidad);
 
   return hlist_buscar(tabla->tabla[idx], clave);
 }
