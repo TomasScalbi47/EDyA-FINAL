@@ -14,7 +14,7 @@
 #include <limits.h>
 #include "../Arboles/ITree1.h"
 #include "../Hash/tablahash.h"
-#define TAM_INICIAL_BUFF 100
+#define TAM_INICIAL_BUFF 1
 #define TAM_TABLA_HASH 100
 
 int hasheo(char *alias, unsigned capacidad) {
@@ -33,21 +33,18 @@ int main (){
 }
 
 void interpretar (){
-    TablaHash *tablita = tablahash_crear(TAM_TABLA_HASH, hasheo);
-
+  TablaHash *tablita = tablahash_crear(TAM_TABLA_HASH, hasheo);
 
   char *entradaOriginal, *entradaParser;
-  int tamEntrada = TAM_INICIAL_BUFF, salida = 0;
+  int salida = 0;
 
   /********************
    * IMPRIMIENDO MENU *
    ********************/
   imprimir_menu ();
-
-
   while (!salida){
     // Se lee la entrada.
-    entradaOriginal = leer_entrada (&tamEntrada);
+    entradaOriginal = leer_entrada ();
     entradaParser = entradaOriginal;
     printf ("Entrada leida: |%s|\n", entradaOriginal);
     printf ("Entrada leida en parser: |%s|\n", entradaParser);
@@ -59,12 +56,14 @@ void interpretar (){
      * COMANDO DE SALIR *
      ********************/
     if (palabra2 == NULL){
-      if (strcmp (palabra1, "salir") == 0)
+      if (strcmp (palabra1, "salir") == 0) {
         salida = 1;
+        tablahash_destruir(tablita);
+      }
       else {
-        printf ("No se respeta el formato. El unico comando aceptado de "
-                "una palabra es 'salir'.\n");
-        tablahash_destruir (tablita);
+        printf ("ERROR.\n");
+        printf ("No se respeta el formato.\n");
+        printf ("El único comando aceptado de una palabra es 'salir'.\n");
         imprimir_menu();
       }
     }
@@ -81,15 +80,23 @@ void interpretar (){
             print2D(contenedor->conjunto);
             printf ("\n");
           }
-          else
-            printf ("El conjunto |%s| no esta definido", palabra2);
+          else {
+            printf ("ERROR.\n");
+            printf ("El conjunto |%s| no esta definido\n", palabra2);
+          }
         }
-        else
-          printf ("El comando imprimir solo acepta un conjunto.\n\n");
+        else {
+          printf ("ERROR.\n");
+          printf ("No se respeta el formato.\n");
+          printf ("El comando imprimir solo acepta un conjunto.\n");
+        }
       }
-      else
-        printf ("Luego del comando 'imprimir' sigue un alias valido.\n"
-                "Los alias validos solo contienen caracteres alfanumericos.\n\n");
+      else {
+        printf ("ERROR.\n");
+        printf ("No se respeta el formato.\n");
+        printf ("El alias ingresado luego de imprimir: |%s| no es válido.\n", palabra2);
+        printf ("Los alias aceptados son solo alfanumericos sin tildes.\n");
+      }
     }
       /********************
       * RESTO DE COMANDOS *
@@ -98,7 +105,6 @@ void interpretar (){
       if (strcmp (palabra2, "=") == 0){
         char *palabra3 = strtok (NULL, " ");
         char *palabra4 = strtok (NULL, " ");
-
         ITree arbolNuevo = itree_crear();
 
         /********************************
@@ -123,16 +129,20 @@ void interpretar (){
                   itree_insertar(&arbolNuevo, intervaloE_crear(leido, leido));
                 }
                 else {
-                  printf("Numero invalido.\n");
+                  printf ("ERROR.\n");
+                  printf("Numero invalido en la creacion por extension.\n");
                   validez = 0;
                 }
-              } else {
+              }
+              else {
+                printf ("ERROR.\n");
+                printf ("Basura en la entrada.\n");
                 validez = 0;
               }
             }
             if (validez) {
               if (palabra3[0] == '}' && palabra3[1] == '\0') {
-                printf("entrada correcta.\n");
+                printf("Entrada por extension validada correcta.\n");
                 tablahash_insertar(tablita, palabra1, arbolNuevo);
               } else {
                 printf(
@@ -154,8 +164,9 @@ void interpretar (){
         else if (palabra4 != NULL && palabra4[0] == ':'){
           char *palabra5 = strtok (NULL, " "); // Numero.
           char *check; // Variable utilizada para almacenar el sobrante del strtol.
-          long leido1;
-          long leido2;
+          long leido1; // Almacenar primer numero.
+          long leido2; // Almacenar segundo numero.
+
           leido1 = strtol (palabra5, &check, 10);
           if (*check == '\0'){
             // Significa que efectivamente se leyo un numero.
@@ -185,6 +196,7 @@ void interpretar (){
                       }
                     }
                     else {
+                      printf ("ERROR.\n");
                       printf ("Intervalo invalido, el extremo izquierdo"
                               "es mayor al extremo derecho, o bien el extremo"
                               "derecho se pasa del limite de ints.\n");
@@ -193,34 +205,38 @@ void interpretar (){
                     }
                   }
                   else {
+                    printf ("ERROR.\n");
                     printf ("Numero del extremo derecho invalido.\n");
-                    printf ("O bien caracteres extra luego del } que "
+                    printf ("O bien caracteres extra luego de la } que "
                             "cierra el conjunto.\n");
                     imprimir_menu();
                   }
                 }
                 else {
+                  printf ("ERROR.\n");
                   printf ("No hay correlacion con la variable declarada"
                           "en la declaracion del intervalo.\n");
                   imprimir_menu();
                 }
               }
               else {
-                printf("Se exceden los limetes de los enteros en alguno"
-                       "de los intervalos. \n");
+                printf("Se exceden los limites de los enteros en alguno"
+                       "de los extremos. \n");
                 printf ("Tener en cuenta: INT_MIN = |%d|, INT_MAX = |%d\n\n",
                         INT_MIN, INT_MAX);
               }
             }
             else {
-              printf ("Simbolo invalido, los simbolos validos son <=.\n");
+              printf ("ERROR.\n");
+              printf ("Simbolo invalido el simbolo valido es <=.\n");
+              imprimir_menu();
             }
           }
           else {
+            printf ("ERROR.\n");
             printf ("Numero del extremo izquierdo invalido.\n");
             imprimir_menu();
           }
-
         }
 
         /***************
@@ -235,11 +251,15 @@ void interpretar (){
               tablahash_insertar(tablita, palabra1, itree_complemento (contenedor->conjunto));
             }
             else {
-              printf ("El conjunto |%s|, no esta declarado.\n", palabra4);
+              printf ("ERROR.\n");
+              printf ("El conjunto |%s| no esta definido\n", palabra4);
             }
           }
           else {
-            printf ("El ultimo alias del comando no es valido.\n\n");
+            printf ("ERROR.\n");
+            printf ("No se respeta el formato.\n");
+            printf ("El alias ingresado: |%s| no es válido.\n", palabra4);
+            printf ("Los alias aceptados son solo alfanumericos sin tildes.\n");
           }
         }
         /********************************
@@ -248,18 +268,12 @@ void interpretar (){
         else {
           if (validar_alias_entrada(palabra3)) {
             Conjunto contenedor1 = tablahash_buscar(tablita, palabra3);
-            if (contenedor1 == NULL) {
-              printf("El conjunto |%s|, no está definido.\n\n", palabra3);
-            }
-            else {
+            if (contenedor1 != NULL) {
               char *palabra5 = strtok(NULL, " ");
-              // extrapolar comportamiento..
+
               if (validar_alias_entrada(palabra5)) {
                 Conjunto contenedor2 = tablahash_buscar(tablita, palabra5);
-                if (contenedor1 == NULL) {
-                  printf("El conjunto |%s|, no está definido.\n\n", palabra3);
-                }
-                else {
+                if (contenedor2 != NULL) {
                   if (strtok(NULL, " ") == NULL) {
                     /****************
                      * INTERSECCION *
@@ -294,38 +308,59 @@ void interpretar (){
                                palabra5);
                         tablahash_insertar(tablita, palabra1,
                                            itree_resta (contenedor1->conjunto,
-                                                       contenedor2->conjunto));
+                                                        contenedor2->conjunto));
                         break;
 
                       default:
-                        printf("Operacion no valida.\n");
+                        printf ("ERROR.\n");
+                        printf ("Operacion no valida.\n");
                         imprimir_menu();
                     }
-                  } else {
+                  }
+                  else {
+                    printf ("ERROR.\n");
+                    printf ("Basura al final.\n");
                     printf("Los comandos interseccion, resta y union, solo"
-                           "pueden ser realizados entre 2 conjuntos.\n\n");
+                           "pueden ser realizados entre 2 conjuntos.\n");
                   }
                 }
-
-              } else {
-                printf("El ultimo alias del comando no es valido.\n\n");
+                else {
+                  printf ("ERROR.\n");
+                  printf("El conjunto |%s| no está definido.\n", palabra5);
+                }
               }
+              else {
+                printf ("ERROR.\n");
+                printf ("No se respeta el formato.\n");
+                printf ("El alias ingresado: |%s| no es válido.\n", palabra5);
+                printf ("Los alias aceptados son solo alfanumericos sin tildes.\n");
+              }
+            }
+            else {
+              printf ("ERROR.\n");
+              printf ("El conjunto |%s| no esta definido\n", palabra3);
             }
           }
           else {
-            printf ("El segundo alias del comando no es valido.\n\n");
+            printf ("ERROR.\n");
+            printf ("No se respeta el formato.\n");
+            printf ("El alias ingresado: |%s| no es válido.\n", palabra3);
+            printf ("Los alias aceptados son solo alfanumericos sin tildes.\n");
           }
         }
       }
       else {
+        printf ("ERROR.\n");
         printf ("No se respeta el formato adecuado.\n");
-        printf ("Luego del primer alias siempre sigue un '='\n\n");
+        printf ("Luego del primer alias siempre sigue un '='\n");
         imprimir_menu();
       }
     }
     else {
-      printf (" El alias ingresado es invalido.\n"
-              "Los alias validos solo contienen caracteres alfanumericos.\n\n");
+      printf ("ERROR.\n");
+      printf ("No se respeta el formato.\n");
+      printf ("El alias ingresado: |%s| no es válido.\n", palabra1);
+      printf ("Los alias aceptados son solo alfanumericos sin tildes.\n");
       imprimir_menu();
     }
 
@@ -335,32 +370,37 @@ void interpretar (){
 }
 
 
-char* leer_entrada (int *tamBuffer){
-  int cantElementos = 0;
-  char *buffer = malloc (sizeof(char) * *tamBuffer);
-  char entrada = getchar();
+char* leer_entrada (){
+  int tamBuffer = TAM_INICIAL_BUFF;
+  int cantElementos = 0; // Contador de elementos en el array.
+  char *buffer = malloc (sizeof(char) * tamBuffer); // buffer inicial.
 
+  char entrada = getchar();
   while (entrada != '\n'){
-    if (cantElementos == *tamBuffer - 1)
-      buffer = aumentar_tamanio(buffer, tamBuffer);
+    // Si el buffer está lleno, se "aumenta su tamaño".
+    if (cantElementos >= tamBuffer - 1)
+      buffer = aumentar_tamanio(buffer, &tamBuffer);
+    // Se agrega elemento al array.
     buffer[cantElementos] = entrada;
     cantElementos += 1;
+
     entrada = getchar();
   }
+  // Se agrega terminador al buffer para que sea considerado como un string.
   buffer[cantElementos] = '\0';
   // Reajustando el tamaño del buffer al minimo.
   buffer = realloc (buffer, ((cantElementos + 1) * sizeof(char)));
-  *tamBuffer = cantElementos + 1;
   return buffer;
 }
 
 char* aumentar_tamanio (char* buffer, int *tamAnterior){
+  // Se creara un nuevo arreglo con el doble de tamaño y se copiaran sus elementos.
   int nuevoTamanio = *tamAnterior * 2;
   char* nuevoBuffer = malloc (sizeof(char) * nuevoTamanio);
   for (int i = 0; i < *tamAnterior; ++i)
     nuevoBuffer[i] = buffer[i];
   *tamAnterior = nuevoTamanio;
-
+  // Luego de haber almacenado toda la data en el nuevo buffer, este se libera.
   free (buffer);
   return nuevoBuffer;
 }
@@ -373,7 +413,7 @@ void imprimir_menu (){
   printf ("  * Crear conjunto por compresion: 'A = {x : -3 <= x <= 5}'\n");
   printf ("  * Unir conjuntos: 'A = B | C'\n");
   printf ("  * Intersecar conjuntos: 'A = B & C'\n");
-  printf ("  * Complemento de un conjunto: 'A = ~A'");
+  printf ("  * Complemento de un conjunto: 'A = ~ A'");
   printf ("  * Restar conjuntos: 'A = B - C'\n");
 }
 

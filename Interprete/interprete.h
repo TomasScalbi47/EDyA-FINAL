@@ -20,7 +20,7 @@ void interpretar ();
 /**
  * Lee la entrada completa y devuelve un string con su contenido.
  */
-char* leer_entrada (int *tamBuffer);
+char* leer_entrada ();
 
 /**
  * Dado un buffer con su tamaño anterior.
