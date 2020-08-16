@@ -5,10 +5,6 @@
 #ifndef __INTERPRETE_H__
 #define __INTERPRETE_H__
 
-/**
- * Simbolos importantes: &, |, =, -, ~.
- * Veo que en una linea pueden aparecer mas de una operacion a la vez.
- */
 
 void imprimir_menu ();
 
@@ -28,14 +24,8 @@ char* leer_entrada ();
  */
 char* aumentar_tamanio (char* buffer, int *tamAnterior);
 
-/**
- * Dada una linea de caracteres.
- * Se genera el comando adecuado.
- */
-char generar_comando (char* fuente);
-
 int validar_alias_entrada(char* alias);
 
-int crear_conjunto_extension ();
+
 
 #endif __INTERPRETE_H__

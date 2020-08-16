@@ -51,7 +51,7 @@ void* tablahash_buscar(TablaHash* tabla, char* clave) {
  * Destruye la tabla.
  */
 void tablahash_destruir (TablaHash* tabla) {
-  for (int i = 0; i < tabla->numElems; ++i){
+  for (int i = 0; 0 < tabla->numElems; ++i){
     if (!hlist_es_vacia (tabla->tabla[i])){
       --tabla->numElems;
       hlist_destruir (&(tabla->tabla[i]));
