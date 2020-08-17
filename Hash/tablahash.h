@@ -40,4 +40,4 @@
 //void tablahash_destruir(TablaHash* tabla);
 //
 //
-//#endif /* __TABLAHASH_H__ */
+//#endif

@@ -7,6 +7,25 @@
 #define TAM_INICIAL_BUFF 50
 #define TAM_TABLA_HASH 100
 
+char *strsep(char **cadenaParsear, const char *delim) {
+    char *cadenaDevolver = *cadenaParsear;
+    if (cadenaDevolver) {
+        // Se adelanta el puntero cadenaParsear hasta que se encuetre con el
+        // delimitador.
+        *cadenaParsear += strcspn(*cadenaParsear, delim);
+        // Se chequea que el ultimo caracter sea distinto de NULL.
+        if (**cadenaParsear != '\0') {
+          // Se corta alli la cadena.
+          **cadenaParsear = '\0';
+          ++(*cadenaParsear);
+//          *(*cadenaParsear)++ = '\0';
+        }
+        else
+            *cadenaParsear = NULL;
+    }
+    return cadenaDevolver;
+}
+
 unsigned int hasheo(char *alias, unsigned capacidad) {
     // Funcion de hash de Dan Bernstein.
     // Declarado como unsigned para que sea siempre positivo.

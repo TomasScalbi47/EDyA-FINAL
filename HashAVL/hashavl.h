@@ -44,4 +44,4 @@ void tablahash_destruir (TablaHash* tabla);
 
 
 
-#endif __HASHAVL_H__
+#endif

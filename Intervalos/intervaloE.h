@@ -1,4 +1,4 @@
-/**
+/**IntervalosIntervalos
  * Archivo de cabecera de mi implementación de intervalos de numeros enteros.
  */
 

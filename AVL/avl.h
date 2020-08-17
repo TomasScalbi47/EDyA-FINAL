@@ -134,4 +134,4 @@ void avlClavesTree_insertar (AVLClavesTree *arbolClaves, ITree conjunto,
 Contenedor avlClavesTree_buscar (AVLClavesTree arbol, char* clave);
 
 
-#endif __AVL_H__
+#endif

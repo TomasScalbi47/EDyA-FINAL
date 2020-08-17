@@ -93,6 +93,12 @@ int validar_int (long numero);
 void mensaje_error (char* ident, char* data);
 
 /**
+ * Como strsep me salia que no estaba declarada.
+ * Cree una funcion con el mismo comportamiento.
+ */
+char *strsep(char **cadenaParsear, const char *delim);
+
+/**
  * Funcion principal.
  * Crea la tabla hash que almacenara todos los conjuntos.
  * Lee la entrada, corrobora su sintaxis, identifica los errores, y deriva a
@@ -100,4 +106,4 @@ void mensaje_error (char* ident, char* data);
  */
 void interpretar ();
 
-#endif __INTERPRETE_H__
+#endif

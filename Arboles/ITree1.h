@@ -5,7 +5,7 @@
 
 #ifndef __ITree_H__
 #define __ITree_H__
-#include "Intervalos/intervaloE.h"
+#include "../Intervalos/intervaloE.h"
 
 /**
  * Estructura que representa cada nodo (o subarbol) de un arbol de intervalos.
