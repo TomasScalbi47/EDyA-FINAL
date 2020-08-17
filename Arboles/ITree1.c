@@ -587,30 +587,30 @@ void itree_resta_aux (ITree arbol2, IntervaloE intervalo, ITree *destino){
 /* ----------------------------- AUXILIARES ----------------------------------*/
 
 void print2D(ITree arbol){
-   // Se pasa el espacio inicial como 0.
-   print2DUtil(arbol, 0);
+ // Se pasa el espacio inicial como 0.
+ print2DUtil(arbol, 0);
 }
 
 void print2DUtil(ITree arbol, int espacio){
-    // Caso base.
-    if (itree_es_vacio(arbol))
-        return;
+  // Caso base.
+  if (itree_es_vacio(arbol))
+    return;
 
-    // Se incrementa el espacio entre niveles.
-    espacio += COUNT;
+  // Se incrementa el espacio entre niveles.
+  espacio += COUNT;
 
-    // Se procesa el hijo derecho primero.
-    print2DUtil(arbol->right, espacio);
+  // Se procesa el hijo derecho primero.
+  print2DUtil(arbol->right, espacio);
 
-    // Se imprime el nodo actual luego de la cantidad de espacios que
-    // corresponden.
-    printf("\n");
-    for (int i = COUNT; i < espacio; ++i)
-        printf(" ");
+  // Se imprime el nodo actual luego de la cantidad de espacios que
+  // corresponden.
+  printf("\n");
+  for (int i = COUNT; i < espacio; ++i)
+    printf(" ");
   intervaloE_imprimir2D(arbol->intervalo);
 
-    // Se procesa el hijo izquierdo.
-    print2DUtil(arbol->left, espacio);
+  // Se procesa el hijo izquierdo.
+  print2DUtil(arbol->left, espacio);
 }
 
 

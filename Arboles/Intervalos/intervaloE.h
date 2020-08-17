@@ -23,33 +23,13 @@
 #define max2(x, y) (((x) > (y)) ? (x) : (y))
 #define min2(x, y) (((x) < (y)) ? (x) : (y))
 
+/* -------------------------------BASICAS ------------------------------------*/
 /**
  * Dados dos enteros.
  * Devuelve un intervalo que tiene como extremo izquierdo al primero de estos e
  * extremo derecho al segundo.
  */
 IntervaloE intervaloE_crear (int,int);
-
-/**
- * Dado un intervalo, lo imprime formateado "[a,b]".
- */
-void intervaloE_imprimir2D (IntervaloE intervalo);
-
-/**
- * Dado un puntero a intervalos, lo imprime formateado:
- *      1) Si representa un numero: "a" + agregar.
- *      2) Si representa un intervalo: "a:b" + agregar.
- * Donde agregar puede ser o no vacio, dependiendo del momento en el que
- * se este imprimiendo.
- */
-void intervaloE_imprimir (IntervaloE intervalo, char* agregar);
-
-/**
- * Dados dos intervalos de enteros, determina si estos se intersecan.
- * Devuelve: 1 si hay interseccion.
- *           0 si no la hay.
- */
-int intervaloE_interseccion (IntervaloE, IntervaloE);
 
 /**
  * Criterio de comparacion de intervalos para conjuntos de intervalos disjuntos.
@@ -61,6 +41,28 @@ int intervaloE_interseccion (IntervaloE, IntervaloE);
  */
 int intervaloE_comparacion (IntervaloE, IntervaloE);
 
+/**
+ * Dados dos intervalos de enteros, determina si estos se intersecan.
+ * Devuelve: 1 si hay interseccion.
+ *           0 si no la hay.
+ */
+int intervaloE_interseccion (IntervaloE, IntervaloE);
+
+/**
+ * Dado un puntero a intervalos, lo imprime formateado:
+ *      1) Si representa un numero: "a" + agregar.
+ *      2) Si representa un intervalo: "a:b" + agregar.
+ * Donde agregar puede ser o no vacio, dependiendo del momento en el que
+ * se este imprimiendo.
+ */
+void intervaloE_imprimir (IntervaloE intervalo, char* agregar);
+
+/**
+ * Dado un intervalo, lo imprime formateado "[a,b]".
+ */
+void intervaloE_imprimir2D (IntervaloE intervalo);
+
+/* ------------------------------ UTILES -------------------------------------*/
 /**
  * Dado un intervalo, devuelve su version expandida.
  * ie. [a, b] -> [a-1, b+1]
@@ -77,13 +79,6 @@ IntervaloE intervaloE_unir (IntervaloE, IntervaloE);
  * Dados dos intervalos que colisionan, devuelve la interseccion.
  */
 IntervaloE intervaloE_intersecar (IntervaloE intervalo1, IntervaloE intervalo2);
-
-/**
- * Dado un intervalo.
- * Devuelve: 1 si tiene sentido.
- *           0 si no lo tiene. (Por ejemplo que el extremo izq sea < al der).
- */
-int intervaloE_validar (IntervaloE);
 
 /**
  * Dado dos intervalos, intervalo1 e intervalo2.

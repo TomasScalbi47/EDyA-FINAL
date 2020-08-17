@@ -4,6 +4,7 @@
 #include <limits.h>
 #include <string.h>
 
+/* -------------------------------BASICAS ------------------------------------*/
 IntervaloE intervaloE_crear (int izq, int der){
   IntervaloE nuevoIntervalo;
   nuevoIntervalo.extIzq = izq;
@@ -11,8 +12,19 @@ IntervaloE intervaloE_crear (int izq, int der){
   return nuevoIntervalo;
 }
 
-void intervaloE_imprimir2D (IntervaloE intervalo){
-  printf ("[%d, %d] ", intervalo.extIzq, intervalo.extDer);
+int intervaloE_comparacion (IntervaloE intervalo1, IntervaloE intervalo2){
+  int devolver = 0;
+  if (intervalo1.extIzq > intervalo2.extIzq)
+    devolver = 1;
+  else if (intervalo1.extIzq < intervalo2.extIzq)
+    devolver = -1;
+
+  return devolver;
+}
+
+int intervaloE_interseccion (IntervaloE intervalo1, IntervaloE intervalo2){
+  return (intervalo1.extIzq <= intervalo2.extDer &&
+          intervalo1.extDer >= intervalo2.extIzq);
 }
 
 void intervaloE_imprimir (IntervaloE intervalo, char* agregar){
@@ -25,20 +37,11 @@ void intervaloE_imprimir (IntervaloE intervalo, char* agregar){
   printf ("%s", agregar);
 }
 
-int intervaloE_interseccion (IntervaloE intervalo1, IntervaloE intervalo2){
-  return (intervalo1.extIzq <= intervalo2.extDer &&
-          intervalo1.extDer >= intervalo2.extIzq);
+void intervaloE_imprimir2D (IntervaloE intervalo){
+  printf ("[%d, %d] ", intervalo.extIzq, intervalo.extDer);
 }
 
-int intervaloE_comparacion (IntervaloE intervalo1, IntervaloE intervalo2){
-  int devolver = 0;
-  if (intervalo1.extIzq > intervalo2.extIzq)
-      devolver = 1;
-  else if (intervalo1.extIzq < intervalo2.extIzq)
-      devolver = -1;
-
-  return devolver;
-}
+/* ------------------------------ UTILES -------------------------------------*/
 
 IntervaloE intervaloE_expandir (IntervaloE intervalo){
     if (intervalo.extDer != INT_MAX)
@@ -64,17 +67,12 @@ IntervaloE intervaloE_intersecar (IntervaloE intervalo1, IntervaloE intervalo2){
   return nuevo;
 }
 
-int intervaloE_validar (IntervaloE intervalo){
-  return intervalo.extIzq <= intervalo.extDer;
-}
-
 IntervaloE intervaloE_no_interseccion_izq (IntervaloE intervalo1, IntervaloE intervalo2){
     // Esta funcion es empleada solamente cuando se sabe que el intervalo1 excede
     // el intervalo2 por izquierda.
     intervalo1.extDer = intervalo2.extIzq - 1;
     return intervalo1;
 }
-
 
 IntervaloE intervaloE_no_interseccion_der (IntervaloE intervalo1, IntervaloE intervalo2){
     // Esta funcion es empleada solamente cuando se sabe que el intervalo1 excede
