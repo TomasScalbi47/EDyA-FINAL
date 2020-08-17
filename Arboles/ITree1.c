@@ -372,35 +372,42 @@ ITree itree_intersecar (ITree arbol, IntervaloE intervalo){
   return resultado;
 }
 
-/* ------------------- CONJUNTOS ----------------------------*/
+/* ----------------------------- CONJUNTOS -----------------------------------*/
 
-void itree_dfs_origen_destino (ITree arbol1, ITree arbol2, FuncionAux aux,
+void itree_dfs_origen_destino (ITree origen1, ITree origen2, FuncionAux aux,
                                ITree *destino){
-  if (!itree_es_vacio (arbol1)){
-    itree_dfs_origen_destino (arbol1->left, arbol2, aux, destino);
-    aux(arbol2, arbol1->intervalo, destino);
-    itree_dfs_origen_destino (arbol1->right, arbol2, aux, destino);
+  if (!itree_es_vacio (origen1)){
+    itree_dfs_origen_destino (origen1->left, origen2, aux, destino);
+    aux(origen2, origen1->intervalo, destino);
+    itree_dfs_origen_destino (origen1->right, origen2, aux, destino);
   }
 }
 
 
 ITree itree_unir (ITree arbol1, ITree arbol2){
-  ITree nuevoArbol = NULL;
-  // nuevoArobl es el duplicado del arbol con mas altura.
-  if (itree_es_vacio (arbol1))
+  ITree nuevoArbol = itree_crear();
+  // Corroboro que ninguno de los dos arboles sea el conjunto vacio o universo.
+  if (itree_es_vacio (arbol1) || itree_es_universo (arbol2))
     nuevoArbol = itree_copiar (arbol2);
-  else if (itree_es_vacio (arbol2))
+  else if (itree_es_vacio (arbol2) || itree_es_universo (arbol1))
     nuevoArbol = itree_copiar (arbol1);
-    // Ninguno de los dos arboles a unir es vacio..
-  else if (arbol1->altura >= arbol2->altura){
-    nuevoArbol = itree_copiar (arbol1);
-    itree_dfs_union(arbol2,  &nuevoArbol);
-  }
+  // Ninguno de los arboles es el conjunto vacio o el universo.
   else {
-    nuevoArbol = itree_copiar (arbol2);
-    itree_dfs_union(arbol1, &nuevoArbol);
+    // Interesa que se pase el arbol mas bajo como primer argumento a la
+    // funcion itree_dfs_union. Puesto que copiar el arbol mas alto es mas
+    // barato.
+    ITree arbolMasAlto, arbolMasBajo;
+    if (arbol1->altura >= arbol2->altura) {
+      arbolMasAlto = arbol1;
+      arbolMasBajo = arbol2;
+    }
+    else {
+      arbolMasAlto = arbol2;
+      arbolMasBajo = arbol1;
+    }
+    nuevoArbol = itree_copiar (arbolMasAlto);
+    itree_dfs_union (arbolMasBajo, &nuevoArbol);
   }
-
   return nuevoArbol;
 }
 
@@ -412,24 +419,30 @@ void itree_dfs_union (ITree origen, ITree *arbolU){
   }
 }
 
-
 ITree itree_interseccion (ITree arbol1, ITree arbol2){
   ITree arbolNuevo = itree_crear ();
   // Si alguno de los 2 arboles es vacio entonces ya debo devolver null.
   if (!itree_es_vacio (arbol1) && !itree_es_vacio (arbol2)){
-    ITree arbolMasAlto, arbolMasBajo;
-    // El arbol mas alto sera el arbol a intersecar con.
-    if (arbol1->altura >= arbol2->altura){
-      arbolMasAlto = arbol1;
-      arbolMasBajo = arbol2;
+    // Si alguno de los 2 arboles es el universo, se devuelve el otro.
+    if (itree_es_universo (arbol1))
+      arbolNuevo = itree_copiar (arbol2);
+    else if (itree_es_universo (arbol2))
+      arbolNuevo = itree_copiar (arbol1);
+    else {
+      ITree arbolMasAlto, arbolMasBajo;
+      // El arbol mas alto sera el arbol a intersecar con.
+      if (arbol1->altura >= arbol2->altura){
+        arbolMasAlto = arbol1;
+        arbolMasBajo = arbol2;
+      }
+      else{
+        arbolMasAlto = arbol2;
+        arbolMasBajo = arbol1;
+      }
+      // Se intersecan los intervalos del arbol petizo con los del arbol alto.
+      itree_dfs_origen_destino (arbolMasBajo, arbolMasAlto, itree_intersecarV,
+                                &arbolNuevo);
     }
-    else{
-      arbolMasAlto = arbol2;
-      arbolMasBajo = arbol1;
-    }
-    // Se intersecan los intervalos del arbol petizo con los del arbol alto.
-    itree_dfs_origen_destino (arbolMasBajo, arbolMasAlto, itree_intersecarV,
-                              &arbolNuevo);
   }
   return arbolNuevo;
 }
@@ -465,38 +478,42 @@ void itree_intersecarV (ITree arbolAInt, IntervaloE intervalo, ITree *arbolRes){
 ITree itree_complemento (ITree origen){
   ITree nuevoArbol = itree_crear();
 
-  // Si el conjunto es no vacio...
-  if (!itree_es_vacio(origen)){
-    // Si el conjunto no es el universo...
-    if (origen->intervalo.extIzq != INT_MIN
-     || origen->intervalo.extDer != INT_MAX) {
-      // Se sabe con seguridad que el arbol origen es != vacio y != universo.
-      IntervaloE ant = intervaloE_crear(INT_MIN, INT_MIN);
+  // Si el conjunto no es el universo...
+  if (!itree_es_universo (origen)) {
+    if (!itree_es_vacio (origen)){
+      // Se sabe con seguridad que el arbol origen es != universo y != vacio.
+      IntervaloE ant = intervaloE_crear (INT_MIN, INT_MIN);
       // Le doy este valor al intervalo anterior a sabiendas que la funcion
       // recursiva debajo, al ser inorder, comenzara por el nodo mas a la
       // izquierda.
       itree_complemento_aux(origen, &nuevoArbol, &ant);
       // Ahora ant contiene el valor del ultimo intervalo.
       if (ant.extDer != INT_MAX){
-          itree_insercion(&nuevoArbol,intervaloE_crear(ant.extDer + 1, INT_MAX));
+        itree_insercion (&nuevoArbol,intervaloE_crear(ant.extDer + 1,
+                                                     INT_MAX));
       }
     }
-  }// Conjunto == vacio.
-  else {
-    itree_insertar(&nuevoArbol, intervaloE_crear(INT_MIN, INT_MAX));
+    // El conjunto origen es el vacio, insertando el intervalo universo.
+    else
+      itree_insertar (&nuevoArbol, intervaloE_crear (INT_MIN, INT_MAX));
   }
 
   return nuevoArbol;
 }
 
 void itree_complemento_aux (ITree origen, ITree *destino, IntervaloE *ant){
+  // Mientras el arbol no sea vacio.
   if (!itree_es_vacio (origen)) {
+    // Voy lo maximo a la izuierda.
     itree_complemento_aux(origen->left, destino, ant);
 
     IntervaloE aInsertar;
+    // Si el extremo izquierdo es distinto de INT_MIN
     if (origen->intervalo.extIzq != INT_MIN) {
+      // Primer caso.
       if (ant->extDer == INT_MIN)
         aInsertar = intervaloE_crear(ant->extDer, origen->intervalo.extIzq - 1);
+      // Resto de casos.
       else
         aInsertar = intervaloE_crear(ant->extDer + 1,
                                      origen->intervalo.extIzq - 1);
@@ -510,60 +527,64 @@ void itree_complemento_aux (ITree origen, ITree *destino, IntervaloE *ant){
 
 
 ITree itree_resta (ITree arbol1, ITree arbol2){
-    ITree nuevoArbol = itree_crear();
-
-    if (!itree_es_vacio(arbol1)){
-        if (itree_es_vacio (arbol2))
-            nuevoArbol = itree_copiar (arbol1);
-
-        else if (itree_es_universo (arbol1))
-            // Ninguno de los dos arboles es vacio...
-            nuevoArbol = itree_complemento (arbol2);
-
-        else if (!itree_es_universo (arbol2)) {
-            // Ninguno de los dos arboles es el universo ni vacio.
-            itree_dfs_origen_destino (arbol1, arbol2, itree_resta_aux,
-                                      &nuevoArbol);
-        }
+  ITree nuevoArbol = itree_crear();
+  // Corroborando que el primer arbol sea no vacio.
+  // Pues {} - A = {} & A = {}.
+  if (!itree_es_vacio(arbol1)){
+    // Corroborando que el segundo arbol sea no vacio.
+    // Pues A - {} = A & Universo = A.
+    if (itree_es_vacio (arbol2))
+      nuevoArbol = itree_copiar (arbol1);
+    // Corroborando que el primer arbol no sea el unniverso.
+    // Pues Universo - B = Universo & ~ B = ~ B.
+    else if (itree_es_universo (arbol1))
+      nuevoArbol = itree_complemento (arbol2);
+    // Corroborando que el segundo arbol no sea el universo.
+    // Pues A - Universo = A & {} = {}
+    else if (!itree_es_universo (arbol2)) {
+      // Ninguno de los dos arboles es el universo ni vacio.
+      itree_dfs_origen_destino (arbol1, arbol2, itree_resta_aux,
+                                &nuevoArbol);
     }
-    return nuevoArbol;
+  }
+  return nuevoArbol;
 }
 
 void itree_resta_aux (ITree arbol2, IntervaloE intervalo, ITree *destino){
-    // Si el arbol a intersecar con el intervalo es no vacio.
-    if (itree_es_vacio(arbol2))
-        itree_insertar(destino, intervalo);
-    else {
-        int interseccion = intervaloE_interseccion(intervalo, arbol2->intervalo);
+  // Si el arbol a intersecar con el intervalo es no vacio.
+  if (itree_es_vacio(arbol2))
+    itree_insertar(destino, intervalo);
+  else {
+    int interseccion = intervaloE_interseccion(intervalo, arbol2->intervalo);
 
-        if (interseccion){
-            // ver si sobra de los costaditos.
+    if (interseccion){
+      // ver si sobra de los costaditos.
 
-            // sobra izquierda
-            if (intervalo.extIzq < arbol2->intervalo.extIzq){
-                intervalo = intervaloE_no_interseccion_izq(intervalo, arbol2->intervalo);
-                itree_resta_aux (arbol2->left, intervalo, destino);
-            }
-            // sobra derecha
-            if (intervalo.extDer > arbol2->intervalo.extDer){
-                intervalo = intervaloE_no_interseccion_der(intervalo, arbol2->intervalo);
-                itree_resta_aux (arbol2->right, intervalo, destino);
-            }
-        }
-        // Si el extremo izquierdo de intervalo, es menor que el extremo izquierdo
-        // del intervalo con el que se quizo intersecar. Entonces puede haber
-        // mas intersecciones a la izquierda.
-        else if (intervalo.extIzq < arbol2->intervalo.extIzq)
-            itree_resta_aux(arbol2->left, intervalo, destino);
-        // Si el extremo derecho de intervalo, es mayor que el extremo derecho
-        // del intervalo con el que se quizo intersecar. Entonces puede haber
-        // mas intersecciones a la derecha.
-        else if (intervalo.extDer > arbol2->intervalo.extDer)
-            itree_resta_aux(arbol2->right, intervalo, destino);
+      // sobra izquierda
+      if (intervalo.extIzq < arbol2->intervalo.extIzq){
+        intervalo = intervaloE_no_interseccion_izq(intervalo, arbol2->intervalo);
+        itree_resta_aux (arbol2->left, intervalo, destino);
+      }
+      // sobra derecha
+      if (intervalo.extDer > arbol2->intervalo.extDer){
+        intervalo = intervaloE_no_interseccion_der(intervalo, arbol2->intervalo);
+        itree_resta_aux (arbol2->right, intervalo, destino);
+      }
     }
+    // Si el extremo izquierdo de intervalo, es menor que el extremo izquierdo
+    // del intervalo con el que se quizo intersecar. Entonces puede haber
+    // mas intersecciones a la izquierda.
+    else if (intervalo.extIzq < arbol2->intervalo.extIzq)
+      itree_resta_aux(arbol2->left, intervalo, destino);
+    // Si el extremo derecho de intervalo, es mayor que el extremo derecho
+    // del intervalo con el que se quizo intersecar. Entonces puede haber
+    // mas intersecciones a la derecha.
+    else if (intervalo.extDer > arbol2->intervalo.extDer)
+      itree_resta_aux(arbol2->right, intervalo, destino);
+  }
 }
 
-/* ------------------- AUXILIARES ----------------------------*/
+/* ----------------------------- AUXILIARES ----------------------------------*/
 
 void print2D(ITree arbol){
    // Se pasa el espacio inicial como 0.

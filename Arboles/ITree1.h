@@ -1,3 +1,8 @@
+/**
+ * Los arboles de este archivo, son arboles de intervalos disjuntos, y cada uno
+ * representa un conjunto numerico.
+ */
+
 #ifndef __ITree_H__
 #define __ITree_H__
 #include "Intervalos/intervaloE.h"
@@ -20,18 +25,20 @@ typedef struct _ITreeNodo {
 /**
  * Estructura de ITree.
  * El ITree (o arbol de intervalos) es un tipo de AVLTree que trabaja
- * especificamente con intervalos.
+ * especificamente con intervalos disjuntos.
  */
 typedef ITreeNodo *ITree;
 
 /**
  * Funciones utiles.
  */
-typedef void (*FuncionAux) (ITree arobl2, IntervaloE intervalo, ITree *destino);
+typedef void (*FuncionAux) (ITree arbbl2, IntervaloE intervalo, ITree *destino);
 typedef void (*FuncionImpresion) (ITree arbol);
 
+
+/* -------------------------------- BASICAS ----------------------------------*/
 /**
- * Devuelve lo que determinamos como un arbol vacio.
+ * Devuelve lo que se determina como un arbol vacio.
  */
 ITree itree_crear ();
 
@@ -86,7 +93,7 @@ void itree_imprimir_util (ITree arbol, IntervaloE **ant);
  */
 void itree_destruir (ITree raiz);
 
-/* ------------------- BALANCEO ----------------------------*/
+/* ------------------------------ BALANCEO -----------------------------------*/
 
 /**
  * Dado un arbol, obtiene su factor de balance y de ser nesecario lo balancea
@@ -109,7 +116,7 @@ ITree itree_rotacion_der (ITree arbol);
  */
 ITree itree_rotacion_izq (ITree arbol);
 
-/* ------------------- FUNDAMENTALES ----------------------------*/
+/* ----------------------------- FUNDAMENTALES -------------------------------*/
 
 /**
  * Copia de arobl.
@@ -157,27 +164,35 @@ IntervaloE itree_eliminar_minimo (ITree *arbol);
  */
 ITree itree_intersecar (ITree, IntervaloE);
 
-/*------------------------------ CONJUNTOS -----------------------------------*/
+/* ----------------------------- CONJUNTOS -----------------------------------*/
 
 /**
+ * Funcion auxiliar que se utiliza para las funciones de conjuntos 'resta' e
+ * 'interseccion'.
+ * Se toman dos arboles considerados origen1 y origen2.
+ * Una funcion auxiliar que tomara el ARBOL origen2 y lo recorrera realizando
+ * comparaciones con un INTERVALO y almacenando los resultados en el ARBOL
+ * destino.
+ * Y un arbol destino que sera el que almacene el resultado final.
  *
+ * La funcion recoore el arbol origen1 y aplica la funcion auxiliar con cada
+ * intervalo de este, al arbol origen2, y almacenando los resultados en el
+ * arbol destino.
  */
-void itree_dfs_origen_destino (ITree arbol1, ITree arbol2, FuncionAux aux,
+void itree_dfs_origen_destino (ITree origen1, ITree origen2, FuncionAux aux,
                                ITree *destino);
 
 /**
  *  Toma dos arboles.
- *  Se identifica cual es el arbol mas alto y se copia. Luego se recorre el
- *  arbol mas pequeño y se va insertando los intervalos de a uno en la copia
- *  realizada anteriormente.
- *
+ *  Se identifica cual es el arbol mas alto y se copia.
+ *  Luego se recorre el arbol mas pequeño y se va insertando los intervalos
+ *  de a uno en la copia realizada anteriormente.
  */
 ITree itree_unir (ITree arbol1, ITree arbol2);
 
 /**
- * Toma un arbol una funcion visitante.
- * Recorre el arbol en profundidad y aplica la funcion visitante a cada nodo
- * del arbol.
+ * Toma un arbol origen, y un arbol resultado.
+ * Recorre el arbol origen, insertando cada nodo en el arbol resultado.
  */
 void itree_dfs_union (ITree arbol, ITree *arbolU);
 
@@ -192,13 +207,17 @@ ITree itree_interseccion (ITree arbol1, ITree arbol2);
  *  Toma un arbol a intersecar, un intervalo y un arbol resultado.
  *  Interseca el intervalo con el arbol "arbolAInt" completo, insertando cada
  *  nodo interseccion en el arbol resultado.
+ *  De esta manera el arbol resultado termina siendo un acumulador de las
+ *  intersecciones entre arbolAInt y el intervalo.
+ *  Si esta funcion se utiliza con todos los intervalos de otro arbol, se
+ *  obtiene la interseccion entre los arboles.
  */
 void itree_intersecarV (ITree arbolAInt, IntervaloE intervalo, ITree *arbolRes);
 
 /**
  *  Toma un conjunto y calcula su complemento.
  *  Considera los casos especiales de si el conjunto es vacio, o es el universo
- *  y de ser los des casos falsos, llama a la funcion auxiliar
+ *  y de ser los dos casos falsos, llama a la funcion auxiliar
  *  itree_complemento_aux.
  */
 ITree itree_complemento (ITree origen);
@@ -206,6 +225,13 @@ ITree itree_complemento (ITree origen);
 /**
  * Funcion auxiliar empleada para calcular el complemento de un arbol que es
  * no vacio ni el universo.
+ * La idea del funcionamiento es que siempre se este tratando de insertar el
+ * intervalo correspondiente al nodo anterior del arbol. Se puede decir que
+ * el arbol va recorriendo y arrastrando el nodo anterior a su paso para asi
+ * calcular cada intervalo en el momento necesario.
+ * Ademas cuando se finalize la funcion, en el ambito donde esta fue llamada
+ * se dispondra del ultimo intervalo del arbol para realizar la operacion
+ * necesaria.
  */
 void itree_complemento_aux (ITree origen, ITree *nuevoArbol, IntervaloE *ant);
 
