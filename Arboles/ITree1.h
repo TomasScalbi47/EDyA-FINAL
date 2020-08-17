@@ -5,9 +5,8 @@
 /**
  * Estructura que representa cada nodo (o subarbol) de un arbol de intervalos.
  * Cada nodo tiene:
- *  - un intervalo
- *  - un double que representa el maximo extremo derecho de ese subarbol
- *  - un int que representa la altura de ese subarbol
+ *  - un intervalo.
+ *  - un int que representa la altura de ese arbol.
  *  - 2 apuntadores a 2 nodos que representan los hijos del subarbol actual
  */
 
@@ -29,6 +28,7 @@ typedef ITreeNodo *ITree;
  * Funciones utiles.
  */
 typedef void (*FuncionAux) (ITree arobl2, IntervaloE intervalo, ITree *destino);
+typedef void (*FuncionImpresion) (ITree arbol);
 
 /**
  * Devuelve lo que determinamos como un arbol vacio.
@@ -43,9 +43,9 @@ int itree_es_vacio (ITree);
 /**
  * Dado un arbol.
  * Devuelve la altura del mismo.
- * Aunque en la declaracion del tipo de dato de arboles agregamos un campo
- * que guarda la altura del arbol, decidimos hacer esta funcion puesto que
- * como consideramos al arbol vacio como NULL, este no tiene campo altura.
+ * Aunque en la declaracion del tipo de dato de arboles se agrego un campo
+ * que guarda la altura del arbol, se decide hacer esta funcion puesto que
+ * como se considera al arbol vacio como NULL, este no tiene campo altura.
  */
 int itree_altura(ITree arbol);
 
@@ -62,6 +62,24 @@ int itree_factor_balance (ITree arbol);
  * altura del nodo raiz del subarbol que se tomo como parametro.
  */
 void itree_actualizar_altura (ITree *arbol);
+
+/**
+ * Dado un arbol,
+ * utilizando la funcion itree_imprimir_util, lo imprime inorder.
+ */
+void itree_imprimir (ITree arbol);
+
+/**
+ * Funcion auxiliar empleada para imprimir un arbol en inorder.
+ * Toma un arbol y un doble puntero a intervalos.
+ * Este ultimo funciona como un contenedor de *IntervaloE de esta forma,
+ * se puede pasar en la primer recursion como NULL y que luego se vaya
+ * modificando.
+ * El objetivo de esta forma de hacerlo fue que este imprimiendo siempre el
+ * "nodo anterior" de esta forma, al finalizar la funcion se tiene una
+ * referencia al ultimo intervalo y se puede imprimir con un formato diferente.
+ */
+void itree_imprimir_util (ITree arbol, IntervaloE **ant);
 
 /**
  * Toma un arbol y libera todos sus nodos.
@@ -91,13 +109,6 @@ ITree itree_rotacion_der (ITree arbol);
  */
 ITree itree_rotacion_izq (ITree arbol);
 
-/**
- * Toma un arbol y un intervalo.
- * Elimina todas las colisiones con el intervalo dado y luego utiliza
- * itree_insercion para insertar el intervalo que contiene a la union de todos
- * los conjuntos con los que interseco.
- */
-
 /* ------------------- FUNDAMENTALES ----------------------------*/
 
 /**
@@ -106,10 +117,10 @@ ITree itree_rotacion_izq (ITree arbol);
 ITree itree_copiar (ITree arbol);
 
 /**
- *  Toma un arbol y un intervalo.
- *  Primeramente chequea que el intervalo que se vaya a insertara no tenga
- *  colisiones con el resto de intervalos en el arbol, luego se llama a
- *  la funcion insercion que se encargara del resto.
+ * Toma un arbol y un intervalo.
+ * Elimina todas las colisiones con el intervalo dado y luego utiliza
+ * itree_insercion para insertar el intervalo que contiene a la union de todos
+ * los conjuntos con los que interseco.
  */
 void itree_insertar (ITree *arbol, IntervaloE);
 

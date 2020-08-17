@@ -33,7 +33,17 @@ IntervaloE intervaloE_crear (int,int);
 /**
  * Dado un intervalo, lo imprime formateado "[a,b]".
  */
-void intervaloE_imprimir (IntervaloE);
+void intervaloE_imprimir2D (IntervaloE intervalo);
+
+/**
+ * Dado un puntero a intervalos, lo imprime formateado:
+ *      1) Si representa un numero: "a" + agregar.
+ *      2) Si representa un intervalo: "a:b" + agregar.
+ * Donde agregar puede ser o no vacio, dependiendo del momento en el que
+ * se este imprimiendo.
+ */
+void intervaloE_imprimir (IntervaloE intervalo, char* agregar);
+
 /**
  * Dados dos intervalos de enteros, determina si estos se intersecan.
  * Devuelve: 1 si hay interseccion.

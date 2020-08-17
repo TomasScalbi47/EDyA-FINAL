@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <limits.h>
+#include <string.h>
 
 IntervaloE intervaloE_crear (int izq, int der){
   IntervaloE nuevoIntervalo;
@@ -10,8 +11,18 @@ IntervaloE intervaloE_crear (int izq, int der){
   return nuevoIntervalo;
 }
 
-void intervaloE_imprimir (IntervaloE intervalo){
+void intervaloE_imprimir2D (IntervaloE intervalo){
   printf ("[%d, %d] ", intervalo.extIzq, intervalo.extDer);
+}
+
+void intervaloE_imprimir (IntervaloE intervalo, char* agregar){
+
+  if (intervalo.extIzq == intervalo.extDer)
+    printf ("%d", intervalo.extDer);
+  else
+    printf ("%d:%d",intervalo.extIzq, intervalo.extDer);
+
+  printf ("%s", agregar);
 }
 
 int intervaloE_interseccion (IntervaloE intervalo1, IntervaloE intervalo2){

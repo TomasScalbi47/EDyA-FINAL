@@ -4,7 +4,7 @@
 #include <limits.h>
 #include "ITree1.h"
 
-/* ------------------- BASICAS ----------------------------*/
+/* -------------------------------- BASICAS ----------------------------------*/
 ITree itree_crear (){
   return NULL;
 }
@@ -41,6 +41,27 @@ void itree_actualizar_altura (ITree *arbol){
     itree_altura((*arbol)->right)) + 1;
 }
 
+void itree_imprimir (ITree arbol){
+  if (!itree_es_vacio (arbol)) {
+
+    IntervaloE *ant = NULL;
+    itree_imprimir_util(arbol, &ant);
+    intervaloE_imprimir(*ant, "");
+    printf("\n");
+  }
+}
+
+void itree_imprimir_util (ITree arbol, IntervaloE **ant){
+  if (!itree_es_vacio (arbol)){
+    itree_imprimir_util (arbol->left, ant);
+
+    if (*ant != NULL)
+      intervaloE_imprimir (**ant, ", ");
+    *ant = &(arbol->intervalo);
+    itree_imprimir_util (arbol->right, ant);
+  }
+}
+
 void itree_destruir (ITree raiz){
   // Si hay algo para destruir, lo destruimos.
   if (!itree_es_vacio(raiz)){
@@ -52,7 +73,7 @@ void itree_destruir (ITree raiz){
   }
 }
 
-/* ------------------- BALANCEO ----------------------------*/
+/* ------------------------------ BALANCEO -----------------------------------*/
 
 ITree itree_balancear (ITree arbol){
   // Si se le pasa un arbol vacio, itree_factor_balance devolveria 0 y no
@@ -133,7 +154,7 @@ ITree itree_rotacion_izq (ITree arbol){
   return nodoRelevante;
 }
 
-/* ------------------- FUNDAMENTALES ----------------------------*/
+/* ----------------------------- FUNDAMENTALES -------------------------------*/
 
 ITree itree_copiar (ITree arbol){
   // Si el arbol es vacio...
@@ -565,7 +586,7 @@ void print2DUtil(ITree arbol, int espacio){
     printf("\n");
     for (int i = COUNT; i < espacio; ++i)
         printf(" ");
-    intervaloE_imprimir (arbol->intervalo);
+  intervaloE_imprimir2D(arbol->intervalo);
 
     // Se procesa el hijo izquierdo.
     print2DUtil(arbol->left, espacio);

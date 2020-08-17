@@ -9,7 +9,7 @@
 //     ************************/
 //
 //    IntervaloE Minfinito = intervaloE_crear(INT_MIN, INT_MIN);
-//    intervaloE_imprimir(Minfinito);
+//    intervaloE_imprimir2D(Minfinito);
 //
 //    int comparacion = intervaloE_comparacion(Minfinito, intervaloE_crear(1,2));
 //    printf ("comparacion menos infinito con [1,2]: |%d|\n", comparacion);

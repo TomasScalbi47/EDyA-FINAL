@@ -29,7 +29,7 @@
 //      if (leido >= INT_MIN && leido <= INT_MAX) {
 //        intervalo = intervaloE_crear(leido, leido);
 //        printf("Insertando intervalo: ");
-//        intervaloE_imprimir(intervalo);
+//        intervaloE_imprimir2D(intervalo);
 //        printf("\n");
 //        itree_insertar(&arbolNuevo, intervalo);
 //        printf("\nImprimiendo arbol------------------------\n");
