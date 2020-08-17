@@ -25,7 +25,7 @@ int main (){
 void operaciones (char *entradaParser, char *destino, char* nombre1,
                   char *operacion, TablaHash *tabla){
 
-  Conjunto contenedor1 = tablahash_buscar(tabla, nombre1);
+  Contenedor contenedor1 = tablahash_buscar(tabla, nombre1);
   // Se corrobora que exista el conjunto 'nombre1'.
   if (contenedor1 != NULL) {
     /****************
@@ -42,7 +42,7 @@ void operaciones (char *entradaParser, char *destino, char* nombre1,
       if (nombre2 != NULL){
         // Se corrobora que 'nombre2' sea un nombre de conjunto valido.
         if (validar_alias_entrada(nombre2)) {
-          Conjunto contenedor2 = tablahash_buscar(tabla, nombre2);
+          Contenedor contenedor2 = tablahash_buscar(tabla, nombre2);
           // Se corrobora que exista el conjunto 'nombre2'.
           if (contenedor2 != NULL) {
             // Se corrobora que la entrada termine alli. Sino habria basura.
@@ -104,7 +104,7 @@ void complemento (char *destino, char *origen, TablaHash *tabla){
   if (origen != NULL){
     // Se corrobora que sea un alias valido.
     if (validar_alias_entrada(origen)){
-      Conjunto contenedor = tablahash_buscar(tabla, origen);
+      Contenedor contenedor = tablahash_buscar(tabla, origen);
       // Se corrobora que exista el conjunto 'origen'.
       if (contenedor != NULL)
         tablahash_insertar(tabla, destino, itree_complemento (contenedor->conjunto));
@@ -126,7 +126,7 @@ void imprimir (char *entradaParser, char *origen, TablaHash *tabla,
   if (validar_alias_entrada(origen)){
     // Chequeando que la entrada no contenga basura.
     if (strsep (&entradaParser, " ") == NULL){
-      Conjunto contenedor = tablahash_buscar(tabla, origen);
+      Contenedor contenedor = tablahash_buscar(tabla, origen);
       // Se chequea que exista un conjunto declarado como 'origen'.
       if (contenedor != NULL){
         imprimir (contenedor->conjunto);
@@ -163,7 +163,7 @@ void crear_extension (char* palabra3, char* destino, TablaHash *tabla,
         if (leido >= INT_MIN && leido <= INT_MAX) {
           // Se puede hacer tranquilamente la conversion de long
           // a int puesto que se corroboro en el if.
-          itree_insertar(arbolNuevo, intervaloE_crear(leido, leido));
+          itree_insertar (arbolNuevo, intervaloE_crear(leido, leido));
         }
         else {
           validez = 0;
@@ -372,7 +372,7 @@ void mensaje_error (char* ident, char* data){
     switch (tipo) {
       case 0:
         printf ("Comando de una sola palabra desconocido.\n");
-        printf ("Los unicos conandos de una sola palabra validos son 'salir' y 'menu'.\n");
+        printf ("Los unicos comandos de una sola palabra validos son 'salir' y 'menu'.\n");
         break;
       case 1:
         printf ("El comando imprimir solo acepta un conjunto.\n");
@@ -417,9 +417,7 @@ void mensaje_error (char* ident, char* data){
         printf ("Numero del extremo derecho invalido.\n");
         break;
       case 13:
-        printf ("Intervalo invalido, el extremo izquierdo"
-                "es mayor al extremo derecho, o bien el extremo"
-                "derecho se pasa del limite de ints.\n");
+        printf ("El extremo derecho se pasa del limite de ints\n");
         break;
       case 14:
         printf ("Basura al final.\n");

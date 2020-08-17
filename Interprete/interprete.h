@@ -3,7 +3,8 @@
 
 #include "../Arboles/ITree1.h"
 // ITree1.h contiene IntervaloE.h...
-#include "../Hash/tablahash.h"
+//#include "../Hash/tablahash.h"
+#include "../HashAVL/hashavl.h"
 
 /**
  * A medida que se va leyendo la entrada, se identifican si hay errores de

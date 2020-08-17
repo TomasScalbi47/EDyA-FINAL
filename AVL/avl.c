@@ -49,6 +49,7 @@ void avlClavesTree_destruir (AVLClavesTree arbolClaves){
     // Liberamos el nodo actual.
     itree_destruir (arbolClaves->conjunto);
     free (arbolClaves->clave);
+    free (arbolClaves);
   }
 }
 
@@ -146,7 +147,9 @@ void avlClavesTree_insertar (AVLClavesTree *arbolClaves, ITree conjunto,
   if (avlClavesTree_es_vacio (*arbolClaves)){
     AVLClavesTree nuevoSubarbol = malloc (sizeof (AVLClavesNodo));
     nuevoSubarbol->conjunto = conjunto;
-    nuevoSubarbol->clave = clave;
+    char *claveFinal = malloc (sizeof (char) * strlen(clave) + 1);
+    strcpy (claveFinal, clave);
+    nuevoSubarbol->clave = claveFinal;
     nuevoSubarbol->altura = 0; // La altura de un arbol con un solo nodo es 0.
     nuevoSubarbol->left = avlClavesTree_crear();
     nuevoSubarbol->right = avlClavesTree_crear ();
