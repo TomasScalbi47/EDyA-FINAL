@@ -87,6 +87,7 @@
 //  /*********************************
 //   *  INTERSECCION ENTRE 2 ARBOLES *
 //   *********************************/
+//   itree_destruir (arbolInt);
 //  printf ("Probando Interseccion entre 2 arboles.\n");
 //  arbolInt = itree_interseccion (arbolPrueba, arbolPrueba2);
 //  printf ("Arbol de Interseccion --------------------------\n");
@@ -121,9 +122,9 @@
 //
 //  print2D(arbolRestaAux);
 //
-//  /**
+//  /*********************************************
 //   * PROBANDO RESTA ARBOLPRUEBA - ARBOLPRUEBA2 *
-//   */
+//   *********************************************/
 //  ITree arbolResta = itree_crear ();
 //  arbolResta = itree_resta(arbolPrueba, arbolPrueba2);
 //  printf ("\n---------------Imprimiendo arbol resta arbolPrueba - arbolPrueba2 ------------\n");
@@ -133,10 +134,10 @@
 //  itree_destruir (arbolResta);
 //  itree_destruir (arbolRestaAux);
 //  itree_destruir (complemento);
-//  itree_destruir (arbolUn);
 //  itree_destruir (arbolInt);
 //  itree_destruir (arbolPrueba);
 //  itree_destruir (arbolPrueba2);
+//  itree_destruir (arbolPrueba3);
 //  itree_destruir (arbolUn);
 //
 //  return 0;
