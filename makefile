@@ -1,4 +1,3 @@
-
 SUBDIRS = Intervalos Arboles AVL HashAVL Listas Hash Interprete
 
 intervalos = Intervalos/intervaloE.o
@@ -21,3 +20,9 @@ $(SUBDIRS):
 .PHONY: interpretar
 interpretar: $(intervalos) $(interprete) $(hashavl) $(hash) $(avl) $(itree)
 	gcc -o interprete.out $(intervalos) $(interprete) $(hashavl) $(hash) $(avl) $(itree)
+
+cleanLin:
+	rm -rf *.out */*.o
+
+cleanWin:
+	del /Q /F *.out Interprete\*.o Intervalos\*.o HashAVL\*.o Hash\*.o AVL\*.o Arboles\*.o
