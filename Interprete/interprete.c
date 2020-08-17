@@ -8,22 +8,33 @@
 #define TAM_TABLA_HASH 100
 
 char *strsep(char **cadenaParsear, const char *delim) {
-    char *cadenaDevolver = *cadenaParsear;
-    if (cadenaDevolver) {
-        // Se adelanta el puntero cadenaParsear hasta que se encuetre con el
-        // delimitador.
-        *cadenaParsear += strcspn(*cadenaParsear, delim);
-        // Se chequea que el ultimo caracter sea distinto de NULL.
-        if (**cadenaParsear != '\0') {
-          // Se corta alli la cadena.
-          **cadenaParsear = '\0';
-          ++(*cadenaParsear);
-//          *(*cadenaParsear)++ = '\0';
-        }
-        else
-            *cadenaParsear = NULL;
+  char *cadenaDevolver = *cadenaParsear;
+  if (cadenaDevolver) {
+    // Se adelanta el puntero cadenaParsear hasta que se encuetre con algo
+    // diferente del delimitador.
+    while (**cadenaParsear == delim[0]){
+      ++(cadenaDevolver);
+      ++(*cadenaParsear);
     }
-    return cadenaDevolver;
+    // Se adelanta hasta que se vuelva a encontrar con el delimitador.
+    *cadenaParsear += strcspn(*cadenaParsear, delim);
+    // Se chequea que el ultimo caracter sea distinto de NULL.
+    if (**cadenaParsear != '\0') {
+      // Se corta alli la cadena.
+      **cadenaParsear = '\0';
+      // Se adelanta uno.
+      ++(*cadenaParsear);
+      while (**cadenaParsear == delim[0])
+        ++(*cadenaParsear);
+    }
+    else
+        *cadenaParsear = NULL;
+
+    if (strcmp(cadenaDevolver, "") == 0)
+      cadenaDevolver = NULL;
+  }
+
+  return cadenaDevolver;
 }
 
 unsigned int hasheo(char *alias, unsigned capacidad) {
@@ -457,6 +468,9 @@ void mensaje_error (char* ident, char* data){
       case 18:
         printf ("Operacion |%s| no valida.\n", data);
         break;
+      case 19:
+        printf ("No se ingreso ninguna palabra.\n");
+        break;
     }
   }
     /********************************
@@ -501,14 +515,18 @@ void interpretar (){
      *************************/
     if (palabra2 == NULL){
       // Hay solo 2 comandos de una palabra. 'salir' y 'menu'.
-      if (strcmp (palabra1, "salir") == 0) {
-        salida = 1;
-        tablahash_destruir(tablita);
+      if (palabra1 != NULL){
+        if (strcmp (palabra1, "salir") == 0) {
+          salida = 1;
+          tablahash_destruir(tablita);
+        }
+        else if (strcmp (palabra1, "menu") == 0)
+          imprimir_menu ();
+        else
+          mensaje_error ("f0", NULL);
       }
-      else if (strcmp (palabra1, "menu") == 0)
-        imprimir_menu ();
       else
-        mensaje_error ("f0", NULL);
+        mensaje_error ("f19",NULL);
     }
 
       /***********************

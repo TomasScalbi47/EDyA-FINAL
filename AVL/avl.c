@@ -164,6 +164,7 @@ void avlClavesTree_insertar (AVLClavesTree *arbolClaves, ITree conjunto,
     // Si ambos claves son iguales significa que ya existe un conjunto con
     // ese nombre en el arbol, y se desea pisarlo.
     if (comparacion == 0){
+      itree_destruir ((*arbolClaves)->conjunto);
       (*arbolClaves)->conjunto = conjunto;
     }
     else {
