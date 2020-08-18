@@ -76,7 +76,7 @@ int validar_alias_entrada(char* alias);
 /**
  * Dado un numero long, corrobora si esta dentro de los limites de int.
  */
-int validar_int (long numero);
+int validar_int (long long numero);
 
 /**
  * Funcion que contiene todos los mensajes de error que el interprete devuelve.

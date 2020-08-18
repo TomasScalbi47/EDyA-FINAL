@@ -179,7 +179,7 @@ void crear_extension (char* palabra3, char* destino, TablaHash *tabla,
   // Si es el conjunto vacio no se hace nada..
   if (! (palabra3[1] == '}' && palabra3[2] == '\0')) {
     // No es el conjunto vacio.
-    long leido = 0;
+    long long leido = 0;
     int validez = 1;
     // Mientras no se ingrese basura ni numeros invalidos.
     // No se llegue al final de la declaracion del conjunto.
@@ -232,8 +232,8 @@ void crear_compresion (char* entradaPars, char* destino, char *variable,
   // Se corrobora que la entrada no termine alli.
   if (extremoIzquierdo != NULL){
     char *check; // Variable utilizada para almacenar el sobrante del strtol.
-    long leido1 = 0; // Almacenar primer numero.
-    long leido2 = 0; // Almacenar segundo numero.
+    long long leido1 = 0; // Almacenar primer numero.
+    long long leido2 = 0; // Almacenar segundo numero.
 
     leido1 = strtol (extremoIzquierdo, &check, 10);
     // Se corrobora que se haya leido satisfactoriamente un numero.
@@ -385,7 +385,7 @@ int validar_alias_entrada (char *alias){
   return devolver;
 }
 
-int validar_int (long numero){
+int validar_int (long long numero){
   return (INT_MIN <= numero && numero <= INT_MAX);
 }
 
