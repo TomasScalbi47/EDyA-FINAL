@@ -364,7 +364,6 @@ void imprimir_menu (){
   printf ("| Lista de comandos y formatos aceptados:                                |\n");
   printf ("|  * Cerrar el interprete: 'salir'                                       |\n");
   printf ("|  * Imprimir un conjunto: 'imprimir A'                                  |\n");
-  printf ("|  * Imprimir en 2d un conjunto: 'imprimir2D A'                          |\n");
   printf ("|  * Imprimir menu: 'menu'                                               |\n");
   printf ("|  * Crear conjunto por extension: 'A = {0,1,2,3}'                       |\n");
   printf ("|  * Crear conjunto por compresion: 'A = {x : -3 <= x <= 5}'             |\n");
