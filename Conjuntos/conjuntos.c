@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
-#include "ITree1.h"
+#include "conjuntos.h"
 
 /* -------------------------------- BASICAS ----------------------------------*/
 ITree itree_crear (){

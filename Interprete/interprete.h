@@ -1,9 +1,8 @@
 #ifndef __INTERPRETE_H__
 #define __INTERPRETE_H__
 
-#include "../Arboles/ITree1.h"
+#include "../Conjuntos/conjuntos.h"
 // ITree1.h contiene IntervaloE.h...
-//#include "../Hash/tablahash.h"
 #include "../HashAVL/hashavl.h"
 
 /**

@@ -1,7 +1,7 @@
 #ifndef __AVL_H__
 #define __AVL_H__
 
-#include "../Arboles/ITree1.h"
+#include "../Conjuntos/conjuntos.h"
 
 /**
  * Macros utiles.

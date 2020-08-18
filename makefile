@@ -1,11 +1,10 @@
-SUBDIRS = Intervalos Arboles AVL HashAVL Listas Hash Interprete
+SUBDIRS = Intervalos Conjuntos AVL HashAVL Interprete
 
 intervalos = Intervalos/intervaloE.o
 interprete = Interprete/interprete.o
 hashavl = HashAVL/hashavl.o
-hash = Hash/tablahash.o
 avl = AVL/avl.o
-itree = Arboles/ITree1.o
+conjuntos = Conjuntos/conjuntos.o
 
 .PHONY: all
 all: subdirs interpretar
@@ -18,11 +17,11 @@ $(SUBDIRS):
 	$(MAKE) -C $@
 
 .PHONY: interpretar
-interpretar: $(intervalos) $(interprete) $(hashavl) $(hash) $(avl) $(itree)
-	gcc -o interprete.out $(intervalos) $(interprete) $(hashavl) $(hash) $(avl) $(itree)
+interpretar: $(intervalos) $(interprete) $(hashavl) $(avl) $(conjuntos)
+	gcc -o interprete.out $(intervalos) $(interprete) $(hashavl) $(avl) $(conjuntos)
 
 cleanLin:
 	rm -rf *.out */*.o
 
 cleanWin:
-	del /Q /F *.out Interprete\*.o Intervalos\*.o HashAVL\*.o Hash\*.o AVL\*.o Arboles\*.o
+	del /Q /F *.out Interprete\*.o Intervalos\*.o HashAVL\*.o AVL\*.o Conjuntos\*.o

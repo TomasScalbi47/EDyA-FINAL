@@ -1,6 +1,6 @@
 flags = -Wall -Werror -Wextra -g -c -std=c99
-ITree1 = ../Arboles/ITree1.h
+conjuntos = ../Conjuntos/conjuntos.h
 
-avl.o: avl.c avl.h $(ITree1)
+avl.o: avl.c avl.h $(conjuntos)
 	gcc $(flags) avl.c
 

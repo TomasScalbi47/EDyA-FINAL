@@ -1,6 +1,6 @@
 flags = -Wall -Werror -Wextra -g -c -std=c99
 intervalo = ../Intervalos/intervaloE.h
 
-ITree.o: ITree1.c ITree1.h $(intervalo)
-	gcc $(flags) ITree1.c
+conjuntos.o: conjuntos.c conjuntos.h $(intervalo)
+	gcc $(flags) conjuntos.c
 
