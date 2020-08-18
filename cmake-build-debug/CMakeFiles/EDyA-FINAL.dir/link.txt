@@ -1,0 +1,1 @@
+/usr/bin/cc -g   CMakeFiles/EDyA-FINAL.dir/Conjuntos/conjuntos.c.o CMakeFiles/EDyA-FINAL.dir/AVL/avl.c.o CMakeFiles/EDyA-FINAL.dir/HashAVL/hashavl.c.o CMakeFiles/EDyA-FINAL.dir/Interprete/interprete.c.o CMakeFiles/EDyA-FINAL.dir/Intervalos/intervaloE.c.o  -o EDyA-FINAL 

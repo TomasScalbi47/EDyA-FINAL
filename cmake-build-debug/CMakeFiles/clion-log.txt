@@ -1,0 +1,4 @@
+/snap/clion/123/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" "/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL"
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/cmake-build-debug

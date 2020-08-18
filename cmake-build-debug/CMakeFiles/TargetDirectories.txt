@@ -1,0 +1,3 @@
+/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/cmake-build-debug/CMakeFiles/EDyA-FINAL.dir
