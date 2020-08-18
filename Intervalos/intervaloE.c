@@ -44,10 +44,10 @@ void intervaloE_imprimir2D (IntervaloE intervalo){
 /* ------------------------------ UTILES -------------------------------------*/
 
 IntervaloE intervaloE_expandir (IntervaloE intervalo){
-    if (intervalo.extDer != INT_MAX)
-        intervalo.extDer += 1;
-    if (intervalo.extIzq != INT_MIN)
-        intervalo.extIzq -= 1;
+  if (intervalo.extDer != INT_MAX)
+    intervalo.extDer += 1;
+  if (intervalo.extIzq != INT_MIN)
+    intervalo.extIzq -= 1;
   return intervalo;
 }
 
