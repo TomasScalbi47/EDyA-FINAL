@@ -137,6 +137,8 @@ AVLClavesTree avlClavesTree_balancear (AVLClavesTree arbol){
 /* ----------------------------- FUNDAMENTALES -------------------------------*/
 
 int comparar_claves (char *clave1, char *clave2){
+  // Siempre que se utiliza esta funcion, se sabe que ninguna de las claves es
+  // vacia, la clave vacia no deberia existir.
   return strcmp (clave1, clave2);
 }
 

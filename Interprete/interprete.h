@@ -22,11 +22,9 @@ void complemento (char *destino, char *origen, TablaHash *tabla);
 /**
  * Funcion relacionada al comando imprimir.
  * De no haber errores de sintaxis. Se corrobora que el conjunto que se quiere
- * imprimir exista en la tablahash, y de ser asi lo imprime segun el tipo de
- * impresion que se le pase.
+ * imprimir exista en la tablahash, y de ser asi lo imprime.
  */
-void imprimir (char *entradaParser, char *origen, TablaHash *tabla,
-               FuncionImpresion imprimir);
+void imprimir (char *entradaParser, char *origen, TablaHash *tabla);
 
 /**
  * Funcion relacionada al comando de crear por extension.

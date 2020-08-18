@@ -256,20 +256,5 @@ ITree itree_resta (ITree arbol1, ITree arbol2);
  */
 void itree_resta_aux (ITree arbol1, IntervaloE intervalo, ITree *destino);
 
-/* ----------------------------- AUXILIARES ----------------------------------*/
-
-/**
- * Definimos estas 2 funciones para imprimir el arbol de una forma legible
- * dentro de la consola de comandos.
- * COUNT es la constante que marca la cantidad de espacios que hay entre cada
- * nodo y sus hijos.
- */
-#define COUNT 10
-
-void print2D(ITree arbol);
-
-void print2DUtil(ITree arbol, int space);
-
-
 
 #endif

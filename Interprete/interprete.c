@@ -150,8 +150,7 @@ void complemento (char *destino, char *origen, TablaHash *tabla){
     mensaje_error("f7", NULL);
 }
 
-void imprimir (char *entradaParser, char *origen, TablaHash *tabla,
-               FuncionImpresion imprimir){
+void imprimir (char *entradaParser, char *origen, TablaHash *tabla){
   // Validando alias del conjunto que se desea imprimir
   if (validar_alias_entrada(origen)){
     // Chequeando que la entrada no contenga basura.
@@ -159,7 +158,7 @@ void imprimir (char *entradaParser, char *origen, TablaHash *tabla,
       Contenedor contenedor = tablahash_buscar(tabla, origen);
       // Se chequea que exista un conjunto declarado como 'origen'.
       if (contenedor != NULL){
-        imprimir (contenedor->conjunto);
+        itree_imprimir (contenedor->conjunto);
         printf ("\n");
       }
       else
@@ -406,7 +405,8 @@ void mensaje_error (char* ident, char* data){
     switch (tipo) {
       case 0:
         printf ("Comando de una sola palabra desconocido.\n");
-        printf ("Los unicos comandos de una sola palabra validos son 'salir' y 'menu'.\n");
+        printf ("Los unicos comandos de una sola palabra validos son \n"
+                "'salir' y 'menu'.\n");
         break;
       case 1:
         printf ("El comando imprimir solo acepta un conjunto.\n");
@@ -414,16 +414,16 @@ void mensaje_error (char* ident, char* data){
       case 2:
         printf ("El alias ingresado: |%s| no es válido.\n", data);
         printf ("Los alias aceptados son solo alfanumericos sin "
-                "tildes.\n");
+                "tildes ni ñ.\n");
         break;
       case 3:
         printf ("Comando incompleto.\n");
-        printf ("El conjunto que se esta declarando debe estar igualado "
+        printf ("El conjunto que se esta declarando debe estar igualado\n"
                 "a algo.\n");
         break;
       case 4:
-        printf ("Luego del primer alias, la unica palabra aceptada es "
-                "'='\n");
+        printf ("Luego del primer alias, la unica palabra aceptada\n"
+                " es '='\n");
         break;
       case 5:
         printf ("Creacion por extension invalida.\n");
@@ -431,8 +431,8 @@ void mensaje_error (char* ident, char* data){
         break;
       case 6:
         printf ("Creacion por extension invalida.\n");
-        printf("Comando incompleto o caracteres/numeros invalidos en "
-               "la entrada.\n");
+        printf("Comando incompleto o caracteres/numeros invalidos\n"
+               "en la entrada.\n");
         break;
       case 7:
         printf ("Comando incompleto.\n");
@@ -441,7 +441,7 @@ void mensaje_error (char* ident, char* data){
         printf ("Numero del extremo izquierdo invalido.\n");
         break;
       case 9:
-        printf ("No hay correlacion con la variable declarada"
+        printf ("No hay correlacion con la variable declarada\n"
                 "en la declaracion del intervalo.\n");
         break;
       case 10:
@@ -461,7 +461,7 @@ void mensaje_error (char* ident, char* data){
         break;
       case 15:
         printf ("Creacion de conjunto invalida.\n");
-        printf ("Hay basura en el comando o bien no se respetaron "
+        printf ("Hay basura en el comando o bien no se respetaron\n"
                 "los espacios.\n");
         break;
       case 16:
@@ -470,7 +470,7 @@ void mensaje_error (char* ident, char* data){
         break;
       case 17:
         printf("Basura al final.\n");
-        printf("Los comandos interseccion, resta y union, solo"
+        printf("Los comandos interseccion, resta y union, solo\n"
                "pueden ser realizados entre 2 conjuntos.\n");
         break;
       case 18:
@@ -542,9 +542,7 @@ void interpretar (){
       ************************/
       // Comando de imprimir conjunto.
     else if (strcmp (palabra1, "imprimir") == 0)
-      imprimir (entradaParser, palabra2, tablita, itree_imprimir);
-    else if (strcmp (palabra1, "imprimir2D") == 0)
-      imprimir (entradaParser, palabra2, tablita, print2D);
+      imprimir (entradaParser, palabra2, tablita);
 
       /********************
       * RESTO DE COMANDOS *
