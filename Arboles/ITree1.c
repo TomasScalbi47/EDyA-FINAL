@@ -478,9 +478,9 @@ void itree_intersecarV (ITree arbolAInt, IntervaloE intervalo, ITree *arbolRes){
 ITree itree_complemento (ITree origen){
   ITree nuevoArbol = itree_crear();
 
-  // Si el conjunto no es el universo...
-  if (!itree_es_universo (origen)) {
-    if (!itree_es_vacio (origen)){
+  // Primero se pregunta necesariamente si es vacio o no.
+  if (!itree_es_vacio (origen)){
+    if (!itree_es_universo (origen)){
       // Se sabe con seguridad que el arbol origen es != universo y != vacio.
       IntervaloE ant = intervaloE_crear (INT_MIN, INT_MIN);
       // Le doy este valor al intervalo anterior a sabiendas que la funcion
@@ -490,13 +490,13 @@ ITree itree_complemento (ITree origen){
       // Ahora ant contiene el valor del ultimo intervalo.
       if (ant.extDer != INT_MAX){
         itree_insercion (&nuevoArbol,intervaloE_crear(ant.extDer + 1,
-                                                     INT_MAX));
+                                                      INT_MAX));
       }
     }
-    // El conjunto origen es el vacio, insertando el intervalo universo.
-    else
-      itree_insertar (&nuevoArbol, intervaloE_crear (INT_MIN, INT_MAX));
   }
+  // El conjunto origen es el vacio, insertando el intervalo universo.
+  else
+    itree_insertar (&nuevoArbol, intervaloE_crear (INT_MIN, INT_MAX));
 
   return nuevoArbol;
 }
@@ -562,13 +562,15 @@ void itree_resta_aux (ITree arbol2, IntervaloE intervalo, ITree *destino){
 
       // sobra izquierda
       if (intervalo.extIzq < arbol2->intervalo.extIzq){
-        intervalo = intervaloE_no_interseccion_izq(intervalo, arbol2->intervalo);
-        itree_resta_aux (arbol2->left, intervalo, destino);
+        IntervaloE temp;
+        temp = intervaloE_no_interseccion_izq(intervalo, arbol2->intervalo);
+        itree_resta_aux (arbol2->left, temp, destino);
       }
       // sobra derecha
       if (intervalo.extDer > arbol2->intervalo.extDer){
-        intervalo = intervaloE_no_interseccion_der(intervalo, arbol2->intervalo);
-        itree_resta_aux (arbol2->right, intervalo, destino);
+        IntervaloE temp;
+        temp = intervaloE_no_interseccion_der(intervalo, arbol2->intervalo);
+        itree_resta_aux (arbol2->right, temp, destino);
       }
     }
     // Si el extremo izquierdo de intervalo, es menor que el extremo izquierdo
