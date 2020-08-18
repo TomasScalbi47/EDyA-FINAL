@@ -188,8 +188,8 @@ void crear_extension (char* palabra3, char* destino, TablaHash *tabla,
     for (int i = 0; palabra3[0] != '}' && palabra3[0] != '\0' && validez; ++i) {
       if (isdigit(palabra3[1]) ||
           (palabra3[1] == '-' && isdigit(palabra3[2]))) {
-        leido = strtol(palabra3 + 1, &palabra3, 10);
-        if (leido >= INT_MIN && leido <= INT_MAX) {
+        leido = strtoll(palabra3 + 1, &palabra3, 10);
+        if (validar_int(leido)) {
           // Se puede hacer tranquilamente la conversion de long
           // a int puesto que se corroboro en el if.
           itree_insertar (arbolNuevo, intervaloE_crear(leido, leido));
@@ -235,7 +235,7 @@ void crear_compresion (char* entradaPars, char* destino, char *variable,
     long long leido1 = 0; // Almacenar primer numero.
     long long leido2 = 0; // Almacenar segundo numero.
 
-    leido1 = strtol (extremoIzquierdo, &check, 10);
+    leido1 = strtoll (extremoIzquierdo, &check, 10);
     // Se corrobora que se haya leido satisfactoriamente un numero.
     if (*check == '\0'){
       char *simbolo1 = strsep(&entradaPars, " ");
@@ -260,7 +260,7 @@ void crear_compresion (char* entradaPars, char* destino, char *variable,
                     if (extremoDerecho != NULL){
                       // Se corrobora que el extremo derecho no sea '}'.
                       if (extremoDerecho[0] != '}'){
-                        leido2 = strtol (extremoDerecho, &check, 10);
+                        leido2 = strtoll (extremoDerecho, &check, 10);
                         // Se corrobora que luego del extremo derecho, la
                         // entrada sea correcta.
                         if (check[0] == '}' && check[1] == '\0') {

@@ -6,45 +6,19 @@
 
 #IncludeRegexTransform: 
 
-/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/AVL/avl.c
-avl.h
-/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/AVL/avl.h
-stdlib.h
--
-string.h
--
-
-/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/AVL/avl.h
+C:/Users/Tomasito/TP/EDyA-FINAL/AVL/avl.h
 ../Conjuntos/conjuntos.h
-/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/Conjuntos/conjuntos.h
+C:/Users/Tomasito/TP/EDyA-FINAL/Conjuntos/conjuntos.h
 
-/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/Conjuntos/conjuntos.c
-stdio.h
--
-stdlib.h
--
-string.h
--
-limits.h
--
-conjuntos.h
-/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/Conjuntos/conjuntos.h
-
-/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/Conjuntos/conjuntos.h
+C:/Users/Tomasito/TP/EDyA-FINAL/Conjuntos/conjuntos.h
 ../Intervalos/intervaloE.h
-/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/Intervalos/intervaloE.h
+C:/Users/Tomasito/TP/EDyA-FINAL/Intervalos/intervaloE.h
 
-/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/HashAVL/hashavl.c
-hashavl.h
-/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/HashAVL/hashavl.h
-stdlib.h
--
-
-/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/HashAVL/hashavl.h
+C:/Users/Tomasito/TP/EDyA-FINAL/HashAVL/hashavl.h
 ../AVL/avl.h
-/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/AVL/avl.h
+C:/Users/Tomasito/TP/EDyA-FINAL/AVL/avl.h
 
-/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/Interprete/interprete.c
+C:/Users/Tomasito/TP/EDyA-FINAL/Interprete/interprete.c
 stdio.h
 -
 stdlib.h
@@ -56,13 +30,13 @@ ctype.h
 limits.h
 -
 interprete.h
-/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/Interprete/interprete.h
+C:/Users/Tomasito/TP/EDyA-FINAL/Interprete/interprete.h
 
-/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/Interprete/interprete.h
+C:/Users/Tomasito/TP/EDyA-FINAL/Interprete/interprete.h
 ../Conjuntos/conjuntos.h
-/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/Conjuntos/conjuntos.h
+C:/Users/Tomasito/TP/EDyA-FINAL/Conjuntos/conjuntos.h
 ../HashAVL/hashavl.h
-/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/HashAVL/hashavl.h
+C:/Users/Tomasito/TP/EDyA-FINAL/HashAVL/hashavl.h
 
-/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/Intervalos/intervaloE.h
+C:/Users/Tomasito/TP/EDyA-FINAL/Intervalos/intervaloE.h
 

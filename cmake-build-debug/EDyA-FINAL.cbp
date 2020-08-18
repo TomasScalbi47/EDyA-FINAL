@@ -8,117 +8,113 @@
 		<Option virtualFolders="CMake Files\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/cmake-build-debug"/>
+				<Option working_dir="C:/Users/Tomasito/TP/EDyA-FINAL/cmake-build-debug"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/scalbi/Documents/Programacion/Estructuras\ de\ datos\ y\ algoritmos/EDyA-FINAL/EDyA-FINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/scalbi/Documents/Programacion/Estructuras\ de\ datos\ y\ algoritmos/EDyA-FINAL/EDyA-FINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/scalbi/Documents/Programacion/Estructuras\ de\ datos\ y\ algoritmos/EDyA-FINAL/EDyA-FINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/scalbi/Documents/Programacion/Estructuras\ de\ datos\ y\ algoritmos/EDyA-FINAL/EDyA-FINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="rebuild_cache">
-				<Option working_dir="/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/cmake-build-debug"/>
-				<Option type="4"/>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/scalbi/Documents/Programacion/Estructuras\ de\ datos\ y\ algoritmos/EDyA-FINAL/EDyA-FINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/scalbi/Documents/Programacion/Estructuras\ de\ datos\ y\ algoritmos/EDyA-FINAL/EDyA-FINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/scalbi/Documents/Programacion/Estructuras\ de\ datos\ y\ algoritmos/EDyA-FINAL/EDyA-FINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/scalbi/Documents/Programacion/Estructuras\ de\ datos\ y\ algoritmos/EDyA-FINAL/EDyA-FINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-				</MakeCommands>
-			</Target>
-			<Target title="edit_cache">
-				<Option working_dir="/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/cmake-build-debug"/>
-				<Option type="4"/>
-				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/scalbi/Documents/Programacion/Estructuras\ de\ datos\ y\ algoritmos/EDyA-FINAL/EDyA-FINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/scalbi/Documents/Programacion/Estructuras\ de\ datos\ y\ algoritmos/EDyA-FINAL/EDyA-FINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/scalbi/Documents/Programacion/Estructuras\ de\ datos\ y\ algoritmos/EDyA-FINAL/EDyA-FINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/scalbi/Documents/Programacion/Estructuras\ de\ datos\ y\ algoritmos/EDyA-FINAL/EDyA-FINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="D:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Tomasito/TP/EDyA-FINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="D:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Tomasito/TP/EDyA-FINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="D:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Tomasito/TP/EDyA-FINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="D:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Tomasito/TP/EDyA-FINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="EDyA-FINAL">
-				<Option output="/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/cmake-build-debug/EDyA-FINAL" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/cmake-build-debug"/>
+				<Option output="C:/Users/Tomasito/TP/EDyA-FINAL/cmake-build-debug/EDyA-FINAL.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/Tomasito/TP/EDyA-FINAL/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/Conjuntos"/>
-					<Add directory="/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/AVL"/>
-					<Add directory="/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/HashAVL"/>
-					<Add directory="/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/Interprete"/>
-					<Add directory="/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/Intervalos"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
+					<Add directory="C:/Users/Tomasito/TP/EDyA-FINAL/Conjuntos"/>
+					<Add directory="C:/Users/Tomasito/TP/EDyA-FINAL/AVL"/>
+					<Add directory="C:/Users/Tomasito/TP/EDyA-FINAL/HashAVL"/>
+					<Add directory="C:/Users/Tomasito/TP/EDyA-FINAL/Interprete"/>
+					<Add directory="C:/Users/Tomasito/TP/EDyA-FINAL/Intervalos"/>
+					<Add directory="d:\mingw\bin\../lib/gcc/mingw32/9.2.0/include"/>
+					<Add directory="d:\mingw\bin\../lib/gcc/mingw32/9.2.0/../../../../include"/>
+					<Add directory="d:\mingw\bin\../lib/gcc/mingw32/9.2.0/include-fixed"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/scalbi/Documents/Programacion/Estructuras\ de\ datos\ y\ algoritmos/EDyA-FINAL/EDyA-FINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 EDyA-FINAL"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/scalbi/Documents/Programacion/Estructuras\ de\ datos\ y\ algoritmos/EDyA-FINAL/EDyA-FINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/scalbi/Documents/Programacion/Estructuras\ de\ datos\ y\ algoritmos/EDyA-FINAL/EDyA-FINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/scalbi/Documents/Programacion/Estructuras\ de\ datos\ y\ algoritmos/EDyA-FINAL/EDyA-FINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="D:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Tomasito/TP/EDyA-FINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 EDyA-FINAL"/>
+					<CompileFile command="D:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Tomasito/TP/EDyA-FINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="D:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Tomasito/TP/EDyA-FINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="D:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Tomasito/TP/EDyA-FINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="EDyA-FINAL/fast">
-				<Option output="/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/cmake-build-debug/EDyA-FINAL" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/cmake-build-debug"/>
+				<Option output="C:/Users/Tomasito/TP/EDyA-FINAL/cmake-build-debug/EDyA-FINAL.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="C:/Users/Tomasito/TP/EDyA-FINAL/cmake-build-debug"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
 				<Compiler>
-					<Add directory="/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/Conjuntos"/>
-					<Add directory="/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/AVL"/>
-					<Add directory="/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/HashAVL"/>
-					<Add directory="/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/Interprete"/>
-					<Add directory="/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/Intervalos"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
-					<Add directory="/usr/local/include"/>
-					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
-					<Add directory="/usr/include/x86_64-linux-gnu"/>
-					<Add directory="/usr/include"/>
+					<Add directory="C:/Users/Tomasito/TP/EDyA-FINAL/Conjuntos"/>
+					<Add directory="C:/Users/Tomasito/TP/EDyA-FINAL/AVL"/>
+					<Add directory="C:/Users/Tomasito/TP/EDyA-FINAL/HashAVL"/>
+					<Add directory="C:/Users/Tomasito/TP/EDyA-FINAL/Interprete"/>
+					<Add directory="C:/Users/Tomasito/TP/EDyA-FINAL/Intervalos"/>
+					<Add directory="d:\mingw\bin\../lib/gcc/mingw32/9.2.0/include"/>
+					<Add directory="d:\mingw\bin\../lib/gcc/mingw32/9.2.0/../../../../include"/>
+					<Add directory="d:\mingw\bin\../lib/gcc/mingw32/9.2.0/include-fixed"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j8 -f &quot;/home/scalbi/Documents/Programacion/Estructuras\ de\ datos\ y\ algoritmos/EDyA-FINAL/EDyA-FINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 EDyA-FINAL/fast"/>
-					<CompileFile command="/usr/bin/make -j8 -f &quot;/home/scalbi/Documents/Programacion/Estructuras\ de\ datos\ y\ algoritmos/EDyA-FINAL/EDyA-FINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j8 -f &quot;/home/scalbi/Documents/Programacion/Estructuras\ de\ datos\ y\ algoritmos/EDyA-FINAL/EDyA-FINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j8 -f &quot;/home/scalbi/Documents/Programacion/Estructuras\ de\ datos\ y\ algoritmos/EDyA-FINAL/EDyA-FINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="D:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Tomasito/TP/EDyA-FINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 EDyA-FINAL/fast"/>
+					<CompileFile command="D:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Tomasito/TP/EDyA-FINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="D:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Tomasito/TP/EDyA-FINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="D:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Tomasito/TP/EDyA-FINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="C:/Users/Tomasito/TP/EDyA-FINAL/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="D:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Tomasito/TP/EDyA-FINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="D:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Tomasito/TP/EDyA-FINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="D:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Tomasito/TP/EDyA-FINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="D:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Tomasito/TP/EDyA-FINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="C:/Users/Tomasito/TP/EDyA-FINAL/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="D:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Tomasito/TP/EDyA-FINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="D:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Tomasito/TP/EDyA-FINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="D:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Tomasito/TP/EDyA-FINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="D:/MinGW/bin/mingw32-make.exe -f &quot;C:/Users/Tomasito/TP/EDyA-FINAL/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/AVL/avl.c">
+		<Unit filename="C:/Users/Tomasito/TP/EDyA-FINAL/AVL/avl.c">
 			<Option target="EDyA-FINAL"/>
 		</Unit>
-		<Unit filename="/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/AVL/avl.h">
+		<Unit filename="C:/Users/Tomasito/TP/EDyA-FINAL/AVL/avl.h">
 			<Option target="EDyA-FINAL"/>
 		</Unit>
-		<Unit filename="/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/Conjuntos/conjuntos.c">
+		<Unit filename="C:/Users/Tomasito/TP/EDyA-FINAL/Conjuntos/conjuntos.c">
 			<Option target="EDyA-FINAL"/>
 		</Unit>
-		<Unit filename="/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/Conjuntos/conjuntos.h">
+		<Unit filename="C:/Users/Tomasito/TP/EDyA-FINAL/Conjuntos/conjuntos.h">
 			<Option target="EDyA-FINAL"/>
 		</Unit>
-		<Unit filename="/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/HashAVL/hashavl.c">
+		<Unit filename="C:/Users/Tomasito/TP/EDyA-FINAL/HashAVL/hashavl.c">
 			<Option target="EDyA-FINAL"/>
 		</Unit>
-		<Unit filename="/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/HashAVL/hashavl.h">
+		<Unit filename="C:/Users/Tomasito/TP/EDyA-FINAL/HashAVL/hashavl.h">
 			<Option target="EDyA-FINAL"/>
 		</Unit>
-		<Unit filename="/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/Interprete/interprete.c">
+		<Unit filename="C:/Users/Tomasito/TP/EDyA-FINAL/Interprete/interprete.c">
 			<Option target="EDyA-FINAL"/>
 		</Unit>
-		<Unit filename="/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/Interprete/interprete.h">
+		<Unit filename="C:/Users/Tomasito/TP/EDyA-FINAL/Interprete/interprete.h">
 			<Option target="EDyA-FINAL"/>
 		</Unit>
-		<Unit filename="/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/Intervalos/intervaloE.c">
+		<Unit filename="C:/Users/Tomasito/TP/EDyA-FINAL/Intervalos/intervaloE.c">
 			<Option target="EDyA-FINAL"/>
 		</Unit>
-		<Unit filename="/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/Intervalos/intervaloE.h">
+		<Unit filename="C:/Users/Tomasito/TP/EDyA-FINAL/Intervalos/intervaloE.h">
 			<Option target="EDyA-FINAL"/>
 		</Unit>
-		<Unit filename="/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/CMakeLists.txt">
+		<Unit filename="C:/Users/Tomasito/TP/EDyA-FINAL/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 	</Project>

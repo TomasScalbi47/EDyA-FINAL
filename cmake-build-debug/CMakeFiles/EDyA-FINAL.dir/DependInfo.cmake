@@ -4,11 +4,11 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_C
-  "/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/AVL/avl.c" "/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/cmake-build-debug/CMakeFiles/EDyA-FINAL.dir/AVL/avl.c.o"
-  "/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/Conjuntos/conjuntos.c" "/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/cmake-build-debug/CMakeFiles/EDyA-FINAL.dir/Conjuntos/conjuntos.c.o"
-  "/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/HashAVL/hashavl.c" "/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/cmake-build-debug/CMakeFiles/EDyA-FINAL.dir/HashAVL/hashavl.c.o"
-  "/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/Interprete/interprete.c" "/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/cmake-build-debug/CMakeFiles/EDyA-FINAL.dir/Interprete/interprete.c.o"
-  "/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/Intervalos/intervaloE.c" "/home/scalbi/Documents/Programacion/Estructuras de datos y algoritmos/EDyA-FINAL/EDyA-FINAL/cmake-build-debug/CMakeFiles/EDyA-FINAL.dir/Intervalos/intervaloE.c.o"
+  "C:/Users/Tomasito/TP/EDyA-FINAL/AVL/avl.c" "C:/Users/Tomasito/TP/EDyA-FINAL/cmake-build-debug/CMakeFiles/EDyA-FINAL.dir/AVL/avl.c.obj"
+  "C:/Users/Tomasito/TP/EDyA-FINAL/Conjuntos/conjuntos.c" "C:/Users/Tomasito/TP/EDyA-FINAL/cmake-build-debug/CMakeFiles/EDyA-FINAL.dir/Conjuntos/conjuntos.c.obj"
+  "C:/Users/Tomasito/TP/EDyA-FINAL/HashAVL/hashavl.c" "C:/Users/Tomasito/TP/EDyA-FINAL/cmake-build-debug/CMakeFiles/EDyA-FINAL.dir/HashAVL/hashavl.c.obj"
+  "C:/Users/Tomasito/TP/EDyA-FINAL/Interprete/interprete.c" "C:/Users/Tomasito/TP/EDyA-FINAL/cmake-build-debug/CMakeFiles/EDyA-FINAL.dir/Interprete/interprete.c.obj"
+  "C:/Users/Tomasito/TP/EDyA-FINAL/Intervalos/intervaloE.c" "C:/Users/Tomasito/TP/EDyA-FINAL/cmake-build-debug/CMakeFiles/EDyA-FINAL.dir/Intervalos/intervaloE.c.obj"
   )
 set(CMAKE_C_COMPILER_ID "GNU")
 
