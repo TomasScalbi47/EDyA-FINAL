@@ -18,10 +18,10 @@ $(SUBDIRS):
 
 .PHONY: interpretar
 interpretar: $(intervalos) $(interprete) $(hashavl) $(avl) $(conjuntos)
-	gcc -o interprete.out $(intervalos) $(interprete) $(hashavl) $(avl) $(conjuntos)
+	gcc -o interprete $(intervalos) $(interprete) $(hashavl) $(avl) $(conjuntos)
 
 cleanLin:
 	rm -rf *.out */*.o
 
 cleanWin:
-	del /Q /F *.out Interprete\*.o Intervalos\*.o HashAVL\*.o AVL\*.o Conjuntos\*.o
+	del /Q /F *.exe *.out Interprete\*.o Intervalos\*.o HashAVL\*.o AVL\*.o Conjuntos\*.o
