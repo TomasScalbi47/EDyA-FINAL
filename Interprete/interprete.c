@@ -4,8 +4,8 @@
 #include <ctype.h>
 #include <limits.h>
 #include "interprete.h"
-#define TAM_INICIAL_BUFF 50
-#define TAM_TABLA_HASH 100
+#define TAM_INICIAL_BUFF 50 // debe ser >= 0
+#define TAM_TABLA_HASH 500
 
 char *strsep(char **cadenaParsear, const char *delim) {
   char *cadenaDevolver = *cadenaParsear;
@@ -195,31 +195,35 @@ void crear_extension (char* palabra3, char* destino, TablaHash *tabla,
           // a int puesto que se corroboro en el if.
           itree_insertar (arbolNuevo, intervaloE_crear(leido, leido));
         }
-        else {
+        else
           validez = 0;
-        }
       }
-      else {
+      else
         validez = 0;
-      }
     }
 
     if (validez) {
       // Se valido toda la entrada excepto el final.
       if (!(palabra3[0] == '}' && palabra3[1] == '\0')) {
-        // Final invalido.
-        mensaje_error ("f7", NULL);
+        // Invalido
+        mensaje_error ("f5", NULL);
         itree_destruir(*arbolNuevo);
       }
+      else
+        // Valido
+        tablahash_insertar (tabla, destino, *arbolNuevo);
     }
     else {
       // Invalido.
-      mensaje_error ("f8", NULL);
+      mensaje_error ("f6", NULL);
       itree_destruir(*arbolNuevo);
     }
   }
+  else
+    // Valido
+    tablahash_insertar (tabla, destino, *arbolNuevo);
 
-  tablahash_insertar (tabla, destino, *arbolNuevo);
+
 }
 
 
@@ -409,14 +413,17 @@ void mensaje_error (char* ident, char* data){
         break;
       case 2:
         printf ("El alias ingresado: |%s| no es válido.\n", data);
-        printf ("Los alias aceptados son solo alfanumericos sin tildes.\n");;
+        printf ("Los alias aceptados son solo alfanumericos sin "
+                "tildes.\n");
         break;
       case 3:
         printf ("Comando incompleto.\n");
-        printf ("El conjunto que se esta declarando debe estar igualado a algo.\n");
+        printf ("El conjunto que se esta declarando debe estar igualado "
+                "a algo.\n");
         break;
       case 4:
-        printf ("Luego del primer alias sigue un '='\n");
+        printf ("Luego del primer alias, la unica palabra aceptada es "
+                "'='\n");
         break;
       case 5:
         printf ("Creacion por extension invalida.\n");
@@ -424,7 +431,8 @@ void mensaje_error (char* ident, char* data){
         break;
       case 6:
         printf ("Creacion por extension invalida.\n");
-        printf("Caracteres/numeros invalidos en la entrada.\n");
+        printf("Comando incompleto o caracteres/numeros invalidos en "
+               "la entrada.\n");
         break;
       case 7:
         printf ("Comando incompleto.\n");
@@ -440,8 +448,7 @@ void mensaje_error (char* ident, char* data){
         printf ("Simbolo invalido el simbolo valido es <=.\n");
         break;
       case 11:
-        printf("Se exceden los limites de los enteros en alguno"
-               "de los extremos. \n");
+        printf ("El extremo izquierdo se pasa del limite de ints\n");
         break;
       case 12:
         printf ("Numero del extremo derecho invalido.\n");
@@ -454,7 +461,8 @@ void mensaje_error (char* ident, char* data){
         break;
       case 15:
         printf ("Creacion de conjunto invalida.\n");
-        printf ("Se detecto la siguiente basura: |%s|\n", data);
+        printf ("Hay basura en el comando o bien no se respetaron "
+                "los espacios.\n");
         break;
       case 16:
         printf ("Operacion incompleta.\n");
@@ -567,7 +575,7 @@ void interpretar (){
               crear_compresion (entradaParser, palabra1, palabra3, tablita,
                                 &arbolNuevo);
             else
-              mensaje_error("f15", palabra4);
+              mensaje_error("f15", NULL);
           }
 
             /***************

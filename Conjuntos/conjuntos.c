@@ -14,7 +14,11 @@ int itree_es_vacio (ITree arbol){
 }
 
 int itree_es_universo (ITree arbol){
-    return (arbol->intervalo.extIzq == INT_MIN && arbol->intervalo.extDer == INT_MAX);
+  int devolver = 0;
+  if (!itree_es_vacio(arbol)){
+    devolver = (arbol->intervalo.extIzq == INT_MIN && arbol->intervalo.extDer == INT_MAX);
+  }
+  return devolver;
 }
 
 int itree_altura(ITree arbol){
