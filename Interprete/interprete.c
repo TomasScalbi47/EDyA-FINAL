@@ -38,13 +38,13 @@ char *strsep(char **cadenaParsear, const char *delim) {
 }
 
 unsigned int hasheo(char *alias, unsigned capacidad) {
-    // Funcion de hash de Dan Bernstein.
-    // Declarado como unsigned para que sea siempre positivo.
-    unsigned int hash = 5381;
+  // Funcion de hash de Dan Bernstein.
+  // Declarado como unsigned para que sea siempre positivo.
+  unsigned int hash = 5381;
 
-    for(int i = 0; alias[i]; i++)
-        hash = (33 * hash) + alias[i];
-    return hash % capacidad;
+  for(int i = 0; alias[i]; i++)
+    hash = (33 * hash) + alias[i];
+  return hash % capacidad;
 }
 
 int main (){

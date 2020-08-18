@@ -474,7 +474,6 @@ void itree_intersecarV (ITree arbolAInt, IntervaloE intervalo, ITree *arbolRes){
   }
 }
 
-
 ITree itree_complemento (ITree origen){
   ITree nuevoArbol = itree_crear();
 
@@ -524,7 +523,6 @@ void itree_complemento_aux (ITree origen, ITree *destino, IntervaloE *ant){
     itree_complemento_aux(origen->right, destino, ant);
   }
 }
-
 
 ITree itree_resta (ITree arbol1, ITree arbol2){
   ITree nuevoArbol = itree_crear();
